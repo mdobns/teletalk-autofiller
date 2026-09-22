@@ -1,6 +1,12 @@
-# 🇧🇩 BD Govt Job Autofill (Teletalk)
+<p align="center">
+  <img src="icons/icon128.png" width="128" height="128" alt="Teletalk Autofiller Logo" style="border-radius: 24px;">
+</p>
 
-A lightweight, intelligent Chrome Extension and Userscript that automates Bangladesh government job application form filling across all **Teletalk** recruitment portals (`*.teletalk.com.bd`).
+<h1 align="center">⚡ Teletalk Autofiller</h1>
+<p align="center">
+  <b>One-Click Intelligent Form Filler for Bangladesh Government Jobs (*.teletalk.com.bd)</b><br>
+  <code>Version: Beta 2.0</code>
+</p>
 
 ---
 

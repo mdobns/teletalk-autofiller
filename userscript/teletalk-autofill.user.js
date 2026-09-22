@@ -1,10 +1,11 @@
 // ==UserScript==
-// @name         BD Govt Job Autofill (Teletalk)
-// @namespace    https://github.com/bangladesh-gov-jobs/teletalk-autofill
-// @version      1.0.0
+// @name         Teletalk Autofiller - BD Govt Job Application Autofill
+// @namespace    https://github.com/mdobns/teletalk-autofiller
+// @version      2.0.0-beta
 // @description  Autofill Bangladesh government job application forms on all Teletalk portals (*.teletalk.com.bd)
-// @author       BD Job Assistant
+// @author       mdobns
 // @match        *://*.teletalk.com.bd/*
+// @icon         https://raw.githubusercontent.com/mdobns/teletalk-autofiller/main/icons/icon48.png
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
