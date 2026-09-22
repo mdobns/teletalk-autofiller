@@ -496,16 +496,46 @@
       }
     };
 
-    // Check if profile already exists before overwriting
+    // Smart Diff Check
     const existing = Storage.get('profile', null);
     if (existing && existing.personal && existing.personal.name) {
-      const overwrite = confirm(`⚠️ [BD Govt Job Autofill]\n\nA profile for "${existing.personal.name}" already exists.\n\nDo you want to overwrite it with this form's details (${captured.personal.name})?`);
-      if (!overwrite) return null;
+      const changed = [];
+      const added = [];
+
+      const checkField = (path, label, oldV, newV) => {
+        const o = (oldV || '').trim().toUpperCase();
+        const n = (newV || '').trim().toUpperCase();
+        if (!n) return;
+        if (!o && n) added.push({ label, newVal: newV });
+        else if (o && n && o !== n) changed.push({ label, oldVal: oldV, newVal: newV });
+      };
+
+      checkField('name', "Name", existing.personal?.name, captured.personal?.name);
+      checkField('father', "Father's Name", existing.personal?.father, captured.personal?.father);
+      checkField('mother', "Mother's Name", existing.personal?.mother, captured.personal?.mother);
+      checkField('dob', "DOB", existing.personal?.dob, captured.personal?.dob);
+      checkField('nid', "NID", existing.personal?.nid_no, captured.personal?.nid_no);
+      checkField('mobile', "Mobile", existing.contact?.mobile, captured.contact?.mobile);
+      checkField('email', "Email", existing.contact?.email, captured.contact?.email);
+      checkField('present_dist', "Present District", existing.address?.present?.district_name, captured.address?.present?.district_name);
+      checkField('ssc_roll', "SSC Roll", existing.education?.ssc?.roll, captured.education?.ssc?.roll);
+      checkField('hsc_roll', "HSC Roll", existing.education?.hsc?.roll, captured.education?.hsc?.roll);
+
+      if (changed.length > 0) {
+        const diffText = changed.map(c => `• ${c.label}: "${c.oldVal}" ➔ "${c.newVal}"`).join('\n');
+        const overwrite = confirm(`⚠️ [BD Govt Job Autofill]\n\nYou modified existing saved information in this application:\n\n${diffText}\n\nDo you want to accept these updates in your saved profile?\n(Click Cancel to keep your existing saved values)`);
+        if (!overwrite) {
+          console.log('[BD Govt Job Userscript] User denied updates. Keeping existing profile.');
+          return null;
+        }
+      } else if (added.length > 0) {
+        console.log('[BD Govt Job Userscript] Auto-updated extra fields silently:', added);
+      }
     }
 
     Storage.set('profile', captured);
     userProfile = captured;
-    console.log('[BD Govt Job Userscript] Profile auto-saved:', captured);
+    console.log('[BD Govt Job Userscript] Profile saved:', captured);
     return captured;
   }
 
@@ -526,7 +556,8 @@
 
   // In-Field Autofill popup on input select/focus
   if (appForm) {
-    // Inject CSS
+    let hasAutofilledOnThisPage = false; // Requirement 1: once clicked, never appears again on this page
+
     const style = document.createElement('style');
     style.textContent = `
       .bd-autofill-popup {
@@ -560,6 +591,7 @@
     }
 
     function showPopup(inputEl) {
+      if (hasAutofilledOnThisPage) return;
       removePopup();
       if (!userProfile || !userProfile.personal || !userProfile.personal.name) return;
 
@@ -576,6 +608,7 @@
       p.onmousedown = (e) => e.preventDefault();
       p.onclick = () => {
         removePopup();
+        hasAutofilledOnThisPage = true; // Never show again on this page!
         fillForm();
       };
 
@@ -588,6 +621,7 @@
     }
 
     document.addEventListener('focusin', (e) => {
+      if (hasAutofilledOnThisPage) return;
       const el = e.target;
       if (el && appForm.contains(el) && el.tagName === 'INPUT' && !['hidden', 'checkbox', 'radio', 'submit', 'button'].includes(el.type) && el.id !== 'captcha') {
         showPopup(el);
@@ -597,6 +631,7 @@
     }, true);
 
     document.addEventListener('click', (e) => {
+      if (hasAutofilledOnThisPage) return;
       if (popupEl && !popupEl.contains(e.target) && e.target.tagName !== 'INPUT') removePopup();
     });
 

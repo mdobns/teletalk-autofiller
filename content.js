@@ -1,12 +1,12 @@
 // BD Govt Job Autofill - Content Script
-// - In-Field Autofill Popup (appears when an input field is selected)
-// - Automatic silent save on submit (only warns if a profile already exists)
-// - Zero floating buttons
+// - In-Field Autofill Popup (appears when input selected, never reappears after click)
+// - Silent auto-update when extra fields are added
+// - Accept / Deny popup ONLY when existing saved data is being modified
 
 (function () {
   'use strict';
 
-  console.log('[BD Govt Job Autofill] In-field engine initialized on:', window.location.href);
+  console.log('[BD Govt Job Autofill] Engine loaded on:', window.location.href);
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -21,8 +21,9 @@
   };
 
   let activePopupEl = null;
-  let hasAutofilledOnThisPage = false;
-  let isSubmitting = false;
+  let activeModalEl = null;
+  let hasAutofilledOnThisPage = false; // Requirement 1: once clicked, never appears again on this page
+  let isSubmittingProgrammatically = false;
 
   // Sync temporary captured profile from localStorage if any
   try {
@@ -48,10 +49,9 @@
         // 1. Setup in-field autofill suggestion when user selects an input field
         setupInFieldAutofill();
 
-        // 2. Setup automatic silent save on form submission with warning if already exists
-        setupAutoCaptureOnSubmit();
+        // 2. Setup smart submission listener (auto-updates extra fields, asks if modifying existing)
+        setupSmartSubmitCapture();
       } else if (isPreviewPage) {
-        // Setup silent photo & signature file capture on preview page
         setupPreviewMediaCapture();
       }
     } catch (e) {
@@ -60,7 +60,7 @@
   }
 
   // ==========================================
-  // IN-FIELD AUTOFILL POPUP (WHEN INPUT SELECTED)
+  // IN-FIELD AUTOFILL POPUP (INPUT SELECTED)
   // ==========================================
 
   function setupInFieldAutofill() {
@@ -68,12 +68,19 @@
 
     // Listen to focusin on inputs
     document.addEventListener('focusin', (e) => {
+      // Requirement 1: If user already clicked autofill on this page, NEVER show again!
+      if (hasAutofilledOnThisPage) return;
       handleFieldFocus(e.target);
     }, true);
 
     // Also handle direct click
     document.addEventListener('click', (e) => {
-      // If clicking inside active popup, let popup click handler deal with it
+      // Requirement 1: If already autofilled, ignore
+      if (hasAutofilledOnThisPage) {
+        removeAutofillPopup();
+        return;
+      }
+
       if (activePopupEl && activePopupEl.contains(e.target)) return;
 
       if (e.target && isEligibleInput(e.target)) {
@@ -88,7 +95,6 @@
       if (e.key === 'Escape') removeAutofillPopup();
     });
 
-    // Dismiss or reposition on window resize
     window.addEventListener('resize', () => removeAutofillPopup());
   }
 
@@ -106,24 +112,27 @@
   }
 
   async function handleFieldFocus(inputEl) {
+    // Requirement 1: Never show again once clicked on this page
+    if (hasAutofilledOnThisPage) {
+      removeAutofillPopup();
+      return;
+    }
+
     if (!isEligibleInput(inputEl)) {
       removeAutofillPopup();
       return;
     }
 
-    // Refresh profile in case it was updated
     if (!currentProfile) {
       const data = await chrome.storage.local.get(['profile']);
       currentProfile = data.profile || null;
     }
 
-    // Only show if a profile is saved
     if (!currentProfile || !currentProfile.personal || !currentProfile.personal.name) {
       removeAutofillPopup();
       return;
     }
 
-    // Show suggestion popup attached to the focused input
     showAutofillPopup(inputEl);
   }
 
@@ -149,17 +158,19 @@
       </div>
     `;
 
-    // Prevent input from losing focus on mouse down
     popup.addEventListener('mousedown', (e) => {
       e.preventDefault();
     });
 
-    // On click: execute autofill
+    // On click: execute autofill AND permanently disable popup for this page!
     popup.addEventListener('click', async (e) => {
       e.preventDefault();
       e.stopPropagation();
       removeAutofillPopup();
+
+      // Requirement 1: Never show again on this page after clicking autofill!
       hasAutofilledOnThisPage = true;
+
       await fillApplicationForm(currentProfile);
     });
 
@@ -174,14 +185,12 @@
     const popupHeight = 55;
     const margin = 4;
 
-    // Check if there's enough space below, else show above
     let top = rect.bottom + window.scrollY + margin;
     if (rect.bottom + popupHeight > window.innerHeight && rect.top - popupHeight > 0) {
       top = rect.top + window.scrollY - popupHeight - margin;
     }
 
     let left = rect.left + window.scrollX;
-    // Don't overflow right screen edge
     const maxLeft = window.innerWidth - 320;
     if (left > maxLeft) left = Math.max(10, maxLeft);
 
@@ -197,7 +206,175 @@
   }
 
   // ==========================================
-  // FORM EXTRACTION & AUTOMATIC CAPTURE
+  // PROFILE COMPARISON & DIFF ENGINE
+  // ==========================================
+
+  const FIELD_LABELS = {
+    'personal.name': "Applicant's Name",
+    'personal.name_bn': "Applicant's Name (Bangla)",
+    'personal.father': "Father's Name",
+    'personal.father_bn': "Father's Name (Bangla)",
+    'personal.mother': "Mother's Name",
+    'personal.mother_bn': "Mother's Name (Bangla)",
+    'personal.dob': "Date of Birth",
+    'personal.gender': "Gender",
+    'personal.religion': "Religion",
+    'personal.nationality': "Nationality",
+    'personal.nid_no': "National ID Number",
+    'personal.breg_no': "Birth Registration No",
+    'personal.passport_no': "Passport Number",
+    'personal.marital_status': "Marital Status",
+    'personal.spouse_name': "Spouse Name",
+    'personal.quota': "Quota",
+    'personal.quota_details': "Quota Details",
+    'personal.dep_status': "Departmental Status",
+
+    'contact.mobile': "Mobile Number",
+    'contact.email': "Email Address",
+
+    'address.present.careof': "Present Care Of",
+    'address.present.village': "Present Village/Road",
+    'address.present.district_code': "Present District",
+    'address.present.upazila_code': "Present Upazila/Thana",
+    'address.present.post': "Present Post Office",
+    'address.present.postcode': "Present Post Code",
+
+    'address.permanent.careof': "Permanent Care Of",
+    'address.permanent.village': "Permanent Village/Road",
+    'address.permanent.district_code': "Permanent District",
+    'address.permanent.upazila_code': "Permanent Upazila/Thana",
+    'address.permanent.post': "Permanent Post Office",
+    'address.permanent.postcode': "Permanent Post Code",
+
+    'education.ssc.exam': "SSC Exam",
+    'education.ssc.board': "SSC Board",
+    'education.ssc.roll': "SSC Roll",
+    'education.ssc.result': "SSC GPA",
+    'education.ssc.group': "SSC Group",
+    'education.ssc.year': "SSC Passing Year",
+
+    'education.hsc.exam': "HSC Exam",
+    'education.hsc.board': "HSC Board",
+    'education.hsc.roll': "HSC Roll",
+    'education.hsc.result': "HSC GPA",
+    'education.hsc.group': "HSC Group",
+    'education.hsc.year': "HSC Passing Year",
+
+    'education.graduation.exam': "Graduation Degree",
+    'education.graduation.institute': "Graduation University",
+    'education.graduation.subject': "Graduation Subject",
+    'education.graduation.result': "Graduation Result / CGPA",
+    'education.graduation.year': "Graduation Passing Year",
+    'education.graduation.duration': "Graduation Duration",
+
+    'education.masters.exam': "Masters Degree",
+    'education.masters.institute': "Masters University",
+    'education.masters.subject': "Masters Subject",
+    'education.masters.result': "Masters Result / CGPA",
+    'education.masters.year': "Masters Passing Year",
+    'education.masters.duration': "Masters Duration",
+
+    'experience': "Work Experience"
+  };
+
+  function getNested(obj, path) {
+    if (!obj) return '';
+    return path.split('.').reduce((acc, part) => (acc && acc[part] !== undefined ? acc[part] : ''), obj);
+  }
+
+  function setNested(obj, path, val) {
+    const parts = path.split('.');
+    let curr = obj;
+    for (let i = 0; i < parts.length - 1; i++) {
+      if (!curr[parts[i]]) curr[parts[i]] = {};
+      curr = curr[parts[i]];
+    }
+    curr[parts[parts.length - 1]] = val;
+  }
+
+  function norm(val) {
+    if (val === undefined || val === null || val === false) return '';
+    return String(val).trim().toUpperCase();
+  }
+
+  function compareProfiles(existing, current) {
+    const added = [];
+    const changed = [];
+
+    for (const [path, label] of Object.entries(FIELD_LABELS)) {
+      if (path === 'experience') {
+        const oldExp = existing?.experience?.enabled && existing?.experience?.jobs?.length;
+        const newExp = current?.experience?.enabled && current?.experience?.jobs?.length;
+        if (!oldExp && newExp) {
+          added.push({ path, label, newVal: 'Work Experience Added' });
+        } else if (oldExp && newExp) {
+          const oldOrg = norm(existing.experience.jobs[0]?.organization);
+          const newOrg = norm(current.experience.jobs[0]?.organization);
+          if (newOrg && oldOrg && oldOrg !== newOrg) {
+            changed.push({
+              path,
+              label,
+              oldVal: existing.experience.jobs[0]?.organization,
+              newVal: current.experience.jobs[0]?.organization
+            });
+          }
+        }
+        continue;
+      }
+
+      const oldVal = getNested(existing, path);
+      const newVal = getNested(current, path);
+
+      const oldNorm = norm(oldVal);
+      const newNorm = norm(newVal);
+
+      // If new form didn't fill this field, it's not a change
+      if (!newNorm) continue;
+
+      if (!oldNorm && newNorm) {
+        // Extra field added! (previously empty, now has value)
+        added.push({ path, label, newVal });
+      } else if (oldNorm && newNorm && oldNorm !== newNorm) {
+        // Existing saved data is updating/changing!
+        changed.push({ path, label, oldVal, newVal });
+      }
+    }
+
+    return { added, changed };
+  }
+
+  function deepMergeProfile(target, source) {
+    const result = JSON.parse(JSON.stringify(target || {}));
+
+    function merge(t, s) {
+      for (const key in s) {
+        if (s[key] === null || s[key] === undefined) continue;
+
+        if (typeof s[key] === 'object' && !Array.isArray(s[key])) {
+          if (!t[key] || typeof t[key] !== 'object') t[key] = {};
+          merge(t[key], s[key]);
+        } else if (Array.isArray(s[key])) {
+          if (s[key].length > 0) t[key] = JSON.parse(JSON.stringify(s[key]));
+        } else if (s[key] !== '' && s[key] !== false) {
+          t[key] = s[key];
+        }
+      }
+    }
+
+    merge(result, source);
+    return result;
+  }
+
+  function mergeOnlyAddedFields(existing, source, addedList) {
+    const result = JSON.parse(JSON.stringify(existing));
+    for (const item of addedList) {
+      setNested(result, item.path, getNested(source, item.path));
+    }
+    return result;
+  }
+
+  // ==========================================
+  // FORM EXTRACTION & SMART SUBMIT HANDLER
   // ==========================================
 
   function getVal(id) {
@@ -358,64 +535,155 @@
     };
   }
 
-  // Automatic capture on form submission:
-  // - If profile DOES NOT exist: silently saves automatically!
-  // - If profile ALREADY exists: warns the user with a confirmation prompt before overwriting.
-  async function handleAutoCaptureOnSubmit() {
-    if (isSubmitting) return;
-    isSubmitting = true;
-    setTimeout(() => { isSubmitting = false; }, 1200);
-
-    const extracted = extractProfileFromForm();
-    if (!extracted) return;
-
-    const stored = await chrome.storage.local.get(['profile']);
-    const existing = stored.profile;
-
-    // Check if a profile already exists
-    if (existing && existing.personal && existing.personal.name) {
-      const existingName = existing.personal.name;
-      const newName = extracted.personal.name;
-
-      // Warn the user before overwriting
-      const confirmMsg = `⚠️ [BD Govt Job Autofill]\n\nA saved profile for "${existingName}" already exists.\n\nDo you want to overwrite it with the information from this form (${newName})?`;
-      const shouldOverwrite = window.confirm(confirmMsg);
-
-      if (!shouldOverwrite) {
-        console.log('[BD Govt Job Autofill] Overwrite canceled by user. Kept existing profile.');
-        return;
-      }
-    }
-
-    // Save automatically
-    try {
-      localStorage.setItem('bd_job_profile_captured', JSON.stringify(extracted));
-      await chrome.storage.local.set({ profile: extracted });
-      currentProfile = extracted;
-      chrome.runtime.sendMessage({ action: 'profileCaptured' });
-
-      console.log('[BD Govt Job Autofill] Profile automatically saved:', extracted);
-      showToast(`💾 Profile for "${extracted.personal.name}" automatically saved! Next time, select any field to autofill.`, 'success');
-    } catch (e) {
-      console.error('[BD Govt Job Autofill] Save error:', e);
-    }
-  }
-
-  function setupAutoCaptureOnSubmit() {
+  // Setup smart submission capture:
+  // - Extra fields added: auto-updates silently!
+  // - Existing data changed: shows Accept/Deny popup!
+  function setupSmartSubmitCapture() {
     if (!applicationForm) return;
 
-    // Listen on submit event (capture phase)
-    applicationForm.addEventListener('submit', () => {
-      handleAutoCaptureOnSubmit();
-    }, true);
+    applicationForm.addEventListener('submit', async (e) => {
+      if (isSubmittingProgrammatically) return;
 
-    // Also listen on submit button click
-    const submitBtn = document.getElementById('submit') || applicationForm.querySelector('button[type="submit"], input[type="submit"]');
-    if (submitBtn) {
-      submitBtn.addEventListener('click', () => {
-        handleAutoCaptureOnSubmit();
+      const extracted = extractProfileFromForm();
+      if (!extracted) return;
+
+      const stored = await chrome.storage.local.get(['profile']);
+      const existing = stored.profile;
+
+      // Case 1: First time install / empty profile
+      if (!existing || !existing.personal || !existing.personal.name) {
+        // Automatically save silently!
+        localStorage.setItem('bd_job_profile_captured', JSON.stringify(extracted));
+        await chrome.storage.local.set({ profile: extracted });
+        currentProfile = extracted;
+        chrome.runtime.sendMessage({ action: 'profileCaptured' });
+        console.log('[BD Govt Job Autofill] Initial profile automatically saved:', extracted);
+        return; // Form continues normal submission to preview.php!
+      }
+
+      // Case 2: Compare existing profile with newly submitted form
+      const { added, changed } = compareProfiles(existing, extracted);
+
+      // Sub-case 2A: No existing fields were modified (only extra fields added or identical)
+      if (changed.length === 0) {
+        if (added.length > 0) {
+          // Requirement 2: Auto-update extra fields silently without popup!
+          const merged = deepMergeProfile(existing, extracted);
+          localStorage.setItem('bd_job_profile_captured', JSON.stringify(merged));
+          await chrome.storage.local.set({ profile: merged });
+          currentProfile = merged;
+          chrome.runtime.sendMessage({ action: 'profileCaptured' });
+          console.log('[BD Govt Job Autofill] Extra fields auto-updated silently:', added);
+        }
+        return; // Form continues normal submission!
+      }
+
+      // Sub-case 2B: Existing saved data is being modified!
+      // Requirement 2: Give an Accept or Deny popup!
+      e.preventDefault();
+      e.stopPropagation();
+
+      showUpdateModal(existing, extracted, added, changed, async (accepted) => {
+        if (accepted) {
+          // User accepted updates: merge all changed and added fields
+          const updated = deepMergeProfile(existing, extracted);
+          localStorage.setItem('bd_job_profile_captured', JSON.stringify(updated));
+          await chrome.storage.local.set({ profile: updated });
+          currentProfile = updated;
+          chrome.runtime.sendMessage({ action: 'profileCaptured' });
+          console.log('[BD Govt Job Autofill] Profile changes accepted and saved:', updated);
+        } else {
+          // User denied updates: keep existing values, only save any extra added fields
+          if (added.length > 0) {
+            const preserved = mergeOnlyAddedFields(existing, extracted, added);
+            localStorage.setItem('bd_job_profile_captured', JSON.stringify(preserved));
+            await chrome.storage.local.set({ profile: preserved });
+            currentProfile = preserved;
+            console.log('[BD Govt Job Autofill] Changes denied, but extra fields merged.');
+          } else {
+            console.log('[BD Govt Job Autofill] Changes denied, existing profile kept intact.');
+          }
+        }
+
+        // Programmatically submit the form to continue to preview.php
+        isSubmittingProgrammatically = true;
+        HTMLFormElement.prototype.submit.call(applicationForm);
       });
+    }, true);
+  }
+
+  // Accept / Deny Modal
+  function showUpdateModal(existing, extracted, added, changed, callback) {
+    if (activeModalEl) activeModalEl.remove();
+
+    const modal = document.createElement('div');
+    modal.className = 'bd-job-modal-overlay';
+
+    let diffHtml = '';
+    changed.forEach(item => {
+      diffHtml += `
+        <div class="bd-diff-item">
+          <span class="bd-diff-label">${item.label}</span>
+          <div class="bd-diff-vals">
+            <span class="bd-val-old">${item.oldVal || '(empty)'}</span>
+            <span class="bd-arrow">➔</span>
+            <span class="bd-val-new">${item.newVal}</span>
+          </div>
+        </div>
+      `;
+    });
+
+    let extraHtml = '';
+    if (added.length > 0) {
+      extraHtml = `
+        <div class="bd-extra-section">
+          <span class="bd-extra-tag">✨ Also adding new fields:</span>
+          ${added.map(a => a.label).join(', ')}
+        </div>
+      `;
     }
+
+    modal.innerHTML = `
+      <div class="bd-job-modal-card">
+        <div class="bd-modal-header">
+          <div class="bd-modal-icon">⚠️</div>
+          <div>
+            <h3 class="bd-modal-title">Update Saved Profile?</h3>
+            <p class="bd-modal-sub">You modified existing saved information in this application form.</p>
+          </div>
+        </div>
+        <div class="bd-modal-body">
+          <div class="bd-diff-heading">Modified Information:</div>
+          <div class="bd-diff-list">
+            ${diffHtml}
+          </div>
+          ${extraHtml}
+        </div>
+        <div class="bd-modal-footer">
+          <button type="button" class="bd-modal-btn bd-btn-deny" id="bd-modal-deny-btn">
+            ✕ Deny (Keep Existing)
+          </button>
+          <button type="button" class="bd-modal-btn bd-btn-accept" id="bd-modal-accept-btn">
+            ✓ Accept & Update Profile
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+    activeModalEl = modal;
+
+    document.getElementById('bd-modal-accept-btn').addEventListener('click', () => {
+      modal.remove();
+      activeModalEl = null;
+      callback(true);
+    });
+
+    document.getElementById('bd-modal-deny-btn').addEventListener('click', () => {
+      modal.remove();
+      activeModalEl = null;
+      callback(false);
+    });
   }
 
   // ==========================================
@@ -439,10 +707,8 @@
           const isSignature = /sig|sign/i.test(input.name) || /sig|sign/i.test(input.id);
           if (isSignature) {
             prof.media.signature_base64 = base64;
-            showToast('✍️ Signature file captured and saved to profile!', 'info');
           } else {
             prof.media.photo_base64 = base64;
-            showToast('📷 Photo file captured and saved to profile!', 'info');
           }
 
           await chrome.storage.local.set({ profile: prof });
@@ -921,7 +1187,7 @@
     }, 4500);
   }
 
-  // Listen for messages from popup or background
+  // Listen for messages from popup
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'checkStatus') {
       const hasForm = !!document.getElementById('applicationForm');
@@ -943,15 +1209,9 @@
           sendResponse({ success: false, message: 'No profile saved yet! Fill any Teletalk form once to save.' });
           return;
         }
+        hasAutofilledOnThisPage = true;
         const result = await fillApplicationForm(res.profile);
         sendResponse(result);
-      });
-      return true;
-    }
-
-    if (request.action === 'captureFromPage') {
-      handleAutoCaptureOnSubmit().then(() => {
-        sendResponse({ success: !!currentProfile, profile: currentProfile });
       });
       return true;
     }
