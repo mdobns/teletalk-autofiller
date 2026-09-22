@@ -28,14 +28,14 @@ In Bangladesh, virtually all government ministries, directorates, authorities, a
 This project provides a **one-click autofill solution** that handles all cascading dropdowns, triggers Teletalk's native JavaScript events, formats values accurately, and directs focus straight to the Captcha field.
 
 ### ✨ Key Features:
-- **1-Click Autofill:** Fills personal details, contact, addresses, SSC, HSC, Graduation, Masters, and Experience in ~0.3 seconds.
+- **In-Field Autofill (Zero Floating Clutter):** Simply click or focus on any input field (like Applicant's Name), and an autofill suggestion appears directly attached to the field. Click it to autofill all 50+ fields in ~0.3s.
+- **Automatic Silent Save on Submit:** Fill any Teletalk form once and click Submit. The extension silently extracts and saves your entire profile for all future jobs.
+- **Overwrite Warning:** If a profile is already saved, the extension warns you before overwriting it if you submit another form.
 - **Smart Cascade Pipeline:** Automatically waits for dynamic selects (e.g., District ➔ Upazila, SSC ➔ Group, Graduation ➔ Subject) before selecting values.
 - **Bangladesh Geo-Data Built-In:** Complete database of all **64 Districts** and **569 Upazilas/Thanas** pre-loaded.
 - **240+ Universities Indexed:** Pre-loaded university index for seamless Graduation and Masters institute selection.
 - **Canvas Photo & Signature Auto-Resizer:** Automatically formats any uploaded photo to **300 × 300 px** and signature to **300 × 80 px** JPG.
-- **Floating Quick-Action Widget:** Sleek on-page floating button (`⚡ Autofill Job Form`) on every Teletalk recruitment page.
-- **Automatic Captcha Highlighting:** Smoothly scrolls to the Captcha field and pulses with a red glowing ring for instant submission.
-- **Export & Import (JSON):** Easily back up your profile to a `.json` file or restore it anytime.
+- **Automatic Captcha Highlighting:** Smoothly scrolls to the Captcha field and pulses with a glowing ring for instant submission.
 - **100% Offline & Private:** All your personal data is saved locally inside your browser's `chrome.storage.local`. Nothing is ever sent to external servers.
 
 ---
@@ -58,20 +58,21 @@ This project provides a **one-click autofill solution** that handles all cascadi
 ### Step 2: Auto-Capture on Submit (Zero-Typing Setup)
 You do **NOT** need to manually type everything into the extension!
 1. Open any Teletalk job application form (e.g. BHTPA, ADLGM, or any government circular).
-2. Fill out the application form once normally as you always do.
-3. When you click **Submit / Next**, the extension **automatically intercepts, extracts all 50+ fields, and saves your profile** to local storage!
-4. *(Optional)* On the **Preview** page, when you upload your Photo and Signature files, the extension also captures and saves them automatically!
-5. You can also click the floating button **💾 Save Profile from Form** at any time to capture immediately without submitting.
+2. Fill out the application form once normally.
+3. When you click **Submit / Next**, the extension **silently extracts all 50+ fields and automatically saves your profile**!
+4. *(Optional)* On the **Preview** page, when you upload your Photo and Signature files, the extension captures and saves them too.
+5. If a profile already exists when you submit another form, the extension will display a prompt asking whether you want to overwrite it or keep your existing profile.
 
 ---
 
-### Step 3: 1-Click Autofill for All Future Jobs!
-1. From now on, whenever you open ANY Bangladesh government job posting on Teletalk:
+### Step 3: In-Field Autofill for All Future Jobs!
+1. Open ANY Bangladesh government job application on Teletalk:
    - [BHTPA Assistant Maintenance Engineer](https://bhtpa.teletalk.com.bd/bhtpa2026/application.php?post_code=xZ4N&info=kcwFY2XMOjACV2CrFJEf5EXXnXFMupH0J7bvwTEq8fq4xCdb&alljobs_id=&nid=2&submitPremium=)
    - [ADLGM Assistant Manager (Technical)](https://jobs.teletalk.com.bd/jobs_adlgm_am/application.php?post_code=xZgN&info=lZJcOGXMPTICAjX8QZEf50fTnSpJ6JL0Lb%2FkxjEm96aww3Rc&alljobs_id=&nid=2&submitPremium=)
-2. You will see the green floating button: **⚡ Autofill Job Form**.
-3. Click **⚡ Autofill Job Form** (or click the extension icon and press the button).
-4. Watch all fields (including cascading districts, upazilas, boards, and subjects) fill in ~0.3s!
+2. **Click or focus on any input field** (e.g., *Applicant's Name*).
+3. A sleek autocomplete dropdown appears right under your cursor:
+   > ⚡ **Autofill as [Your Name]** (Click to fill all fields)
+4. Click the suggestion. Watch all 50+ fields (including dynamic districts, thanas, boards, and subjects) cascade and fill in ~0.3s!
 5. Type the 5-letter Captcha and submit!
 
 

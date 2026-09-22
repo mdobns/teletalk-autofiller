@@ -1,26 +1,28 @@
 // BD Govt Job Autofill - Content Script
-// Handles intelligent form filling and AUTOMATIC FORM CAPTURE on submit
+// - In-Field Autofill Popup (appears when an input field is selected)
+// - Automatic silent save on submit (only warns if a profile already exists)
+// - Zero floating buttons
 
 (function () {
   'use strict';
 
-  console.log('[BD Govt Job Autofill] Content script initialized on:', window.location.href);
+  console.log('[BD Govt Job Autofill] In-field engine initialized on:', window.location.href);
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-  // Determine page type
   const applicationForm = document.getElementById('applicationForm');
   const isApplicationPage = !!applicationForm;
   const isPreviewPage = window.location.pathname.includes('preview.php');
 
   let currentProfile = null;
   let currentSettings = {
-    auto_fill_on_load: false,
-    auto_capture_on_submit: true,
     auto_check_agreement: true,
-    focus_captcha: true,
-    show_floating_button: true
+    focus_captcha: true
   };
+
+  let activePopupEl = null;
+  let hasAutofilledOnThisPage = false;
+  let isSubmitting = false;
 
   // Sync temporary captured profile from localStorage if any
   try {
@@ -29,7 +31,7 @@
       const parsed = JSON.parse(tempSaved);
       if (parsed && parsed.personal && parsed.personal.name) {
         chrome.storage.local.set({ profile: parsed });
-        console.log('[BD Govt Job Autofill] Synced captured profile from localStorage to storage.local');
+        currentProfile = parsed;
       }
       localStorage.removeItem('bd_job_profile_captured');
     }
@@ -43,21 +45,14 @@
       if (data.settings) currentSettings = { ...currentSettings, ...data.settings };
 
       if (isApplicationPage) {
-        if (currentSettings.show_floating_button !== false) {
-          injectFloatingWidget();
-        }
+        // 1. Setup in-field autofill suggestion when user selects an input field
+        setupInFieldAutofill();
 
-        // Attach automatic form capture on submission
+        // 2. Setup automatic silent save on form submission with warning if already exists
         setupAutoCaptureOnSubmit();
-
-        // Auto-fill on page load if profile exists and setting is enabled
-        if (currentSettings.auto_fill_on_load && currentProfile && currentProfile.personal && currentProfile.personal.name) {
-          console.log('[BD Govt Job Autofill] Auto-filling on page load...');
-          await sleep(600);
-          await fillApplicationForm(currentProfile);
-        }
       } else if (isPreviewPage) {
-        setupPreviewHelper();
+        // Setup silent photo & signature file capture on preview page
+        setupPreviewMediaCapture();
       }
     } catch (e) {
       console.error('[BD Govt Job Autofill] Init error:', e);
@@ -65,7 +60,144 @@
   }
 
   // ==========================================
-  // FORM EXTRACTION & CAPTURE LOGIC
+  // IN-FIELD AUTOFILL POPUP (WHEN INPUT SELECTED)
+  // ==========================================
+
+  function setupInFieldAutofill() {
+    if (!applicationForm) return;
+
+    // Listen to focusin on inputs
+    document.addEventListener('focusin', (e) => {
+      handleFieldFocus(e.target);
+    }, true);
+
+    // Also handle direct click
+    document.addEventListener('click', (e) => {
+      // If clicking inside active popup, let popup click handler deal with it
+      if (activePopupEl && activePopupEl.contains(e.target)) return;
+
+      if (e.target && isEligibleInput(e.target)) {
+        handleFieldFocus(e.target);
+      } else {
+        removeAutofillPopup();
+      }
+    });
+
+    // Dismiss on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') removeAutofillPopup();
+    });
+
+    // Dismiss or reposition on window resize
+    window.addEventListener('resize', () => removeAutofillPopup());
+  }
+
+  function isEligibleInput(el) {
+    if (!el || !applicationForm.contains(el)) return false;
+    const tag = el.tagName.toLowerCase();
+    if (tag !== 'input' && tag !== 'textarea') return false;
+
+    // Exclude captcha, buttons, checkboxes, radio, hidden
+    if (el.id === 'captcha' || el.name === 'captcha') return false;
+    const type = (el.type || 'text').toLowerCase();
+    if (['hidden', 'checkbox', 'radio', 'submit', 'button', 'file', 'image'].includes(type)) return false;
+
+    return true;
+  }
+
+  async function handleFieldFocus(inputEl) {
+    if (!isEligibleInput(inputEl)) {
+      removeAutofillPopup();
+      return;
+    }
+
+    // Refresh profile in case it was updated
+    if (!currentProfile) {
+      const data = await chrome.storage.local.get(['profile']);
+      currentProfile = data.profile || null;
+    }
+
+    // Only show if a profile is saved
+    if (!currentProfile || !currentProfile.personal || !currentProfile.personal.name) {
+      removeAutofillPopup();
+      return;
+    }
+
+    // Show suggestion popup attached to the focused input
+    showAutofillPopup(inputEl);
+  }
+
+  function showAutofillPopup(inputEl) {
+    removeAutofillPopup();
+
+    const candidateName = currentProfile.personal.name;
+    const sscRoll = currentProfile.education?.ssc?.roll;
+    const mobile = currentProfile.contact?.mobile;
+    const extraInfo = mobile || (sscRoll ? `SSC: ${sscRoll}` : 'Teletalk Application');
+
+    const popup = document.createElement('div');
+    popup.id = 'bd-job-autofill-popup';
+    popup.className = 'bd-autofill-popup';
+    popup.innerHTML = `
+      <div class="bd-popup-item" title="Click to autofill the entire form with this profile">
+        <div class="bd-popup-icon">⚡</div>
+        <div class="bd-popup-content">
+          <div class="bd-popup-title">Autofill as <strong>${candidateName}</strong></div>
+          <div class="bd-popup-sub">${extraInfo} • Click to fill all fields</div>
+        </div>
+        <div class="bd-popup-badge">Autofill</div>
+      </div>
+    `;
+
+    // Prevent input from losing focus on mouse down
+    popup.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+    });
+
+    // On click: execute autofill
+    popup.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      removeAutofillPopup();
+      hasAutofilledOnThisPage = true;
+      await fillApplicationForm(currentProfile);
+    });
+
+    document.body.appendChild(popup);
+    activePopupEl = popup;
+
+    positionPopup(inputEl, popup);
+  }
+
+  function positionPopup(inputEl, popup) {
+    const rect = inputEl.getBoundingClientRect();
+    const popupHeight = 55;
+    const margin = 4;
+
+    // Check if there's enough space below, else show above
+    let top = rect.bottom + window.scrollY + margin;
+    if (rect.bottom + popupHeight > window.innerHeight && rect.top - popupHeight > 0) {
+      top = rect.top + window.scrollY - popupHeight - margin;
+    }
+
+    let left = rect.left + window.scrollX;
+    // Don't overflow right screen edge
+    const maxLeft = window.innerWidth - 320;
+    if (left > maxLeft) left = Math.max(10, maxLeft);
+
+    popup.style.top = `${top}px`;
+    popup.style.left = `${left}px`;
+  }
+
+  function removeAutofillPopup() {
+    if (activePopupEl) {
+      activePopupEl.remove();
+      activePopupEl = null;
+    }
+  }
+
+  // ==========================================
+  // FORM EXTRACTION & AUTOMATIC CAPTURE
   // ==========================================
 
   function getVal(id) {
@@ -85,27 +217,22 @@
     return !!(el && el.checked);
   }
 
-  // Extract all fields currently entered on the Teletalk form
   function extractProfileFromForm() {
     if (!applicationForm) return null;
 
     const name = getVal('name');
-    if (!name || name.length < 2) {
-      return null; // Not filled enough to capture
-    }
+    if (!name || name.length < 2) return null;
 
     const sameAddress = isChecked('same_as_present');
-
     const presDistName = getOptText('present_district').replace(/\s*\(.*\)/, '').trim();
     const presUpzName = getOptText('present_upazila').trim();
 
     const permDistName = sameAddress ? presDistName : getOptText('permanent_district').replace(/\s*\(.*\)/, '').trim();
     const permUpzName = sameAddress ? presUpzName : getOptText('permanent_upazila').trim();
 
-    // Retain existing media (photo/signature) if already saved
     const existingMedia = (currentProfile && currentProfile.media) ? currentProfile.media : { photo_base64: '', signature_base64: '' };
 
-    const captured = {
+    return {
       personal: {
         name: name.toUpperCase(),
         name_bn: getVal('name_bn'),
@@ -227,160 +354,107 @@
           }
         ]
       },
-      settings: currentSettings,
       media: existingMedia
     };
-
-    return captured;
   }
 
-  // Save captured profile to local and chrome storage
-  async function saveExtractedProfile(source = 'submit') {
+  // Automatic capture on form submission:
+  // - If profile DOES NOT exist: silently saves automatically!
+  // - If profile ALREADY exists: warns the user with a confirmation prompt before overwriting.
+  async function handleAutoCaptureOnSubmit() {
+    if (isSubmitting) return;
+    isSubmitting = true;
+    setTimeout(() => { isSubmitting = false; }, 1200);
+
     const extracted = extractProfileFromForm();
-    if (!extracted) {
-      if (source === 'manual') {
-        showToast('Please enter at least your Name before saving!', 'warning');
+    if (!extracted) return;
+
+    const stored = await chrome.storage.local.get(['profile']);
+    const existing = stored.profile;
+
+    // Check if a profile already exists
+    if (existing && existing.personal && existing.personal.name) {
+      const existingName = existing.personal.name;
+      const newName = extracted.personal.name;
+
+      // Warn the user before overwriting
+      const confirmMsg = `⚠️ [BD Govt Job Autofill]\n\nA saved profile for "${existingName}" already exists.\n\nDo you want to overwrite it with the information from this form (${newName})?`;
+      const shouldOverwrite = window.confirm(confirmMsg);
+
+      if (!shouldOverwrite) {
+        console.log('[BD Govt Job Autofill] Overwrite canceled by user. Kept existing profile.');
+        return;
       }
-      return false;
     }
 
+    // Save automatically
     try {
-      // 1. Synchronous localStorage save (guaranteed before navigation)
       localStorage.setItem('bd_job_profile_captured', JSON.stringify(extracted));
-      
-      // 2. Chrome Extension local storage
       await chrome.storage.local.set({ profile: extracted });
       currentProfile = extracted;
-
-      // 3. Notify background worker
       chrome.runtime.sendMessage({ action: 'profileCaptured' });
 
-      console.log(`[BD Govt Job Autofill] Profile successfully captured via ${source}:`, extracted);
-
-      showToast(`💾 Profile for "${extracted.personal.name}" saved! Future Teletalk applications will autofill automatically.`, 'success');
-      updateWidgetUI();
-      return true;
-    } catch (err) {
-      console.error('[BD Govt Job Autofill] Failed to save captured profile:', err);
-      return false;
+      console.log('[BD Govt Job Autofill] Profile automatically saved:', extracted);
+      showToast(`💾 Profile for "${extracted.personal.name}" automatically saved! Next time, select any field to autofill.`, 'success');
+    } catch (e) {
+      console.error('[BD Govt Job Autofill] Save error:', e);
     }
   }
 
-  // Setup auto-capture on form submit
   function setupAutoCaptureOnSubmit() {
     if (!applicationForm) return;
 
-    // Listen on submit event in capture phase
+    // Listen on submit event (capture phase)
     applicationForm.addEventListener('submit', () => {
-      saveExtractedProfile('form_submit');
+      handleAutoCaptureOnSubmit();
     }, true);
 
     // Also listen on submit button click
     const submitBtn = document.getElementById('submit') || applicationForm.querySelector('button[type="submit"], input[type="submit"]');
     if (submitBtn) {
       submitBtn.addEventListener('click', () => {
-        saveExtractedProfile('submit_button_click');
+        handleAutoCaptureOnSubmit();
       });
     }
+  }
 
-    // Auto-save draft on input change when user leaves field
-    applicationForm.addEventListener('change', () => {
-      const name = getVal('name');
-      if (name && name.length >= 3) {
-        // Debounced or direct draft capture in background
-        const draft = extractProfileFromForm();
-        if (draft) {
-          localStorage.setItem('bd_job_profile_captured', JSON.stringify(draft));
-        }
-      }
+  // ==========================================
+  // SILENT PREVIEW MEDIA CAPTURE
+  // ==========================================
+
+  function setupPreviewMediaCapture() {
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    fileInputs.forEach(input => {
+      input.addEventListener('change', async () => {
+        const file = input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async (evt) => {
+          const base64 = evt.target.result;
+          const stored = await chrome.storage.local.get(['profile']);
+          const prof = stored.profile || {};
+          if (!prof.media) prof.media = {};
+
+          const isSignature = /sig|sign/i.test(input.name) || /sig|sign/i.test(input.id);
+          if (isSignature) {
+            prof.media.signature_base64 = base64;
+            showToast('✍️ Signature file captured and saved to profile!', 'info');
+          } else {
+            prof.media.photo_base64 = base64;
+            showToast('📷 Photo file captured and saved to profile!', 'info');
+          }
+
+          await chrome.storage.local.set({ profile: prof });
+          currentProfile = prof;
+        };
+        reader.readAsDataURL(file);
+      });
     });
   }
 
   // ==========================================
-  // FLOATING WIDGET UI
-  // ==========================================
-
-  function injectFloatingWidget() {
-    if (document.getElementById('bd-job-autofill-widget')) return;
-
-    const widget = document.createElement('div');
-    widget.id = 'bd-job-autofill-widget';
-    document.body.appendChild(widget);
-
-    updateWidgetUI();
-  }
-
-  function updateWidgetUI() {
-    const widget = document.getElementById('bd-job-autofill-widget');
-    if (!widget) return;
-
-    const hasSavedProfile = currentProfile && currentProfile.personal && currentProfile.personal.name;
-
-    if (hasSavedProfile) {
-      // Profile exists: Primary action is Autofill, with secondary Capture/Update button
-      widget.innerHTML = `
-        <button type="button" class="bd-job-widget-btn" id="bd-job-fill-btn" title="Autofill this form with saved profile">
-          <span>⚡ Autofill Job Form</span>
-          <span class="bd-job-widget-badge green">Ready</span>
-        </button>
-        <button type="button" class="bd-job-widget-action" id="bd-job-update-btn" title="Capture & update saved profile with this form's current values">
-          <span>💾 Save Form</span>
-        </button>
-        <button type="button" class="bd-job-widget-gear" id="bd-job-gear-btn" title="Edit Profile & Settings">⚙️</button>
-      `;
-
-      document.getElementById('bd-job-fill-btn').addEventListener('click', async () => {
-        const btn = document.getElementById('bd-job-fill-btn');
-        btn.disabled = true;
-        btn.querySelector('span').innerText = '⏳ Filling Form...';
-        await fillApplicationForm(currentProfile);
-        btn.disabled = false;
-        btn.querySelector('span').innerText = '⚡ Autofill Job Form';
-      });
-
-      document.getElementById('bd-job-update-btn').addEventListener('click', async () => {
-        await saveExtractedProfile('manual');
-      });
-    } else {
-      // Profile is empty: Guide the user to fill and capture
-      widget.innerHTML = `
-        <button type="button" class="bd-job-widget-btn capture-mode" id="bd-job-capture-btn" title="Save this form's data as your profile">
-          <span>💾 Save Profile from Form</span>
-          <span class="bd-job-widget-badge">1st Setup</span>
-        </button>
-        <button type="button" class="bd-job-widget-gear" id="bd-job-gear-btn" title="Profile Settings">⚙️</button>
-      `;
-
-      document.getElementById('bd-job-capture-btn').addEventListener('click', async () => {
-        await saveExtractedProfile('manual');
-      });
-    }
-
-    document.getElementById('bd-job-gear-btn').addEventListener('click', () => {
-      chrome.runtime.sendMessage({ action: 'openOptionsPage' });
-    });
-  }
-
-  // Toast Notification
-  function showToast(message, type = 'success') {
-    const existing = document.querySelector('.bd-job-toast');
-    if (existing) existing.remove();
-
-    const toast = document.createElement('div');
-    toast.className = `bd-job-toast ${type}`;
-    const icon = type === 'success' ? '✅' : (type === 'warning' ? '⚠️' : (type === 'info' ? 'ℹ️' : '❌'));
-    toast.innerHTML = `<div>${icon}</div><div>${message}</div>`;
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateY(-10px)';
-      setTimeout(() => toast.remove(), 300);
-    }, 5000);
-  }
-
-  // ==========================================
-  // AUTOFILL ENGINE (FILLS FORM USING PROFILE)
+  // AUTOFILL EXECUTION ENGINE
   // ==========================================
 
   function triggerEvents(element) {
@@ -406,7 +480,6 @@
 
     const target = String(valueOrText).trim().toLowerCase();
 
-    // Pass 1: Exact match on option.value
     for (let i = 0; i < el.options.length; i++) {
       const opt = el.options[i];
       if (opt.value && opt.value.trim().toLowerCase() === target) {
@@ -417,7 +490,6 @@
       }
     }
 
-    // Pass 2: Exact match on option text
     for (let i = 0; i < el.options.length; i++) {
       const opt = el.options[i];
       const txt = (opt.textContent || '').trim().toLowerCase();
@@ -429,7 +501,6 @@
       }
     }
 
-    // Pass 3: Fuzzy / contains match
     for (let i = 0; i < el.options.length; i++) {
       const opt = el.options[i];
       const txt = (opt.textContent || '').trim().toLowerCase();
@@ -559,15 +630,12 @@
     if (setVal('#present_careof', pres.careof || '')) filledCount++;
     if (setVal('#present_village', pres.village || '')) filledCount++;
 
-    // Present District -> Upazila Cascade
     if (pres.district_code || pres.district_name) {
       const distVal = pres.district_code || pres.district_name;
       if (selectOption('#present_district', distVal)) {
         filledCount++;
         const distEl = document.getElementById('present_district');
-        if (window.onChangeDistrict && distEl) {
-          window.onChangeDistrict(distEl, 'present_upazila');
-        }
+        if (window.onChangeDistrict && distEl) window.onChangeDistrict(distEl, 'present_upazila');
         await waitForOptions('#present_upazila', 1);
 
         if (pres.upazila_code || pres.upazila_name) {
@@ -602,15 +670,12 @@
       if (setVal('#permanent_careof', perm.careof || '')) filledCount++;
       if (setVal('#permanent_village', perm.village || '')) filledCount++;
 
-      // Permanent District -> Upazila Cascade
       if (perm.district_code || perm.district_name) {
         const pDistVal = perm.district_code || perm.district_name;
         if (selectOption('#permanent_district', pDistVal)) {
           filledCount++;
           const permDistEl = document.getElementById('permanent_district');
-          if (window.onChangeDistrict && permDistEl) {
-            window.onChangeDistrict(permDistEl, 'permanent_upazila');
-          }
+          if (window.onChangeDistrict && permDistEl) window.onChangeDistrict(permDistEl, 'permanent_upazila');
           await waitForOptions('#permanent_upazila', 1);
 
           if (perm.upazila_code || perm.upazila_name) {
@@ -770,7 +835,7 @@
       }
     }
 
-    // --- 10. PHOTO & SIGNATURE HIDDEN INJECTION ---
+    // --- 10. PHOTO & SIGNATURE ---
     const media = profile.media || {};
     if (media.photo_base64 || media.signature_base64) {
       const form = document.getElementById('applicationForm');
@@ -838,83 +903,25 @@
     return { success: true, count: filledCount, time: elapsed };
   }
 
-  // ==========================================
-  // PREVIEW PAGE HELPER & MEDIA CAPTURE
-  // ==========================================
+  // Toast Notification
+  function showToast(message, type = 'success') {
+    const existing = document.querySelector('.bd-job-toast');
+    if (existing) existing.remove();
 
-  function setupPreviewHelper() {
-    if (document.getElementById('bd-job-preview-bar')) return;
+    const toast = document.createElement('div');
+    toast.className = `bd-job-toast ${type}`;
+    const icon = type === 'success' ? '✅' : (type === 'warning' ? '⚠️' : (type === 'info' ? 'ℹ️' : '❌'));
+    toast.innerHTML = `<div>${icon}</div><div>${message}</div>`;
+    document.body.appendChild(toast);
 
-    const bar = document.createElement('div');
-    bar.id = 'bd-job-preview-bar';
-    bar.innerHTML = `
-      <div class="info">
-        <strong>🇧🇩 BD Govt Job Helper (Preview Step)</strong><br>
-        <span>Your application data is saved. If you select photo and signature files below, they will also be saved for future autofills!</span>
-      </div>
-      <div class="actions" id="previewMediaActions"></div>
-    `;
-
-    const form = document.querySelector('form') || document.body;
-    form.parentNode.insertBefore(bar, form);
-
-    updatePreviewBarButtons();
-
-    // Auto-check declaration checkbox if present on preview page
-    const agree = document.querySelector('input[type="checkbox"][name*="agree"], input[type="checkbox"][name*="declaration"], #agree');
-    if (agree && !agree.checked) {
-      agree.checked = true;
-      triggerEvents(agree);
-    }
-
-    // Automatically capture photo & signature when user selects file inputs on preview page!
-    const fileInputs = document.querySelectorAll('input[type="file"]');
-    fileInputs.forEach(input => {
-      input.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = async (evt) => {
-          const base64 = evt.target.result;
-          const stored = await chrome.storage.local.get(['profile']);
-          const prof = stored.profile || {};
-          if (!prof.media) prof.media = {};
-
-          // Detect whether photo or signature based on input name/id or image dimensions
-          const isSignature = /sig|sign/i.test(input.name) || /sig|sign/i.test(input.id);
-          if (isSignature) {
-            prof.media.signature_base64 = base64;
-            showToast('✍️ Signature file captured and saved to profile!', 'info');
-          } else {
-            prof.media.photo_base64 = base64;
-            showToast('📷 Photo file captured and saved to profile!', 'info');
-          }
-
-          await chrome.storage.local.set({ profile: prof });
-          currentProfile = prof;
-          updatePreviewBarButtons();
-        };
-        reader.readAsDataURL(file);
-      });
-    });
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(-10px)';
+      setTimeout(() => toast.remove(), 300);
+    }, 4500);
   }
 
-  function updatePreviewBarButtons() {
-    const actions = document.getElementById('previewMediaActions');
-    if (!actions) return;
-    const media = (currentProfile && currentProfile.media) ? currentProfile.media : {};
-
-    actions.innerHTML = `
-      ${media.photo_base64 ? `<a href="${media.photo_base64}" download="applicant_photo_300x300.jpg" class="bd-preview-btn">📥 Download Photo</a>` : ''}
-      ${media.signature_base64 ? `<a href="${media.signature_base64}" download="applicant_signature_300x80.jpg" class="bd-preview-btn">📥 Download Signature</a>` : ''}
-    `;
-  }
-
-  // ==========================================
-  // POPUP & BACKGROUND COMMUNICATION
-  // ==========================================
-
+  // Listen for messages from popup or background
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'checkStatus') {
       const hasForm = !!document.getElementById('applicationForm');
@@ -933,7 +940,7 @@
     if (request.action === 'triggerAutofill') {
       chrome.storage.local.get(['profile'], async (res) => {
         if (!res.profile || !res.profile.personal || !res.profile.personal.name) {
-          sendResponse({ success: false, message: 'No profile configured yet! Please fill the form and click "Save Profile from Form".' });
+          sendResponse({ success: false, message: 'No profile saved yet! Fill any Teletalk form once to save.' });
           return;
         }
         const result = await fillApplicationForm(res.profile);
@@ -943,13 +950,13 @@
     }
 
     if (request.action === 'captureFromPage') {
-      saveExtractedProfile('popup_manual').then(success => {
-        sendResponse({ success, profile: currentProfile });
+      handleAutoCaptureOnSubmit().then(() => {
+        sendResponse({ success: !!currentProfile, profile: currentProfile });
       });
       return true;
     }
   });
 
-  // Start
+  // Start initialization
   init();
 })();

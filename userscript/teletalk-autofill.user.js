@@ -496,6 +496,13 @@
       }
     };
 
+    // Check if profile already exists before overwriting
+    const existing = Storage.get('profile', null);
+    if (existing && existing.personal && existing.personal.name) {
+      const overwrite = confirm(`⚠️ [BD Govt Job Autofill]\n\nA profile for "${existing.personal.name}" already exists.\n\nDo you want to overwrite it with this form's details (${captured.personal.name})?`);
+      if (!overwrite) return null;
+    }
+
     Storage.set('profile', captured);
     userProfile = captured;
     console.log('[BD Govt Job Userscript] Profile auto-saved:', captured);
@@ -517,39 +524,88 @@
     }
   }
 
-  // Inject Floating Widget
-  if (document.getElementById('applicationForm')) {
-    const btn = document.createElement('div');
-    btn.style.position = 'fixed';
-    btn.style.bottom = '20px';
-    btn.style.right = '20px';
-    btn.style.zIndex = '999999';
-    btn.style.background = '#006a4e';
-    btn.style.color = '#fff';
-    btn.style.padding = '10px 16px';
-    btn.style.borderRadius = '30px';
-    btn.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
-    btn.style.fontFamily = 'Arial, sans-serif';
-    btn.style.fontSize = '14px';
-    btn.style.fontWeight = 'bold';
-    btn.style.cursor = 'pointer';
-    btn.style.display = 'flex';
-    btn.style.alignItems = 'center';
-    btn.style.gap = '8px';
-    btn.innerHTML = '⚡ <span>Autofill Form</span>';
+  // In-Field Autofill popup on input select/focus
+  if (appForm) {
+    // Inject CSS
+    const style = document.createElement('style');
+    style.textContent = `
+      .bd-autofill-popup {
+        position: absolute;
+        z-index: 2147483647;
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+        font-family: Arial, sans-serif;
+        cursor: pointer;
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #1e293b;
+        animation: bdFade 0.15s ease-out;
+      }
+      .bd-autofill-popup:hover { background: #f0fdf4; border-color: #006a4e; }
+      .bd-popup-icon { background: #006a4e; color: #fff; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
+      .bd-popup-title { font-size: 12.5px; font-weight: bold; color: #006a4e; }
+      .bd-popup-sub { font-size: 11px; color: #64748b; }
+      @keyframes bdFade { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+    `;
+    document.head.appendChild(style);
 
-    btn.onclick = () => fillForm();
-    document.body.appendChild(btn);
+    let popupEl = null;
+
+    function removePopup() {
+      if (popupEl) { popupEl.remove(); popupEl = null; }
+    }
+
+    function showPopup(inputEl) {
+      removePopup();
+      if (!userProfile || !userProfile.personal || !userProfile.personal.name) return;
+
+      const p = document.createElement('div');
+      p.className = 'bd-autofill-popup';
+      p.innerHTML = `
+        <div class="bd-popup-icon">⚡</div>
+        <div>
+          <div class="bd-popup-title">Autofill as ${userProfile.personal.name}</div>
+          <div class="bd-popup-sub">Click to fill all form fields</div>
+        </div>
+      `;
+
+      p.onmousedown = (e) => e.preventDefault();
+      p.onclick = () => {
+        removePopup();
+        fillForm();
+      };
+
+      document.body.appendChild(p);
+      popupEl = p;
+
+      const rect = inputEl.getBoundingClientRect();
+      p.style.top = `${rect.bottom + window.scrollY + 4}px`;
+      p.style.left = `${rect.left + window.scrollX}px`;
+    }
+
+    document.addEventListener('focusin', (e) => {
+      const el = e.target;
+      if (el && appForm.contains(el) && el.tagName === 'INPUT' && !['hidden', 'checkbox', 'radio', 'submit', 'button'].includes(el.type) && el.id !== 'captcha') {
+        showPopup(el);
+      } else {
+        removePopup();
+      }
+    }, true);
+
+    document.addEventListener('click', (e) => {
+      if (popupEl && !popupEl.contains(e.target) && e.target.tagName !== 'INPUT') removePopup();
+    });
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') removePopup(); });
   }
 
   // Userscript Menu Command
   if (typeof GM_registerMenuCommand !== 'undefined') {
     GM_registerMenuCommand('⚡ Autofill Teletalk Application', fillForm);
-    GM_registerMenuCommand('💾 Save Profile from Current Form', () => {
-      const p = extractProfileFromForm();
-      if (p) alert(`✅ Profile for "${p.personal.name}" captured and saved successfully!`);
-      else alert('Please enter your name on the form before saving.');
-    });
   }
 })();
 
