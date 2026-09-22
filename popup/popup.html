@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BD Govt Job Autofill</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="bd-flag-dot"></div>
+        <div>
+          <h1 class="title">BD Govt Job Autofill</h1>
+          <p class="subtitle">Teletalk Form Assistant</p>
+        </div>
+      </div>
+      <button id="openSettingsBtn" class="icon-btn" title="Open Full Profile Settings">⚙️</button>
+    </header>
+
+    <!-- Page Status Card -->
+    <div id="statusCard" class="status-card inactive">
+      <div class="status-icon" id="statusIcon">⚪</div>
+      <div class="status-text">
+        <div class="status-title" id="statusTitle">Checking Page...</div>
+        <div class="status-desc" id="statusDesc">Please open a Teletalk job application</div>
+      </div>
+    </div>
+
+    <!-- Active Profile Card -->
+    <div class="profile-summary-card">
+      <div class="profile-row">
+        <span class="label">Saved Profile:</span>
+        <span class="val" id="profileCandidateName">No profile loaded</span>
+      </div>
+      <div class="profile-row">
+        <span class="label">NID / Mobile:</span>
+        <span class="val" id="profileCandidateContact">-</span>
+      </div>
+      <div class="profile-row">
+        <span class="label">Degree / SSC:</span>
+        <span class="val" id="profileCandidateEdu">-</span>
+      </div>
+    </div>
+
+    <!-- Primary Action: Autofill -->
+    <button id="fillFormBtn" class="primary-btn" disabled>
+      <span class="btn-icon">⚡</span>
+      <span id="btnText">Autofill This Job Form</span>
+    </button>
+
+    <!-- Capture Button -->
+    <button id="captureFormBtn" class="secondary-btn capture-btn" style="display: none;">
+      <span>📥 Save / Update Profile from This Form</span>
+    </button>
+
+    <!-- Quick Options -->
+    <div class="options-box">
+      <label class="switch-label">
+        <input type="checkbox" id="autoFillToggle">
+        <span class="slider"></span>
+        <span class="switch-text">Auto-fill immediately on page load</span>
+      </label>
+    </div>
+
+    <!-- Action Buttons Row -->
+    <div class="btn-row">
+      <button id="editProfileBtn" class="secondary-btn">✏️ Profile</button>
+      <button id="exportProfileBtn" class="secondary-btn">📁 Export</button>
+      <button id="importProfileBtn" class="secondary-btn">📤 Import</button>
+      <input type="file" id="importFileInput" accept=".json" style="display: none;">
+    </div>
+
+    <!-- Footer info -->
+    <footer class="footer">
+      <span>Works on all <b>*.teletalk.com.bd</b> job forms</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{
+  "manifest_version": 3,
+  "name": "BD Govt Job Autofill (Teletalk)",
+  "version": "1.0.0",
+  "description": "One-click autofill for Bangladesh Government Job applications on all Teletalk portals (*.teletalk.com.bd)",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "BD Govt Job Autofill",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*.teletalk.com.bd/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.teletalk.com.bd/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "data/bd_geo.json",
+        "data/reference_lists.json",
+        "data/sample_profile.json",
+        "icons/*"
+      ],
+      "matches": [
+        "*://*.teletalk.com.bd/*"
+      ]
+    }
+  ]
+}

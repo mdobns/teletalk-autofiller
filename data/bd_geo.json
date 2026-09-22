@@ -1,0 +1,3740 @@
+{
+  "districts": [
+    {
+      "div_name": "Khulna",
+      "dist_code": "26",
+      "dist_name": "Bagerhat"
+    },
+    {
+      "div_name": "Chattogram",
+      "dist_code": "64",
+      "dist_name": "Bandarban"
+    },
+    {
+      "div_name": "Barishal",
+      "dist_code": "32",
+      "dist_name": "Barguna"
+    },
+    {
+      "div_name": "Barishal",
+      "dist_code": "29",
+      "dist_name": "Barishal"
+    },
+    {
+      "div_name": "Barishal",
+      "dist_code": "30",
+      "dist_name": "Bhola"
+    },
+    {
+      "div_name": "Rajshahi",
+      "dist_code": "10",
+      "dist_name": "Bogura"
+    },
+    {
+      "div_name": "Chattogram",
+      "dist_code": "54",
+      "dist_name": "Brahmanbaria"
+    },
+    {
+      "div_name": "Chattogram",
+      "dist_code": "56",
+      "dist_name": "Chandpur"
+    },
+    {
+      "div_name": "Rajshahi",
+      "dist_code": "13",
+      "dist_name": "Chapai Nawabganj"
+    },
+    {
+      "div_name": "Chattogram",
+      "dist_code": "60",
+      "dist_name": "Chattogram"
+    },
+    {
+      "div_name": "Khulna",
+      "dist_code": "19",
+      "dist_name": "Chuadanga"
+    },
+    {
+      "div_name": "Chattogram",
+      "dist_code": "61",
+      "dist_name": "Cox`s Bazar"
+    },
+    {
+      "div_name": "Chattogram",
+      "dist_code": "55",
+      "dist_name": "Cumilla"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "40",
+      "dist_name": "Dhaka"
+    },
+    {
+      "div_name": "Rangpur",
+      "dist_code": "3",
+      "dist_name": "Dinajpur"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "45",
+      "dist_name": "Faridpur"
+    },
+    {
+      "div_name": "Chattogram",
+      "dist_code": "59",
+      "dist_name": "Feni"
+    },
+    {
+      "div_name": "Rangpur",
+      "dist_code": "8",
+      "dist_name": "Gaibandha"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "41",
+      "dist_name": "Gazipur"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "47",
+      "dist_name": "Gopalganj"
+    },
+    {
+      "div_name": "Sylhet",
+      "dist_code": "53",
+      "dist_name": "Habiganj"
+    },
+    {
+      "div_name": "Mymensingh",
+      "dist_code": "36",
+      "dist_name": "Jamalpur"
+    },
+    {
+      "div_name": "Khulna",
+      "dist_code": "23",
+      "dist_name": "Jashore"
+    },
+    {
+      "div_name": "Barishal",
+      "dist_code": "28",
+      "dist_name": "Jhalakathi"
+    },
+    {
+      "div_name": "Khulna",
+      "dist_code": "20",
+      "dist_name": "Jhenaidah"
+    },
+    {
+      "div_name": "Rajshahi",
+      "dist_code": "9",
+      "dist_name": "Joypurhat"
+    },
+    {
+      "div_name": "Chattogram",
+      "dist_code": "62",
+      "dist_name": "Khagrachhari"
+    },
+    {
+      "div_name": "Khulna",
+      "dist_code": "25",
+      "dist_name": "Khulna"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "38",
+      "dist_name": "Kishoreganj"
+    },
+    {
+      "div_name": "Rangpur",
+      "dist_code": "7",
+      "dist_name": "Kurigram"
+    },
+    {
+      "div_name": "Khulna",
+      "dist_code": "17",
+      "dist_name": "Kushtia"
+    },
+    {
+      "div_name": "Chattogram",
+      "dist_code": "57",
+      "dist_name": "Lakshmipur"
+    },
+    {
+      "div_name": "Rangpur",
+      "dist_code": "5",
+      "dist_name": "Lalmonirhat"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "48",
+      "dist_name": "Madaripur"
+    },
+    {
+      "div_name": "Khulna",
+      "dist_code": "21",
+      "dist_name": "Magura"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "39",
+      "dist_name": "Manikganj"
+    },
+    {
+      "div_name": "Khulna",
+      "dist_code": "18",
+      "dist_name": "Meherpur"
+    },
+    {
+      "div_name": "Sylhet",
+      "dist_code": "52",
+      "dist_name": "Moulvibazar"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "44",
+      "dist_name": "Munshiganj"
+    },
+    {
+      "div_name": "Mymensingh",
+      "dist_code": "34",
+      "dist_name": "Mymensingh"
+    },
+    {
+      "div_name": "Rajshahi",
+      "dist_code": "11",
+      "dist_name": "Naogaon"
+    },
+    {
+      "div_name": "Khulna",
+      "dist_code": "22",
+      "dist_name": "Narail"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "43",
+      "dist_name": "Narayanganj"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "42",
+      "dist_name": "Narsingdi"
+    },
+    {
+      "div_name": "Rajshahi",
+      "dist_code": "12",
+      "dist_name": "Natore"
+    },
+    {
+      "div_name": "Mymensingh",
+      "dist_code": "33",
+      "dist_name": "Netrokona"
+    },
+    {
+      "div_name": "Rangpur",
+      "dist_code": "4",
+      "dist_name": "Nilphamari"
+    },
+    {
+      "div_name": "Chattogram",
+      "dist_code": "58",
+      "dist_name": "Noakhali"
+    },
+    {
+      "div_name": "Rajshahi",
+      "dist_code": "16",
+      "dist_name": "Pabna"
+    },
+    {
+      "div_name": "Rangpur",
+      "dist_code": "1",
+      "dist_name": "Panchagarh"
+    },
+    {
+      "div_name": "Barishal",
+      "dist_code": "31",
+      "dist_name": "Patuakhali"
+    },
+    {
+      "div_name": "Barishal",
+      "dist_code": "27",
+      "dist_name": "Pirojpur"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "46",
+      "dist_name": "Rajbari"
+    },
+    {
+      "div_name": "Rajshahi",
+      "dist_code": "14",
+      "dist_name": "Rajshahi"
+    },
+    {
+      "div_name": "Chattogram",
+      "dist_code": "63",
+      "dist_name": "Rangamati"
+    },
+    {
+      "div_name": "Rangpur",
+      "dist_code": "6",
+      "dist_name": "Rangpur"
+    },
+    {
+      "div_name": "Khulna",
+      "dist_code": "24",
+      "dist_name": "Satkhira"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "49",
+      "dist_name": "Shariatpur"
+    },
+    {
+      "div_name": "Mymensingh",
+      "dist_code": "35",
+      "dist_name": "Sherpur"
+    },
+    {
+      "div_name": "Rajshahi",
+      "dist_code": "15",
+      "dist_name": "Sirajganj"
+    },
+    {
+      "div_name": "Sylhet",
+      "dist_code": "50",
+      "dist_name": "Sunamganj"
+    },
+    {
+      "div_name": "Sylhet",
+      "dist_code": "51",
+      "dist_name": "Sylhet"
+    },
+    {
+      "div_name": "Dhaka",
+      "dist_code": "37",
+      "dist_name": "Tangail"
+    },
+    {
+      "div_name": "Rangpur",
+      "dist_code": "2",
+      "dist_name": "Thakurgaon"
+    }
+  ],
+  "upazilas": [
+    {
+      "dist_code": "23",
+      "dist_name": "Jashore",
+      "thana_code": "155",
+      "thana": "Abhay Nagar"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "299",
+      "thana": "Adabor"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "65",
+      "thana": "Adamdighi"
+    },
+    {
+      "dist_code": "5",
+      "dist_name": "Lalmonirhat",
+      "thana_code": "30",
+      "thana": "Aditmari"
+    },
+    {
+      "dist_code": "29",
+      "dist_name": "Barishal",
+      "thana_code": "204",
+      "thana": "Agailihara"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "300",
+      "thana": "Airport"
+    },
+    {
+      "dist_code": "53",
+      "dist_name": "Habiganj",
+      "thana_code": "436",
+      "thana": "Ajmiriganj"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "561",
+      "thana": "Akbar Shah"
+    },
+    {
+      "dist_code": "54",
+      "dist_name": "Brahmanbaria",
+      "thana_code": "444",
+      "thana": "Akhaura"
+    },
+    {
+      "dist_code": "9",
+      "dist_name": "Joypurhat",
+      "thana_code": "60",
+      "thana": "Akkelpur"
+    },
+    {
+      "dist_code": "19",
+      "dist_name": "Chuadanga",
+      "thana_code": "138",
+      "thana": "Alamdanga"
+    },
+    {
+      "dist_code": "45",
+      "dist_name": "Faridpur",
+      "thana_code": "377",
+      "thana": "Alfadanga"
+    },
+    {
+      "dist_code": "64",
+      "dist_name": "Bandarban",
+      "thana_code": "547",
+      "thana": "Alikadam"
+    },
+    {
+      "dist_code": "32",
+      "dist_name": "Barguna",
+      "thana_code": "228",
+      "thana": "Amtali"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "496",
+      "thana": "Anowara"
+    },
+    {
+      "dist_code": "43",
+      "dist_name": "Narayanganj",
+      "thana_code": "366",
+      "thana": "Araihazar"
+    },
+    {
+      "dist_code": "54",
+      "dist_name": "Brahmanbaria",
+      "thana_code": "445",
+      "thana": "Ashuganj"
+    },
+    {
+      "dist_code": "24",
+      "dist_name": "Satkhira",
+      "thana_code": "163",
+      "thana": "Assasuni"
+    },
+    {
+      "dist_code": "16",
+      "dist_name": "Pabna",
+      "thana_code": "120",
+      "thana": "Atgharia"
+    },
+    {
+      "dist_code": "33",
+      "dist_name": "Netrokona",
+      "thana_code": "233",
+      "thana": "Atpara"
+    },
+    {
+      "dist_code": "11",
+      "dist_name": "Naogaon",
+      "thana_code": "77",
+      "thana": "Atrai"
+    },
+    {
+      "dist_code": "1",
+      "dist_name": "Panchagarh",
+      "thana_code": "1",
+      "thana": "Atwari"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "279",
+      "thana": "Austagram"
+    },
+    {
+      "dist_code": "29",
+      "dist_name": "Barishal",
+      "thana_code": "205",
+      "thana": "Babuganj"
+    },
+    {
+      "dist_code": "11",
+      "dist_name": "Naogaon",
+      "thana_code": "78",
+      "thana": "Badalgachhi"
+    },
+    {
+      "dist_code": "6",
+      "dist_name": "Rangpur",
+      "thana_code": "35",
+      "thana": "Badarganj"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "301",
+      "thana": "Badda"
+    },
+    {
+      "dist_code": "63",
+      "dist_name": "Rangamati",
+      "thana_code": "537",
+      "thana": "Bagaichhari"
+    },
+    {
+      "dist_code": "12",
+      "dist_name": "Natore",
+      "thana_code": "88",
+      "thana": "Bagati Para"
+    },
+    {
+      "dist_code": "26",
+      "dist_name": "Bagerhat",
+      "thana_code": "184",
+      "thana": "Bagerhat Sadar"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "99",
+      "thana": "Bagha"
+    },
+    {
+      "dist_code": "23",
+      "dist_name": "Jashore",
+      "thana_code": "156",
+      "thana": "Bagherpara"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "100",
+      "thana": "Baghmara"
+    },
+    {
+      "dist_code": "53",
+      "dist_name": "Habiganj",
+      "thana_code": "437",
+      "thana": "Bahubal"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "280",
+      "thana": "Bajitpur"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "497",
+      "thana": "Bakalia"
+    },
+    {
+      "dist_code": "29",
+      "dist_name": "Barishal",
+      "thana_code": "206",
+      "thana": "Bakerganj"
+    },
+    {
+      "dist_code": "36",
+      "dist_name": "Jamalpur",
+      "thana_code": "260",
+      "thana": "Bakshiganj"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "417",
+      "thana": "Balaganj"
+    },
+    {
+      "dist_code": "2",
+      "dist_name": "Thakurgaon",
+      "thana_code": "6",
+      "thana": "Baliadangi"
+    },
+    {
+      "dist_code": "46",
+      "dist_name": "Rajbari",
+      "thana_code": "386",
+      "thana": "Baliakandi"
+    },
+    {
+      "dist_code": "32",
+      "dist_name": "Barguna",
+      "thana_code": "229",
+      "thana": "Bamna"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "302",
+      "thana": "Banani"
+    },
+    {
+      "dist_code": "29",
+      "dist_name": "Barishal",
+      "thana_code": "207",
+      "thana": "Banari Para"
+    },
+    {
+      "dist_code": "54",
+      "dist_name": "Brahmanbaria",
+      "thana_code": "446",
+      "thana": "Banchharampur"
+    },
+    {
+      "dist_code": "43",
+      "dist_name": "Narayanganj",
+      "thana_code": "367",
+      "thana": "Bandar"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "498",
+      "thana": "Bandar(Chitt. Port)"
+    },
+    {
+      "dist_code": "64",
+      "dist_name": "Bandarban",
+      "thana_code": "548",
+      "thana": "Bandarban Sadar"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "303",
+      "thana": "Bangshal"
+    },
+    {
+      "dist_code": "53",
+      "dist_name": "Habiganj",
+      "thana_code": "438",
+      "thana": "Baniachung"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "499",
+      "thana": "Banshkhali"
+    },
+    {
+      "dist_code": "12",
+      "dist_name": "Natore",
+      "thana_code": "89",
+      "thana": "Baraigram"
+    },
+    {
+      "dist_code": "52",
+      "dist_name": "Moulvibazar",
+      "thana_code": "429",
+      "thana": "Baralekha"
+    },
+    {
+      "dist_code": "32",
+      "dist_name": "Barguna",
+      "thana_code": "230",
+      "thana": "Barguna Sadar"
+    },
+    {
+      "dist_code": "33",
+      "dist_name": "Netrokona",
+      "thana_code": "234",
+      "thana": "Barhatta"
+    },
+    {
+      "dist_code": "29",
+      "dist_name": "Barishal",
+      "thana_code": "208",
+      "thana": "Barishal Sadar (Kotwali)"
+    },
+    {
+      "dist_code": "63",
+      "dist_name": "Rangamati",
+      "thana_code": "538",
+      "thana": "Barkal"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "452",
+      "thana": "Barura"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "267",
+      "thana": "Basail"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "170",
+      "thana": "Batiaghata"
+    },
+    {
+      "dist_code": "31",
+      "dist_name": "Patuakhali",
+      "thana_code": "221",
+      "thana": "Bauphal"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "500",
+      "thana": "Bayejid Bostami"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "418",
+      "thana": "Beanibazar"
+    },
+    {
+      "dist_code": "58",
+      "dist_name": "Noakhali",
+      "thana_code": "481",
+      "thana": "Begumganj"
+    },
+    {
+      "dist_code": "42",
+      "dist_name": "Narsingdi",
+      "thana_code": "360",
+      "thana": "Belabo"
+    },
+    {
+      "dist_code": "63",
+      "dist_name": "Rangamati",
+      "thana_code": "539",
+      "thana": "Belaichhari"
+    },
+    {
+      "dist_code": "15",
+      "dist_name": "Sirajganj",
+      "thana_code": "111",
+      "thana": "Belkuchi"
+    },
+    {
+      "dist_code": "16",
+      "dist_name": "Pabna",
+      "thana_code": "121",
+      "thana": "Bera"
+    },
+    {
+      "dist_code": "32",
+      "dist_name": "Barguna",
+      "thana_code": "231",
+      "thana": "Betagi"
+    },
+    {
+      "dist_code": "49",
+      "dist_name": "Shariatpur",
+      "thana_code": "400",
+      "thana": "Bhaderganj"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "281",
+      "thana": "Bhairab"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "243",
+      "thana": "Bhalukha"
+    },
+    {
+      "dist_code": "27",
+      "dist_name": "Pirojpur",
+      "thana_code": "193",
+      "thana": "Bhandaria"
+    },
+    {
+      "dist_code": "45",
+      "dist_name": "Faridpur",
+      "thana_code": "378",
+      "thana": "Bhanga"
+    },
+    {
+      "dist_code": "16",
+      "dist_name": "Pabna",
+      "thana_code": "122",
+      "thana": "Bhangura"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "304",
+      "thana": "Bhashantek"
+    },
+    {
+      "dist_code": "17",
+      "dist_name": "Kushtia",
+      "thana_code": "129",
+      "thana": "Bheramara"
+    },
+    {
+      "dist_code": "30",
+      "dist_name": "Bhola",
+      "thana_code": "214",
+      "thana": "Bhola Sadar"
+    },
+    {
+      "dist_code": "13",
+      "dist_name": "Chapai Nawabganj",
+      "thana_code": "94",
+      "thana": "Bholahat"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "268",
+      "thana": "Bhuapur"
+    },
+    {
+      "dist_code": "7",
+      "dist_name": "Kurigram",
+      "thana_code": "43",
+      "thana": "Bhurungamari"
+    },
+    {
+      "dist_code": "54",
+      "dist_name": "Brahmanbaria",
+      "thana_code": "565",
+      "thana": "Bijoynagar"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "11",
+      "thana": "Biral"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "12",
+      "thana": "Birampur"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "13",
+      "thana": "Birganj"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "406",
+      "thana": "Bishwambarpur"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "419",
+      "thana": "Bishwanath"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "101",
+      "thana": "Boalia (Sadar)"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "501",
+      "thana": "Boalkhali"
+    },
+    {
+      "dist_code": "45",
+      "dist_name": "Faridpur",
+      "thana_code": "379",
+      "thana": "Boalmari"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "14",
+      "thana": "Bochaganj"
+    },
+    {
+      "dist_code": "1",
+      "dist_name": "Panchagarh",
+      "thana_code": "2",
+      "thana": "Boda"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "66",
+      "thana": "Bogura Sadar"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "453",
+      "thana": "Brahaman Para"
+    },
+    {
+      "dist_code": "54",
+      "dist_name": "Brahmanbaria",
+      "thana_code": "447",
+      "thana": "Brahmanbaria Sadar"
+    },
+    {
+      "dist_code": "30",
+      "dist_name": "Bhola",
+      "thana_code": "215",
+      "thana": "Burhanuddin"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "454",
+      "thana": "Burichang"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "305",
+      "thana": "Cantonment"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "306",
+      "thana": "Chackbazar"
+    },
+    {
+      "dist_code": "61",
+      "dist_name": "Cox`s Bazar",
+      "thana_code": "521",
+      "thana": "Chakaria"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "502",
+      "thana": "Chandanish"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "503",
+      "thana": "Chandgaon"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "455",
+      "thana": "Chandina"
+    },
+    {
+      "dist_code": "56",
+      "dist_name": "Chandpur",
+      "thana_code": "468",
+      "thana": "Chandpur Sadar"
+    },
+    {
+      "dist_code": "45",
+      "dist_name": "Faridpur",
+      "thana_code": "380",
+      "thana": "Char Bhadrasan"
+    },
+    {
+      "dist_code": "30",
+      "dist_name": "Bhola",
+      "thana_code": "216",
+      "thana": "Char Fasson"
+    },
+    {
+      "dist_code": "7",
+      "dist_name": "Kurigram",
+      "thana_code": "44",
+      "thana": "Char Rajibpur"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "102",
+      "thana": "Charghat"
+    },
+    {
+      "dist_code": "58",
+      "dist_name": "Noakhali",
+      "thana_code": "482",
+      "thana": "Chatkhil"
+    },
+    {
+      "dist_code": "16",
+      "dist_name": "Pabna",
+      "thana_code": "123",
+      "thana": "Chatmohar"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "456",
+      "thana": "Chauddagram"
+    },
+    {
+      "dist_code": "15",
+      "dist_name": "Sirajganj",
+      "thana_code": "112",
+      "thana": "Chauhali"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "562",
+      "thana": "Chawkbazar"
+    },
+    {
+      "dist_code": "59",
+      "dist_name": "Feni",
+      "thana_code": "490",
+      "thana": "Chhagalnayian"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "407",
+      "thana": "Chhatak"
+    },
+    {
+      "dist_code": "7",
+      "dist_name": "Kurigram",
+      "thana_code": "45",
+      "thana": "Chilmari"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "15",
+      "thana": "Chirirbandar"
+    },
+    {
+      "dist_code": "26",
+      "dist_name": "Bagerhat",
+      "thana_code": "185",
+      "thana": "Chitalmari"
+    },
+    {
+      "dist_code": "23",
+      "dist_name": "Jashore",
+      "thana_code": "157",
+      "thana": "Chowghacha"
+    },
+    {
+      "dist_code": "19",
+      "dist_name": "Chuadanga",
+      "thana_code": "139",
+      "thana": "Chuadanga Sadar"
+    },
+    {
+      "dist_code": "53",
+      "dist_name": "Habiganj",
+      "thana_code": "439",
+      "thana": "Chunarughat"
+    },
+    {
+      "dist_code": "58",
+      "dist_name": "Noakhali",
+      "thana_code": "483",
+      "thana": "Companiganj"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "420",
+      "thana": "Companiganj"
+    },
+    {
+      "dist_code": "61",
+      "dist_name": "Cox`s Bazar",
+      "thana_code": "522",
+      "thana": "Cox`s Bazar Sadar"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "457",
+      "thana": "Cumilla Sadar"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "458",
+      "thana": "Cumilla Sadar South"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "171",
+      "thana": "Dacope"
+    },
+    {
+      "dist_code": "59",
+      "dist_name": "Feni",
+      "thana_code": "491",
+      "thana": "Daganbhuyian"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "307",
+      "thana": "Dakshin Khan"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "427",
+      "thana": "Dakshin Surma"
+    },
+    {
+      "dist_code": "49",
+      "dist_name": "Shariatpur",
+      "thana_code": "401",
+      "thana": "Damudya"
+    },
+    {
+      "dist_code": "19",
+      "dist_name": "Chuadanga",
+      "thana_code": "140",
+      "thana": "Damurhuda"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "308",
+      "thana": "Darus-Salam"
+    },
+    {
+      "dist_code": "31",
+      "dist_name": "Patuakhali",
+      "thana_code": "222",
+      "thana": "Dashmina"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "459",
+      "thana": "Daudkandi"
+    },
+    {
+      "dist_code": "30",
+      "dist_name": "Bhola",
+      "thana_code": "217",
+      "thana": "Daulatkhan"
+    },
+    {
+      "dist_code": "17",
+      "dist_name": "Kushtia",
+      "thana_code": "130",
+      "thana": "Daulatpur"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "172",
+      "thana": "Daulatpur"
+    },
+    {
+      "dist_code": "39",
+      "dist_name": "Manikganj",
+      "thana_code": "292",
+      "thana": "Daulatpur"
+    },
+    {
+      "dist_code": "24",
+      "dist_name": "Satkhira",
+      "thana_code": "164",
+      "thana": "Debhata"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "460",
+      "thana": "Debidwar"
+    },
+    {
+      "dist_code": "1",
+      "dist_name": "Panchagarh",
+      "thana_code": "3",
+      "thana": "Debiganj"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "269",
+      "thana": "Delduar"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "309",
+      "thana": "Demra"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "409",
+      "thana": "Derai"
+    },
+    {
+      "dist_code": "36",
+      "dist_name": "Jamalpur",
+      "thana_code": "261",
+      "thana": "Dewanganj"
+    },
+    {
+      "dist_code": "11",
+      "dist_name": "Naogaon",
+      "thana_code": "79",
+      "thana": "Dhamoirhat"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "310",
+      "thana": "Dhamrai"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "311",
+      "thana": "Dhanmondi"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "410",
+      "thana": "Dharmapasha"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "244",
+      "thana": "Dhobaura"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "270",
+      "thana": "Dhonbari"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "67",
+      "thana": "Dhunat"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "68",
+      "thana": "Dhupchanchia"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "173",
+      "thana": "Dighala"
+    },
+    {
+      "dist_code": "62",
+      "dist_name": "Khagrachhari",
+      "thana_code": "529",
+      "thana": "Dighinala"
+    },
+    {
+      "dist_code": "4",
+      "dist_name": "Nilphamari",
+      "thana_code": "24",
+      "thana": "Dimla"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "16",
+      "thana": "Dinajpur Sadar"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "312",
+      "thana": "Dohar"
+    },
+    {
+      "dist_code": "4",
+      "dist_name": "Nilphamari",
+      "thana_code": "25",
+      "thana": "Domar"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "504",
+      "thana": "Double Mooring"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "411",
+      "thana": "Dowarabazar"
+    },
+    {
+      "dist_code": "31",
+      "dist_name": "Patuakhali",
+      "thana_code": "223",
+      "thana": "Dumki"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "174",
+      "thana": "Dumuria"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "103",
+      "thana": "Durgapur"
+    },
+    {
+      "dist_code": "33",
+      "dist_name": "Netrokona",
+      "thana_code": "235",
+      "thana": "Durgapur"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "564",
+      "thana": "EPZ"
+    },
+    {
+      "dist_code": "26",
+      "dist_name": "Bagerhat",
+      "thana_code": "186",
+      "thana": "Fakirhat"
+    },
+    {
+      "dist_code": "56",
+      "dist_name": "Chandpur",
+      "thana_code": "469",
+      "thana": "Faridganj"
+    },
+    {
+      "dist_code": "16",
+      "dist_name": "Pabna",
+      "thana_code": "124",
+      "thana": "Faridpur"
+    },
+    {
+      "dist_code": "45",
+      "dist_name": "Faridpur",
+      "thana_code": "381",
+      "thana": "Faridpur Sadar"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "505",
+      "thana": "Fatikchhari"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "421",
+      "thana": "Fenchuganj"
+    },
+    {
+      "dist_code": "59",
+      "dist_name": "Feni",
+      "thana_code": "492",
+      "thana": "Feni Sadar"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "17",
+      "thana": "Fulbari"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "245",
+      "thana": "Fulbaria"
+    },
+    {
+      "dist_code": "8",
+      "dist_name": "Gaibandha",
+      "thana_code": "53",
+      "thana": "Fulchhari"
+    },
+    {
+      "dist_code": "59",
+      "dist_name": "Feni",
+      "thana_code": "493",
+      "thana": "Fulgazi"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "69",
+      "thana": "Gabtali"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "246",
+      "thana": "Gaffargaon"
+    },
+    {
+      "dist_code": "8",
+      "dist_name": "Gaibandha",
+      "thana_code": "54",
+      "thana": "Gaibanda Sadar"
+    },
+    {
+      "dist_code": "31",
+      "dist_name": "Patuakhali",
+      "thana_code": "224",
+      "thana": "Galachipa"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "313",
+      "thana": "Gandaria"
+    },
+    {
+      "dist_code": "6",
+      "dist_name": "Rangpur",
+      "thana_code": "36",
+      "thana": "Gangachara"
+    },
+    {
+      "dist_code": "18",
+      "dist_name": "Meherpur",
+      "thana_code": "135",
+      "thana": "Gangni"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "247",
+      "thana": "Gauripur"
+    },
+    {
+      "dist_code": "29",
+      "dist_name": "Barishal",
+      "thana_code": "209",
+      "thana": "Gaurnadi"
+    },
+    {
+      "dist_code": "44",
+      "dist_name": "Munshiganj",
+      "thana_code": "371",
+      "thana": "Gazaria"
+    },
+    {
+      "dist_code": "41",
+      "dist_name": "Gazipur",
+      "thana_code": "354",
+      "thana": "Gazipur Sadar"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "271",
+      "thana": "Ghatail"
+    },
+    {
+      "dist_code": "39",
+      "dist_name": "Manikganj",
+      "thana_code": "293",
+      "thana": "Ghior"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "18",
+      "thana": "Ghoraghat"
+    },
+    {
+      "dist_code": "46",
+      "dist_name": "Rajbari",
+      "thana_code": "387",
+      "thana": "Goalanda"
+    },
+    {
+      "dist_code": "8",
+      "dist_name": "Gaibandha",
+      "thana_code": "55",
+      "thana": "Gobidaganj"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "104",
+      "thana": "Godagari"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "422",
+      "thana": "Golapganj"
+    },
+    {
+      "dist_code": "13",
+      "dist_name": "Chapai Nawabganj",
+      "thana_code": "95",
+      "thana": "Gomastapur"
+    },
+    {
+      "dist_code": "47",
+      "dist_name": "Gopalganj",
+      "thana_code": "391",
+      "thana": "Gopalganj Sadar"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "272",
+      "thana": "Gopalpur"
+    },
+    {
+      "dist_code": "49",
+      "dist_name": "Shariatpur",
+      "thana_code": "402",
+      "thana": "Gosairhat"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "423",
+      "thana": "Gowainghat"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "314",
+      "thana": "Gulshan"
+    },
+    {
+      "dist_code": "12",
+      "dist_name": "Natore",
+      "thana_code": "90",
+      "thana": "Gurudaspur"
+    },
+    {
+      "dist_code": "53",
+      "dist_name": "Habiganj",
+      "thana_code": "440",
+      "thana": "Habiganj Sadar"
+    },
+    {
+      "dist_code": "56",
+      "dist_name": "Chandpur",
+      "thana_code": "470",
+      "thana": "Haim Char"
+    },
+    {
+      "dist_code": "56",
+      "dist_name": "Chandpur",
+      "thana_code": "471",
+      "thana": "Hajiganj"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "19",
+      "thana": "Hakimpur"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "506",
+      "thana": "Halishahar"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "248",
+      "thana": "Haluaghat"
+    },
+    {
+      "dist_code": "20",
+      "dist_name": "Jhenaidah",
+      "thana_code": "142",
+      "thana": "Harinakunda"
+    },
+    {
+      "dist_code": "2",
+      "dist_name": "Thakurgaon",
+      "thana_code": "7",
+      "thana": "Haripur"
+    },
+    {
+      "dist_code": "39",
+      "dist_name": "Manikganj",
+      "thana_code": "294",
+      "thana": "Harirampur"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "507",
+      "thana": "Hathazari"
+    },
+    {
+      "dist_code": "5",
+      "dist_name": "Lalmonirhat",
+      "thana_code": "31",
+      "thana": "Hatibanda"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "315",
+      "thana": "Hatirjheel"
+    },
+    {
+      "dist_code": "58",
+      "dist_name": "Noakhali",
+      "thana_code": "484",
+      "thana": "Hatiya"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "316",
+      "thana": "Hazaribhag"
+    },
+    {
+      "dist_code": "29",
+      "dist_name": "Barishal",
+      "thana_code": "210",
+      "thana": "Hizla"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "461",
+      "thana": "Homna"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "282",
+      "thana": "Hossenpur"
+    },
+    {
+      "dist_code": "27",
+      "dist_name": "Pirojpur",
+      "thana_code": "199",
+      "thana": "Indurkani"
+    },
+    {
+      "dist_code": "16",
+      "dist_name": "Pabna",
+      "thana_code": "125",
+      "thana": "Ishwardi"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "249",
+      "thana": "Ishwarganj"
+    },
+    {
+      "dist_code": "36",
+      "dist_name": "Jamalpur",
+      "thana_code": "262",
+      "thana": "Islampur"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "283",
+      "thana": "Itna"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "412",
+      "thana": "Jagannatpur"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "424",
+      "thana": "Jaintapur"
+    },
+    {
+      "dist_code": "4",
+      "dist_name": "Nilphamari",
+      "thana_code": "26",
+      "thana": "Jaldhaka"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "413",
+      "thana": "Jamalganj"
+    },
+    {
+      "dist_code": "36",
+      "dist_name": "Jamalpur",
+      "thana_code": "263",
+      "thana": "Jamalpur Sadar"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "317",
+      "thana": "Jattrabari"
+    },
+    {
+      "dist_code": "28",
+      "dist_name": "Jhalakathi",
+      "thana_code": "200",
+      "thana": "Jhalakathi Sadar"
+    },
+    {
+      "dist_code": "20",
+      "dist_name": "Jhenaidah",
+      "thana_code": "143",
+      "thana": "Jhenaidaha Sadar"
+    },
+    {
+      "dist_code": "35",
+      "dist_name": "Sherpur",
+      "thana_code": "255",
+      "thana": "Jhenaigati"
+    },
+    {
+      "dist_code": "23",
+      "dist_name": "Jashore",
+      "thana_code": "158",
+      "thana": "Jhikargacha"
+    },
+    {
+      "dist_code": "19",
+      "dist_name": "Chuadanga",
+      "thana_code": "141",
+      "thana": "Jiban Nagar"
+    },
+    {
+      "dist_code": "9",
+      "dist_name": "Joypurhat",
+      "thana_code": "61",
+      "thana": "Joypurhat Sadar"
+    },
+    {
+      "dist_code": "63",
+      "dist_name": "Rangamati",
+      "thana_code": "540",
+      "thana": "Juraichhari"
+    },
+    {
+      "dist_code": "52",
+      "dist_name": "Moulvibazar",
+      "thana_code": "430",
+      "thana": "Juri"
+    },
+    {
+      "dist_code": "26",
+      "dist_name": "Bagerhat",
+      "thana_code": "187",
+      "thana": "Kachua"
+    },
+    {
+      "dist_code": "56",
+      "dist_name": "Chandpur",
+      "thana_code": "472",
+      "thana": "Kachua"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "318",
+      "thana": "Kadamtoli"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "319",
+      "thana": "Kafrul"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "70",
+      "thana": "Kahaloo"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "20",
+      "thana": "Kaharole"
+    },
+    {
+      "dist_code": "31",
+      "dist_name": "Patuakhali",
+      "thana_code": "225",
+      "thana": "Kala Para"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "320",
+      "thana": "Kalabagan"
+    },
+    {
+      "dist_code": "9",
+      "dist_name": "Joypurhat",
+      "thana_code": "62",
+      "thana": "Kalai"
+    },
+    {
+      "dist_code": "24",
+      "dist_name": "Satkhira",
+      "thana_code": "165",
+      "thana": "Kalaroa"
+    },
+    {
+      "dist_code": "22",
+      "dist_name": "Narail",
+      "thana_code": "152",
+      "thana": "Kalia"
+    },
+    {
+      "dist_code": "41",
+      "dist_name": "Gazipur",
+      "thana_code": "355",
+      "thana": "Kaliakair"
+    },
+    {
+      "dist_code": "41",
+      "dist_name": "Gazipur",
+      "thana_code": "356",
+      "thana": "Kaliganj"
+    },
+    {
+      "dist_code": "24",
+      "dist_name": "Satkhira",
+      "thana_code": "166",
+      "thana": "Kaliganj"
+    },
+    {
+      "dist_code": "5",
+      "dist_name": "Lalmonirhat",
+      "thana_code": "32",
+      "thana": "Kaliganj"
+    },
+    {
+      "dist_code": "20",
+      "dist_name": "Jhenaidah",
+      "thana_code": "144",
+      "thana": "Kaliganj"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "273",
+      "thana": "Kalihati"
+    },
+    {
+      "dist_code": "48",
+      "dist_name": "Madaripur",
+      "thana_code": "396",
+      "thana": "Kalkini"
+    },
+    {
+      "dist_code": "33",
+      "dist_name": "Netrokona",
+      "thana_code": "236",
+      "thana": "Kalmakanda"
+    },
+    {
+      "dist_code": "46",
+      "dist_name": "Rajbari",
+      "thana_code": "388",
+      "thana": "Kalukhali"
+    },
+    {
+      "dist_code": "52",
+      "dist_name": "Moulvibazar",
+      "thana_code": "431",
+      "thana": "Kamalganj"
+    },
+    {
+      "dist_code": "15",
+      "dist_name": "Sirajganj",
+      "thana_code": "113",
+      "thana": "Kamarkhanda"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "321",
+      "thana": "Kamrangir Char"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "425",
+      "thana": "Kanaighat"
+    },
+    {
+      "dist_code": "28",
+      "dist_name": "Jhalakathi",
+      "thana_code": "201",
+      "thana": "Kanthalia"
+    },
+    {
+      "dist_code": "41",
+      "dist_name": "Gazipur",
+      "thana_code": "357",
+      "thana": "Kapasia"
+    },
+    {
+      "dist_code": "63",
+      "dist_name": "Rangamati",
+      "thana_code": "541",
+      "thana": "Kaptai"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "284",
+      "thana": "Karimganj"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "508",
+      "thana": "Karnafuli"
+    },
+    {
+      "dist_code": "54",
+      "dist_name": "Brahmanbaria",
+      "thana_code": "448",
+      "thana": "Kasba"
+    },
+    {
+      "dist_code": "47",
+      "dist_name": "Gopalganj",
+      "thana_code": "392",
+      "thana": "Kashiani"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "285",
+      "thana": "Katiadi"
+    },
+    {
+      "dist_code": "6",
+      "dist_name": "Rangpur",
+      "thana_code": "37",
+      "thana": "Kaunia"
+    },
+    {
+      "dist_code": "27",
+      "dist_name": "Pirojpur",
+      "thana_code": "194",
+      "thana": "Kawkhali"
+    },
+    {
+      "dist_code": "63",
+      "dist_name": "Rangamati",
+      "thana_code": "542",
+      "thana": "Kawkhali (Betbunia)"
+    },
+    {
+      "dist_code": "15",
+      "dist_name": "Sirajganj",
+      "thana_code": "114",
+      "thana": "Kazipur"
+    },
+    {
+      "dist_code": "33",
+      "dist_name": "Netrokona",
+      "thana_code": "237",
+      "thana": "Kendua"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "322",
+      "thana": "Keraniganj Model"
+    },
+    {
+      "dist_code": "23",
+      "dist_name": "Jashore",
+      "thana_code": "159",
+      "thana": "Keshabpur"
+    },
+    {
+      "dist_code": "62",
+      "dist_name": "Khagrachhari",
+      "thana_code": "530",
+      "thana": "Khagrachhari Sadar"
+    },
+    {
+      "dist_code": "33",
+      "dist_name": "Netrokona",
+      "thana_code": "238",
+      "thana": "Khaliajuri"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "175",
+      "thana": "Khalishpur"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "176",
+      "thana": "Khan Jahan Ali"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "21",
+      "thana": "Khansama"
+    },
+    {
+      "dist_code": "9",
+      "dist_name": "Joypurhat",
+      "thana_code": "63",
+      "thana": "Khetlal"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "323",
+      "thana": "Khilgaon"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "324",
+      "thana": "Khilkhet"
+    },
+    {
+      "dist_code": "17",
+      "dist_name": "Kushtia",
+      "thana_code": "131",
+      "thana": "Khoksa"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "177",
+      "thana": "Khulna Sadar"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "509",
+      "thana": "Khulshi"
+    },
+    {
+      "dist_code": "4",
+      "dist_name": "Nilphamari",
+      "thana_code": "27",
+      "thana": "Kishoreganj "
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "286",
+      "thana": "Kishoreganj Sadar"
+    },
+    {
+      "dist_code": "58",
+      "dist_name": "Noakhali",
+      "thana_code": "485",
+      "thana": "Kobirhat"
+    },
+    {
+      "dist_code": "57",
+      "dist_name": "Lakshmipur",
+      "thana_code": "476",
+      "thana": "Komol Nogor"
+    },
+    {
+      "dist_code": "47",
+      "dist_name": "Gopalganj",
+      "thana_code": "393",
+      "thana": "Kotalipara"
+    },
+    {
+      "dist_code": "20",
+      "dist_name": "Jhenaidah",
+      "thana_code": "145",
+      "thana": "Kotchandpur"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "510",
+      "thana": "Kotwali"
+    },
+    {
+      "dist_code": "23",
+      "dist_name": "Jashore",
+      "thana_code": "160",
+      "thana": "Kotwali"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "325",
+      "thana": "Kotwali"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "178",
+      "thana": "Koyra"
+    },
+    {
+      "dist_code": "52",
+      "dist_name": "Moulvibazar",
+      "thana_code": "432",
+      "thana": "Kulaura"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "287",
+      "thana": "Kuliar Char"
+    },
+    {
+      "dist_code": "17",
+      "dist_name": "Kushtia",
+      "thana_code": "132",
+      "thana": "Kumarkhali"
+    },
+    {
+      "dist_code": "7",
+      "dist_name": "Kurigram",
+      "thana_code": "46",
+      "thana": "Kurigram Sadar"
+    },
+    {
+      "dist_code": "17",
+      "dist_name": "Kushtia",
+      "thana_code": "133",
+      "thana": "Kushtia Sadar"
+    },
+    {
+      "dist_code": "61",
+      "dist_name": "Cox`s Bazar",
+      "thana_code": "523",
+      "thana": "Kutubdia"
+    },
+    {
+      "dist_code": "53",
+      "dist_name": "Habiganj",
+      "thana_code": "441",
+      "thana": "Lakhai"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "462",
+      "thana": "Laksam"
+    },
+    {
+      "dist_code": "62",
+      "dist_name": "Khagrachhari",
+      "thana_code": "531",
+      "thana": "Lakshmichhari"
+    },
+    {
+      "dist_code": "57",
+      "dist_name": "Lakshmipur",
+      "thana_code": "477",
+      "thana": "Lakshmipur Sadar"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "326",
+      "thana": "Lalbag"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "566",
+      "thana": "Lalmai"
+    },
+    {
+      "dist_code": "30",
+      "dist_name": "Bhola",
+      "thana_code": "218",
+      "thana": "Lalmohan"
+    },
+    {
+      "dist_code": "5",
+      "dist_name": "Lalmonirhat",
+      "thana_code": "33",
+      "thana": "Lalmonirhat Sadar"
+    },
+    {
+      "dist_code": "12",
+      "dist_name": "Natore",
+      "thana_code": "91",
+      "thana": "Lalpur"
+    },
+    {
+      "dist_code": "64",
+      "dist_name": "Bandarban",
+      "thana_code": "549",
+      "thana": "Lama"
+    },
+    {
+      "dist_code": "63",
+      "dist_name": "Rangamati",
+      "thana_code": "543",
+      "thana": "Langadu"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "511",
+      "thana": "Lohagara"
+    },
+    {
+      "dist_code": "22",
+      "dist_name": "Narail",
+      "thana_code": "153",
+      "thana": "Lohagara"
+    },
+    {
+      "dist_code": "44",
+      "dist_name": "Munshiganj",
+      "thana_code": "372",
+      "thana": "Louhajang"
+    },
+    {
+      "dist_code": "33",
+      "dist_name": "Netrokona",
+      "thana_code": "239",
+      "thana": "Madan"
+    },
+    {
+      "dist_code": "36",
+      "dist_name": "Jamalpur",
+      "thana_code": "264",
+      "thana": "Madarganj"
+    },
+    {
+      "dist_code": "48",
+      "dist_name": "Madaripur",
+      "thana_code": "397",
+      "thana": "Madaripur Sadar"
+    },
+    {
+      "dist_code": "53",
+      "dist_name": "Habiganj",
+      "thana_code": "442",
+      "thana": "Madhabpur"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "274",
+      "thana": "Madhupur"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "569",
+      "thana": "Madhyanagar"
+    },
+    {
+      "dist_code": "45",
+      "dist_name": "Faridpur",
+      "thana_code": "382",
+      "thana": "Madukhali"
+    },
+    {
+      "dist_code": "21",
+      "dist_name": "Magura",
+      "thana_code": "148",
+      "thana": "Magura Sadar"
+    },
+    {
+      "dist_code": "11",
+      "dist_name": "Naogaon",
+      "thana_code": "80",
+      "thana": "Mahadebpur"
+    },
+    {
+      "dist_code": "62",
+      "dist_name": "Khagrachhari",
+      "thana_code": "532",
+      "thana": "Mahalchhari"
+    },
+    {
+      "dist_code": "61",
+      "dist_name": "Cox`s Bazar",
+      "thana_code": "524",
+      "thana": "Maheshkhali"
+    },
+    {
+      "dist_code": "20",
+      "dist_name": "Jhenaidah",
+      "thana_code": "146",
+      "thana": "Mahespur"
+    },
+    {
+      "dist_code": "11",
+      "dist_name": "Naogaon",
+      "thana_code": "81",
+      "thana": "Manda"
+    },
+    {
+      "dist_code": "62",
+      "dist_name": "Khagrachhari",
+      "thana_code": "533",
+      "thana": "Manikchhari"
+    },
+    {
+      "dist_code": "39",
+      "dist_name": "Manikganj",
+      "thana_code": "295",
+      "thana": "Manikganj Sadar"
+    },
+    {
+      "dist_code": "23",
+      "dist_name": "Jashore",
+      "thana_code": "161",
+      "thana": "Manirampur"
+    },
+    {
+      "dist_code": "42",
+      "dist_name": "Narsingdi",
+      "thana_code": "361",
+      "thana": "Manohardi"
+    },
+    {
+      "dist_code": "30",
+      "dist_name": "Bhola",
+      "thana_code": "219",
+      "thana": "Manpura"
+    },
+    {
+      "dist_code": "27",
+      "dist_name": "Pirojpur",
+      "thana_code": "195",
+      "thana": "Mathbaria"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "105",
+      "thana": "Matihar"
+    },
+    {
+      "dist_code": "62",
+      "dist_name": "Khagrachhari",
+      "thana_code": "534",
+      "thana": "Matiranga"
+    },
+    {
+      "dist_code": "56",
+      "dist_name": "Chandpur",
+      "thana_code": "473",
+      "thana": "Matlab"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "464",
+      "thana": "Meghna"
+    },
+    {
+      "dist_code": "29",
+      "dist_name": "Barishal",
+      "thana_code": "211",
+      "thana": "Mehendiganj"
+    },
+    {
+      "dist_code": "18",
+      "dist_name": "Meherpur",
+      "thana_code": "136",
+      "thana": "Meherpur Sadar"
+    },
+    {
+      "dist_code": "36",
+      "dist_name": "Jamalpur",
+      "thana_code": "265",
+      "thana": "Melandaha"
+    },
+    {
+      "dist_code": "17",
+      "dist_name": "Kushtia",
+      "thana_code": "134",
+      "thana": "Mirpur"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "327",
+      "thana": "Mirpur Model"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "512",
+      "thana": "Mirsharai"
+    },
+    {
+      "dist_code": "31",
+      "dist_name": "Patuakhali",
+      "thana_code": "226",
+      "thana": "Mirzaganj"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "275",
+      "thana": "Mirzapur"
+    },
+    {
+      "dist_code": "6",
+      "dist_name": "Rangpur",
+      "thana_code": "38",
+      "thana": "Mitha Pukur"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "288",
+      "thana": "Mithamoin"
+    },
+    {
+      "dist_code": "21",
+      "dist_name": "Magura",
+      "thana_code": "149",
+      "thana": "Mohammadpur"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "328",
+      "thana": "Mohammadpur"
+    },
+    {
+      "dist_code": "33",
+      "dist_name": "Netrokona",
+      "thana_code": "240",
+      "thana": "Mohanganj"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "106",
+      "thana": "Mohanpur"
+    },
+    {
+      "dist_code": "26",
+      "dist_name": "Bagerhat",
+      "thana_code": "188",
+      "thana": "Mollahat"
+    },
+    {
+      "dist_code": "26",
+      "dist_name": "Bagerhat",
+      "thana_code": "189",
+      "thana": "Mongla"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "465",
+      "thana": "Monohorganj"
+    },
+    {
+      "dist_code": "26",
+      "dist_name": "Bagerhat",
+      "thana_code": "190",
+      "thana": "Morrelganj"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "329",
+      "thana": "Motijheel"
+    },
+    {
+      "dist_code": "52",
+      "dist_name": "Moulvibazar",
+      "thana_code": "433",
+      "thana": "Moulvibazar Sadar"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "330",
+      "thana": "Mugda"
+    },
+    {
+      "dist_code": "18",
+      "dist_name": "Meherpur",
+      "thana_code": "137",
+      "thana": "Mujib Nagar"
+    },
+    {
+      "dist_code": "47",
+      "dist_name": "Gopalganj",
+      "thana_code": "394",
+      "thana": "Muksudpur"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "250",
+      "thana": "Muktagachha"
+    },
+    {
+      "dist_code": "29",
+      "dist_name": "Barishal",
+      "thana_code": "212",
+      "thana": "Muladi"
+    },
+    {
+      "dist_code": "44",
+      "dist_name": "Munshiganj",
+      "thana_code": "373",
+      "thana": "Munshiganj Sadar"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "466",
+      "thana": "Muradnagar"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "251",
+      "thana": "Mymensingh Sadar"
+    },
+    {
+      "dist_code": "53",
+      "dist_name": "Habiganj",
+      "thana_code": "443",
+      "thana": "Nabiganj"
+    },
+    {
+      "dist_code": "54",
+      "dist_name": "Brahmanbaria",
+      "thana_code": "449",
+      "thana": "Nabinagar"
+    },
+    {
+      "dist_code": "13",
+      "dist_name": "Chapai Nawabganj",
+      "thana_code": "96",
+      "thana": "Nachole"
+    },
+    {
+      "dist_code": "45",
+      "dist_name": "Faridpur",
+      "thana_code": "383",
+      "thana": "Nagarkanda"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "276",
+      "thana": "Nagarpur"
+    },
+    {
+      "dist_code": "7",
+      "dist_name": "Kurigram",
+      "thana_code": "47",
+      "thana": "Nageshwari"
+    },
+    {
+      "dist_code": "64",
+      "dist_name": "Bandarban",
+      "thana_code": "550",
+      "thana": "Naikhongchhari"
+    },
+    {
+      "dist_code": "35",
+      "dist_name": "Sherpur",
+      "thana_code": "256",
+      "thana": "Nakla"
+    },
+    {
+      "dist_code": "28",
+      "dist_name": "Jhalakathi",
+      "thana_code": "202",
+      "thana": "Nalchity"
+    },
+    {
+      "dist_code": "12",
+      "dist_name": "Natore",
+      "thana_code": "556",
+      "thana": "Naldanga"
+    },
+    {
+      "dist_code": "35",
+      "dist_name": "Sherpur",
+      "thana_code": "257",
+      "thana": "Nalitabari"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "252",
+      "thana": "Nandail"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "71",
+      "thana": "Nandigram"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "463",
+      "thana": "Nangalkot"
+    },
+    {
+      "dist_code": "63",
+      "dist_name": "Rangamati",
+      "thana_code": "544",
+      "thana": "Naniarchar"
+    },
+    {
+      "dist_code": "11",
+      "dist_name": "Naogaon",
+      "thana_code": "82",
+      "thana": "Naogaon Sadar"
+    },
+    {
+      "dist_code": "22",
+      "dist_name": "Narail",
+      "thana_code": "154",
+      "thana": "NarailSadar"
+    },
+    {
+      "dist_code": "43",
+      "dist_name": "Narayanganj",
+      "thana_code": "368",
+      "thana": "Narayanganj Sadar"
+    },
+    {
+      "dist_code": "49",
+      "dist_name": "Shariatpur",
+      "thana_code": "403",
+      "thana": "Naria"
+    },
+    {
+      "dist_code": "42",
+      "dist_name": "Narsingdi",
+      "thana_code": "362",
+      "thana": "Narsingdi Sadar"
+    },
+    {
+      "dist_code": "54",
+      "dist_name": "Brahmanbaria",
+      "thana_code": "450",
+      "thana": "Nasirnagar"
+    },
+    {
+      "dist_code": "12",
+      "dist_name": "Natore",
+      "thana_code": "92",
+      "thana": "Natore Sadar"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "332",
+      "thana": "Nawabganj"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "22",
+      "thana": "Nawabganj"
+    },
+    {
+      "dist_code": "13",
+      "dist_name": "Chapai Nawabganj",
+      "thana_code": "97",
+      "thana": "Nawabganj Sadar"
+    },
+    {
+      "dist_code": "27",
+      "dist_name": "Pirojpur",
+      "thana_code": "196",
+      "thana": "Nazirpur"
+    },
+    {
+      "dist_code": "27",
+      "dist_name": "Pirojpur",
+      "thana_code": "197",
+      "thana": "Nesarabad (Swarupkati)"
+    },
+    {
+      "dist_code": "33",
+      "dist_name": "Netrokona",
+      "thana_code": "241",
+      "thana": "Netrokona Sadar"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "331",
+      "thana": "New Market"
+    },
+    {
+      "dist_code": "11",
+      "dist_name": "Naogaon",
+      "thana_code": "83",
+      "thana": "Niamatpur"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "289",
+      "thana": "Nikli"
+    },
+    {
+      "dist_code": "4",
+      "dist_name": "Nilphamari",
+      "thana_code": "28",
+      "thana": "Nilphamari Sadar"
+    },
+    {
+      "dist_code": "58",
+      "dist_name": "Noakhali",
+      "thana_code": "486",
+      "thana": "Noakhali Sadar (Sudharam)"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "568",
+      "thana": "Osmaninagar"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "107",
+      "thana": "Paba"
+    },
+    {
+      "dist_code": "16",
+      "dist_name": "Pabna",
+      "thana_code": "126",
+      "thana": "Pabna Sadar"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "513",
+      "thana": "Pahartali"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "179",
+      "thana": "Paikgachha"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "290",
+      "thana": "Pakundia"
+    },
+    {
+      "dist_code": "42",
+      "dist_name": "Narsingdi",
+      "thana_code": "363",
+      "thana": "Palash"
+    },
+    {
+      "dist_code": "8",
+      "dist_name": "Gaibandha",
+      "thana_code": "56",
+      "thana": "Palashbari"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "333",
+      "thana": "Pallabi"
+    },
+    {
+      "dist_code": "49",
+      "dist_name": "Shariatpur",
+      "thana_code": "404",
+      "thana": "Palong(Sadar)"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "334",
+      "thana": "Paltan Model"
+    },
+    {
+      "dist_code": "1",
+      "dist_name": "Panchagarh",
+      "thana_code": "4",
+      "thana": "Panchagarh Sadar"
+    },
+    {
+      "dist_code": "9",
+      "dist_name": "Joypurhat",
+      "thana_code": "64",
+      "thana": "Panchbibi"
+    },
+    {
+      "dist_code": "62",
+      "dist_name": "Khagrachhari",
+      "thana_code": "535",
+      "thana": "Panchhari"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "514",
+      "thana": "Panchlaish"
+    },
+    {
+      "dist_code": "46",
+      "dist_name": "Rajbari",
+      "thana_code": "389",
+      "thana": "Pangsha"
+    },
+    {
+      "dist_code": "3",
+      "dist_name": "Dinajpur",
+      "thana_code": "23",
+      "thana": "Parbatipur"
+    },
+    {
+      "dist_code": "59",
+      "dist_name": "Feni",
+      "thana_code": "494",
+      "thana": "Parshuram"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "560",
+      "thana": "Patenga"
+    },
+    {
+      "dist_code": "5",
+      "dist_name": "Lalmonirhat",
+      "thana_code": "34",
+      "thana": "Patgram"
+    },
+    {
+      "dist_code": "32",
+      "dist_name": "Barguna",
+      "thana_code": "232",
+      "thana": "Patharghata"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "515",
+      "thana": "Patiya"
+    },
+    {
+      "dist_code": "11",
+      "dist_name": "Naogaon",
+      "thana_code": "84",
+      "thana": "Patnitala"
+    },
+    {
+      "dist_code": "31",
+      "dist_name": "Patuakhali",
+      "thana_code": "227",
+      "thana": "Patuakhali Sadar"
+    },
+    {
+      "dist_code": "61",
+      "dist_name": "Cox`s Bazar",
+      "thana_code": "525",
+      "thana": "Pekua"
+    },
+    {
+      "dist_code": "7",
+      "dist_name": "Kurigram",
+      "thana_code": "48",
+      "thana": "Phulbari"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "253",
+      "thana": "Phulpur"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "180",
+      "thana": "Phultala"
+    },
+    {
+      "dist_code": "6",
+      "dist_name": "Rangpur",
+      "thana_code": "39",
+      "thana": "Pirgachha"
+    },
+    {
+      "dist_code": "6",
+      "dist_name": "Rangpur",
+      "thana_code": "40",
+      "thana": "Pirganj"
+    },
+    {
+      "dist_code": "2",
+      "dist_name": "Thakurgaon",
+      "thana_code": "8",
+      "thana": "Pirganj"
+    },
+    {
+      "dist_code": "27",
+      "dist_name": "Pirojpur",
+      "thana_code": "198",
+      "thana": "Pirojpur Sadar"
+    },
+    {
+      "dist_code": "11",
+      "dist_name": "Naogaon",
+      "thana_code": "85",
+      "thana": "Porsha"
+    },
+    {
+      "dist_code": "33",
+      "dist_name": "Netrokona",
+      "thana_code": "242",
+      "thana": "Purbadhala"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "108",
+      "thana": "Puthia"
+    },
+    {
+      "dist_code": "57",
+      "dist_name": "Lakshmipur",
+      "thana_code": "478",
+      "thana": "Raipur"
+    },
+    {
+      "dist_code": "28",
+      "dist_name": "Jhalakathi",
+      "thana_code": "203",
+      "thana": "Rajapur"
+    },
+    {
+      "dist_code": "7",
+      "dist_name": "Kurigram",
+      "thana_code": "49",
+      "thana": "Rajarhat"
+    },
+    {
+      "dist_code": "63",
+      "dist_name": "Rangamati",
+      "thana_code": "545",
+      "thana": "Rajasthali"
+    },
+    {
+      "dist_code": "46",
+      "dist_name": "Rajbari",
+      "thana_code": "390",
+      "thana": "Rajbari Sadar"
+    },
+    {
+      "dist_code": "7",
+      "dist_name": "Kurigram",
+      "thana_code": "50",
+      "thana": "Rajibpur"
+    },
+    {
+      "dist_code": "52",
+      "dist_name": "Moulvibazar",
+      "thana_code": "434",
+      "thana": "Rajnagar"
+    },
+    {
+      "dist_code": "48",
+      "dist_name": "Madaripur",
+      "thana_code": "398",
+      "thana": "Rajoir"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "109",
+      "thana": "Rajpara"
+    },
+    {
+      "dist_code": "57",
+      "dist_name": "Lakshmipur",
+      "thana_code": "479",
+      "thana": "Ramganj"
+    },
+    {
+      "dist_code": "62",
+      "dist_name": "Khagrachhari",
+      "thana_code": "536",
+      "thana": "Ramgarh"
+    },
+    {
+      "dist_code": "57",
+      "dist_name": "Lakshmipur",
+      "thana_code": "480",
+      "thana": "Ramgati"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "335",
+      "thana": "Ramna Model"
+    },
+    {
+      "dist_code": "26",
+      "dist_name": "Bagerhat",
+      "thana_code": "191",
+      "thana": "Rampal"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "336",
+      "thana": "Rampura"
+    },
+    {
+      "dist_code": "61",
+      "dist_name": "Cox`s Bazar",
+      "thana_code": "526",
+      "thana": "Ramu"
+    },
+    {
+      "dist_code": "31",
+      "dist_name": "Patuakhali",
+      "thana_code": "557",
+      "thana": "Rangabali"
+    },
+    {
+      "dist_code": "63",
+      "dist_name": "Rangamati",
+      "thana_code": "546",
+      "thana": "Rangamati Sadar"
+    },
+    {
+      "dist_code": "6",
+      "dist_name": "Rangpur",
+      "thana_code": "41",
+      "thana": "Rangpur Sadar"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "516",
+      "thana": "Rangunia"
+    },
+    {
+      "dist_code": "11",
+      "dist_name": "Naogaon",
+      "thana_code": "86",
+      "thana": "Raninagar"
+    },
+    {
+      "dist_code": "2",
+      "dist_name": "Thakurgaon",
+      "thana_code": "9",
+      "thana": "Ranisankail"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "517",
+      "thana": "Raozan"
+    },
+    {
+      "dist_code": "64",
+      "dist_name": "Bandarban",
+      "thana_code": "551",
+      "thana": "Rowangchhari"
+    },
+    {
+      "dist_code": "7",
+      "dist_name": "Kurigram",
+      "thana_code": "51",
+      "thana": "Rowmari"
+    },
+    {
+      "dist_code": "15",
+      "dist_name": "Sirajganj",
+      "thana_code": "115",
+      "thana": "Royganj"
+    },
+    {
+      "dist_code": "42",
+      "dist_name": "Narsingdi",
+      "thana_code": "364",
+      "thana": "Roypura"
+    },
+    {
+      "dist_code": "64",
+      "dist_name": "Bandarban",
+      "thana_code": "552",
+      "thana": "Ruma"
+    },
+    {
+      "dist_code": "43",
+      "dist_name": "Narayanganj",
+      "thana_code": "369",
+      "thana": "Rupganj"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "337",
+      "thana": "Rupnagar"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "181",
+      "thana": "Rupsa"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "338",
+      "thana": "Sabujbhag"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "563",
+      "thana": "Sadarghat"
+    },
+    {
+      "dist_code": "45",
+      "dist_name": "Faridpur",
+      "thana_code": "384",
+      "thana": "Sadarpur"
+    },
+    {
+      "dist_code": "8",
+      "dist_name": "Gaibandha",
+      "thana_code": "57",
+      "thana": "Sadullapur"
+    },
+    {
+      "dist_code": "8",
+      "dist_name": "Gaibandha",
+      "thana_code": "58",
+      "thana": "Saghatta"
+    },
+    {
+      "dist_code": "4",
+      "dist_name": "Nilphamari",
+      "thana_code": "29",
+      "thana": "Saidpur"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "277",
+      "thana": "Sakhipur"
+    },
+    {
+      "dist_code": "45",
+      "dist_name": "Faridpur",
+      "thana_code": "385",
+      "thana": "Saltha"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "518",
+      "thana": "Sandwip"
+    },
+    {
+      "dist_code": "16",
+      "dist_name": "Pabna",
+      "thana_code": "127",
+      "thana": "Santhia"
+    },
+    {
+      "dist_code": "11",
+      "dist_name": "Naogaon",
+      "thana_code": "87",
+      "thana": "Sapahar"
+    },
+    {
+      "dist_code": "54",
+      "dist_name": "Brahmanbaria",
+      "thana_code": "451",
+      "thana": "Sarail"
+    },
+    {
+      "dist_code": "26",
+      "dist_name": "Bagerhat",
+      "thana_code": "192",
+      "thana": "Sarankhola"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "72",
+      "thana": "Sariakandi"
+    },
+    {
+      "dist_code": "36",
+      "dist_name": "Jamalpur",
+      "thana_code": "266",
+      "thana": "Sarishabari"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "519",
+      "thana": "Satkania"
+    },
+    {
+      "dist_code": "24",
+      "dist_name": "Satkhira",
+      "thana_code": "167",
+      "thana": "Satkhira Sadar"
+    },
+    {
+      "dist_code": "39",
+      "dist_name": "Manikganj",
+      "thana_code": "296",
+      "thana": "Saturia"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "341",
+      "thana": "Savar"
+    },
+    {
+      "dist_code": "58",
+      "dist_name": "Noakhali",
+      "thana_code": "487",
+      "thana": "Senbagh"
+    },
+    {
+      "dist_code": "44",
+      "dist_name": "Munshiganj",
+      "thana_code": "374",
+      "thana": "Serajdikhan"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "339",
+      "thana": "Shah Ali"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "340",
+      "thana": "Shahbag"
+    },
+    {
+      "dist_code": "15",
+      "dist_name": "Sirajganj",
+      "thana_code": "116",
+      "thana": "Shahjadpur"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "342",
+      "thana": "Shahjahanpur"
+    },
+    {
+      "dist_code": "56",
+      "dist_name": "Chandpur",
+      "thana_code": "474",
+      "thana": "Shahrasti"
+    },
+    {
+      "dist_code": "20",
+      "dist_name": "Jhenaidah",
+      "thana_code": "147",
+      "thana": "Shailkupa"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "73",
+      "thana": "Shajhanpur"
+    },
+    {
+      "dist_code": "21",
+      "dist_name": "Magura",
+      "thana_code": "150",
+      "thana": "Shalikha"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "414",
+      "thana": "Shalla"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "408",
+      "thana": "Shantiganj/ Dakshin Sunamganj"
+    },
+    {
+      "dist_code": "23",
+      "dist_name": "Jashore",
+      "thana_code": "162",
+      "thana": "Sharsha"
+    },
+    {
+      "dist_code": "53",
+      "dist_name": "Habiganj",
+      "thana_code": "555",
+      "thana": "Shayestaganj"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "343",
+      "thana": "Sher e Bangla Nagar"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "74",
+      "thana": "Sherpur"
+    },
+    {
+      "dist_code": "35",
+      "dist_name": "Sherpur",
+      "thana_code": "258",
+      "thana": "Sherpur Sadar"
+    },
+    {
+      "dist_code": "39",
+      "dist_name": "Manikganj",
+      "thana_code": "297",
+      "thana": "Shibalaya"
+    },
+    {
+      "dist_code": "48",
+      "dist_name": "Madaripur",
+      "thana_code": "399",
+      "thana": "Shibchar"
+    },
+    {
+      "dist_code": "13",
+      "dist_name": "Chapai Nawabganj",
+      "thana_code": "98",
+      "thana": "Shibganj"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "75",
+      "thana": "Shibganj"
+    },
+    {
+      "dist_code": "42",
+      "dist_name": "Narsingdi",
+      "thana_code": "365",
+      "thana": "Shibpur"
+    },
+    {
+      "dist_code": "24",
+      "dist_name": "Satkhira",
+      "thana_code": "168",
+      "thana": "Shyamnagar"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "344",
+      "thana": "Shyampur"
+    },
+    {
+      "dist_code": "43",
+      "dist_name": "Narayanganj",
+      "thana_code": "559",
+      "thana": "Siddirganj"
+    },
+    {
+      "dist_code": "39",
+      "dist_name": "Manikganj",
+      "thana_code": "298",
+      "thana": "Singair"
+    },
+    {
+      "dist_code": "12",
+      "dist_name": "Natore",
+      "thana_code": "93",
+      "thana": "Singra"
+    },
+    {
+      "dist_code": "15",
+      "dist_name": "Sirajganj",
+      "thana_code": "117",
+      "thana": "Sirajganj Sadar"
+    },
+    {
+      "dist_code": "60",
+      "dist_name": "Chattogram",
+      "thana_code": "520",
+      "thana": "Sitakunda"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "182",
+      "thana": "Sonadanga"
+    },
+    {
+      "dist_code": "59",
+      "dist_name": "Feni",
+      "thana_code": "495",
+      "thana": "Sonagazi"
+    },
+    {
+      "dist_code": "58",
+      "dist_name": "Noakhali",
+      "thana_code": "488",
+      "thana": "Sonaimuri"
+    },
+    {
+      "dist_code": "43",
+      "dist_name": "Narayanganj",
+      "thana_code": "370",
+      "thana": "Sonargaon"
+    },
+    {
+      "dist_code": "10",
+      "dist_name": "Bogura",
+      "thana_code": "76",
+      "thana": "Sonatola"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "558",
+      "thana": "South Keraniganj"
+    },
+    {
+      "dist_code": "35",
+      "dist_name": "Sherpur",
+      "thana_code": "259",
+      "thana": "Sreebardi"
+    },
+    {
+      "dist_code": "52",
+      "dist_name": "Moulvibazar",
+      "thana_code": "435",
+      "thana": "Sreemangal"
+    },
+    {
+      "dist_code": "44",
+      "dist_name": "Munshiganj",
+      "thana_code": "375",
+      "thana": "Sreenagar"
+    },
+    {
+      "dist_code": "21",
+      "dist_name": "Magura",
+      "thana_code": "151",
+      "thana": "Sreepur"
+    },
+    {
+      "dist_code": "41",
+      "dist_name": "Gazipur",
+      "thana_code": "358",
+      "thana": "Sreepur"
+    },
+    {
+      "dist_code": "58",
+      "dist_name": "Noakhali",
+      "thana_code": "489",
+      "thana": "Subornachhar"
+    },
+    {
+      "dist_code": "16",
+      "dist_name": "Pabna",
+      "thana_code": "128",
+      "thana": "Sujanagar"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "415",
+      "thana": "Sunamganj Sadar"
+    },
+    {
+      "dist_code": "8",
+      "dist_name": "Gaibandha",
+      "thana_code": "59",
+      "thana": "Sundarganj"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "345",
+      "thana": "Sutrapur"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "426",
+      "thana": "Sylhet Sadar"
+    },
+    {
+      "dist_code": "50",
+      "dist_name": "Sunamganj",
+      "thana_code": "416",
+      "thana": "Tahirpur"
+    },
+    {
+      "dist_code": "24",
+      "dist_name": "Satkhira",
+      "thana_code": "169",
+      "thana": "Tala"
+    },
+    {
+      "dist_code": "32",
+      "dist_name": "Barguna",
+      "thana_code": "567",
+      "thana": "TalToli"
+    },
+    {
+      "dist_code": "37",
+      "dist_name": "Tangail",
+      "thana_code": "278",
+      "thana": "Tangail Sadar"
+    },
+    {
+      "dist_code": "14",
+      "dist_name": "Rajshahi",
+      "thana_code": "110",
+      "thana": "Tanore"
+    },
+    {
+      "dist_code": "6",
+      "dist_name": "Rangpur",
+      "thana_code": "42",
+      "thana": "Taraganj"
+    },
+    {
+      "dist_code": "38",
+      "dist_name": "Kishoreganj",
+      "thana_code": "291",
+      "thana": "Tarail"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "554",
+      "thana": "Tarakanda"
+    },
+    {
+      "dist_code": "15",
+      "dist_name": "Sirajganj",
+      "thana_code": "118",
+      "thana": "Tarash"
+    },
+    {
+      "dist_code": "30",
+      "dist_name": "Bhola",
+      "thana_code": "220",
+      "thana": "Tazumuddin"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "346",
+      "thana": "Tejgaon"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "347",
+      "thana": "Tejgaon Industrial"
+    },
+    {
+      "dist_code": "61",
+      "dist_name": "Cox`s Bazar",
+      "thana_code": "527",
+      "thana": "Teknaf"
+    },
+    {
+      "dist_code": "1",
+      "dist_name": "Panchagarh",
+      "thana_code": "5",
+      "thana": "Tentulia"
+    },
+    {
+      "dist_code": "25",
+      "dist_name": "Khulna",
+      "thana_code": "183",
+      "thana": "Terokhada"
+    },
+    {
+      "dist_code": "2",
+      "dist_name": "Thakurgaon",
+      "thana_code": "10",
+      "thana": "Thakurgaon Sadar"
+    },
+    {
+      "dist_code": "64",
+      "dist_name": "Bandarban",
+      "thana_code": "553",
+      "thana": "Thanchi"
+    },
+    {
+      "dist_code": "55",
+      "dist_name": "Cumilla",
+      "thana_code": "467",
+      "thana": "Titas"
+    },
+    {
+      "dist_code": "41",
+      "dist_name": "Gazipur",
+      "thana_code": "359",
+      "thana": "Tongi"
+    },
+    {
+      "dist_code": "44",
+      "dist_name": "Munshiganj",
+      "thana_code": "376",
+      "thana": "Tongibari"
+    },
+    {
+      "dist_code": "34",
+      "dist_name": "Mymensingh",
+      "thana_code": "254",
+      "thana": "Trishal"
+    },
+    {
+      "dist_code": "47",
+      "dist_name": "Gopalganj",
+      "thana_code": "395",
+      "thana": "Tungi Para"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "348",
+      "thana": "Turag"
+    },
+    {
+      "dist_code": "61",
+      "dist_name": "Cox`s Bazar",
+      "thana_code": "528",
+      "thana": "Ukhia"
+    },
+    {
+      "dist_code": "7",
+      "dist_name": "Kurigram",
+      "thana_code": "52",
+      "thana": "Ulipur"
+    },
+    {
+      "dist_code": "15",
+      "dist_name": "Sirajganj",
+      "thana_code": "119",
+      "thana": "Ullah Para"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "349",
+      "thana": "Uttar Khan"
+    },
+    {
+      "dist_code": "56",
+      "dist_name": "Chandpur",
+      "thana_code": "475",
+      "thana": "Uttar Matlab"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "350",
+      "thana": "Uttara East"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "351",
+      "thana": "Uttara West"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "352",
+      "thana": "Vatara"
+    },
+    {
+      "dist_code": "40",
+      "dist_name": "Dhaka",
+      "thana_code": "353",
+      "thana": "Wari"
+    },
+    {
+      "dist_code": "29",
+      "dist_name": "Barishal",
+      "thana_code": "213",
+      "thana": "Wazirpur"
+    },
+    {
+      "dist_code": "51",
+      "dist_name": "Sylhet",
+      "thana_code": "428",
+      "thana": "Zakiganj"
+    },
+    {
+      "dist_code": "49",
+      "dist_name": "Shariatpur",
+      "thana_code": "405",
+      "thana": "Zanjira"
+    }
+  ]
+}

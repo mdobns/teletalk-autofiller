@@ -1,0 +1,3056 @@
+{
+  "universities": [
+    {
+      "code": "101",
+      "name": "Ad-din Womens Medical College, Dhaka"
+    },
+    {
+      "code": "102",
+      "name": "Ahsania Mission University of Science and Technology"
+    },
+    {
+      "code": "103",
+      "name": "Ahsanullah University of Science and Technology"
+    },
+    {
+      "code": "104",
+      "name": "America Bangladesh University"
+    },
+    {
+      "code": "105",
+      "name": "American International University Bangladesh"
+    },
+    {
+      "code": "106",
+      "name": "Anwer Khan Modern Medical College, Dhaka"
+    },
+    {
+      "code": "107",
+      "name": "Anwer Khan Modern University"
+    },
+    {
+      "code": "108",
+      "name": "ASA University Bangladesh"
+    },
+    {
+      "code": "109",
+      "name": "Asian University for Women"
+    },
+    {
+      "code": "110",
+      "name": "Asian University of Bangladesh"
+    },
+    {
+      "code": "111",
+      "name": "Atish Dipankar University of Science & Technology"
+    },
+    {
+      "code": "115",
+      "name": "Aviation and Aerospace University, Bangladesh (AAUB)"
+    },
+    {
+      "code": "112",
+      "name": "Bandarban University"
+    },
+    {
+      "code": "121",
+      "name": "Bangladesh Agricultural University,Mymensingh"
+    },
+    {
+      "code": "122",
+      "name": "Bangladesh Airlines Training Centre (BATC)"
+    },
+    {
+      "code": "123",
+      "name": "Bangladesh Army International University of Science & Technology(BAIUST) ,Comilla"
+    },
+    {
+      "code": "124",
+      "name": "Bangladesh Army University of Engineering and Technology (BAUET), Qadirabad"
+    },
+    {
+      "code": "125",
+      "name": "Bangladesh Army University of Science and Technology(BAUST), Saidpur"
+    },
+    {
+      "code": "126",
+      "name": "Bangladesh Islami University"
+    },
+    {
+      "code": "117",
+      "name": "Bangladesh Maritime University"
+    },
+    {
+      "code": "127",
+      "name": "Bangladesh Medical College"
+    },
+    {
+      "code": "113",
+      "name": "Bangladesh Medical University"
+    },
+    {
+      "code": "128",
+      "name": "Bangladesh Open University"
+    },
+    {
+      "code": "129",
+      "name": "Bangladesh University"
+    },
+    {
+      "code": "130",
+      "name": "Bangladesh University of Business & Technology (BUBT)"
+    },
+    {
+      "code": "131",
+      "name": "Bangladesh University of Engineering & Technology"
+    },
+    {
+      "code": "132",
+      "name": "Bangladesh University of Health Sciences"
+    },
+    {
+      "code": "133",
+      "name": "Bangladesh University of Professionals"
+    },
+    {
+      "code": "134",
+      "name": "Bangladesh University of Textiles"
+    },
+    {
+      "code": "135",
+      "name": "Barisal University"
+    },
+    {
+      "code": "136",
+      "name": "Barishal Engineering College"
+    },
+    {
+      "code": "137",
+      "name": "Begum Rokeya University, Rangpur"
+    },
+    {
+      "code": "138",
+      "name": "BGC Trust Medical College, Chittagong"
+    },
+    {
+      "code": "139",
+      "name": "BGC Trust University Bangladesh, Chittagong"
+    },
+    {
+      "code": "140",
+      "name": "BGMEA University of Fashion & Technology(BUFT)"
+    },
+    {
+      "code": "141",
+      "name": "BRAC University"
+    },
+    {
+      "code": "142",
+      "name": "Britannia University"
+    },
+    {
+      "code": "143",
+      "name": "Canadian University of Bangladesh"
+    },
+    {
+      "code": "144",
+      "name": "CCN University of Science & Technology"
+    },
+    {
+      "code": "145",
+      "name": "Central Medical College, Comilla"
+    },
+    {
+      "code": "146",
+      "name": "Central University of Science and Technology"
+    },
+    {
+      "code": "147",
+      "name": "Central Women's University"
+    },
+    {
+      "code": "148",
+      "name": "Chandpur Science and Technology University"
+    },
+    {
+      "code": "149",
+      "name": "Chittagong Independent University"
+    },
+    {
+      "code": "150",
+      "name": "Chittagong Medical College"
+    },
+    {
+      "code": "151",
+      "name": "Chittagong Medical University"
+    },
+    {
+      "code": "152",
+      "name": "Chittagong University of Engineering & Technology"
+    },
+    {
+      "code": "153",
+      "name": "Chittagong Veterinary and Animal Sciences University"
+    },
+    {
+      "code": "154",
+      "name": "Chottagram Ma-O-Shishu Hospital Medical College"
+    },
+    {
+      "code": "155",
+      "name": "City University"
+    },
+    {
+      "code": "156",
+      "name": "Comilla Medical College"
+    },
+    {
+      "code": "157",
+      "name": "Comilla University"
+    },
+    {
+      "code": "158",
+      "name": "Community Based Medical College (cbmc), Mymensingh"
+    },
+    {
+      "code": "159",
+      "name": "Community Medical College, Dhaka"
+    },
+    {
+      "code": "160",
+      "name": "Cox's Bazar International University"
+    },
+    {
+      "code": "161",
+      "name": "Cox's Bazar Medical College"
+    },
+    {
+      "code": "162",
+      "name": "Daffodil International University"
+    },
+    {
+      "code": "163",
+      "name": "Darul Ihsan University"
+    },
+    {
+      "code": "164",
+      "name": "Delta Medical College, Dhaka"
+    },
+    {
+      "code": "165",
+      "name": "Dhaka International University"
+    },
+    {
+      "code": "166",
+      "name": "Dhaka Medical College"
+    },
+    {
+      "code": "167",
+      "name": "Dhaka National Medical College"
+    },
+    {
+      "code": "168",
+      "name": "Dhaka University"
+    },
+    {
+      "code": "169",
+      "name": "Dhaka University of Engineering & Technology"
+    },
+    {
+      "code": "170",
+      "name": "Dinajpur Medical College"
+    },
+    {
+      "code": "171",
+      "name": "Durra Samad Rahman Red Crescent Women's Medical College, Sylhet"
+    },
+    {
+      "code": "172",
+      "name": "East Delta University , Chittagong"
+    },
+    {
+      "code": "173",
+      "name": "East West University"
+    },
+    {
+      "code": "174",
+      "name": "Eastern Medical College, Comilla"
+    },
+    {
+      "code": "175",
+      "name": "Eastern University"
+    },
+    {
+      "code": "176",
+      "name": "Enam Medical College, Savar, Dhaka"
+    },
+    {
+      "code": "177",
+      "name": "European University of Bangladesh"
+    },
+    {
+      "code": "178",
+      "name": "Exim Bank Agricultural University, Bangladesh"
+    },
+    {
+      "code": "179",
+      "name": "Fareast International University"
+    },
+    {
+      "code": "180",
+      "name": "Faridpur Engineering College"
+    },
+    {
+      "code": "181",
+      "name": "Faridpur Medical College"
+    },
+    {
+      "code": "182",
+      "name": "Feni Medical College,Feni"
+    },
+    {
+      "code": "183",
+      "name": "Feni University"
+    },
+    {
+      "code": "184",
+      "name": "First Capital University of Bangladesh"
+    },
+    {
+      "code": "114",
+      "name": "Gazipur Agricultural University"
+    },
+    {
+      "code": "116",
+      "name": "Gazipur Digital University"
+    },
+    {
+      "code": "185",
+      "name": "German University Bangladesh"
+    },
+    {
+      "code": "186",
+      "name": "Global University Bangladesh"
+    },
+    {
+      "code": "187",
+      "name": "Gono Bishwabidyalay, Savar, Dhaka"
+    },
+    {
+      "code": "118",
+      "name": "Gopalganj Science and Technology University"
+    },
+    {
+      "code": "188",
+      "name": "Green Life Medical College, Dhaka"
+    },
+    {
+      "code": "189",
+      "name": "Green University of Bangladesh"
+    },
+    {
+      "code": "190",
+      "name": "Hajee Mohammad Danesh Science & Technology University"
+    },
+    {
+      "code": "191",
+      "name": "Hamdard University Bangladesh"
+    },
+    {
+      "code": "192",
+      "name": "Hobiganj Agricultural University"
+    },
+    {
+      "code": "193",
+      "name": "Holy Family Red Crescent Medical College, Dhaka"
+    },
+    {
+      "code": "194",
+      "name": "IBAIS University"
+    },
+    {
+      "code": "195",
+      "name": "Ibn Sina Medical College, Dhaka"
+    },
+    {
+      "code": "196",
+      "name": "Ibrahim Medical College, Dhaka"
+    },
+    {
+      "code": "197",
+      "name": "Independent University, Bangladesh"
+    },
+    {
+      "code": "198",
+      "name": "International Islamic University, Chittagong"
+    },
+    {
+      "code": "199",
+      "name": "International Medical College, Gazipur"
+    },
+    {
+      "code": "200",
+      "name": "International Standard University"
+    },
+    {
+      "code": "201",
+      "name": "International University of Business Agriculture & Technology"
+    },
+    {
+      "code": "202",
+      "name": "Ishakha International University, Bangladesh"
+    },
+    {
+      "code": "203",
+      "name": "Islami Bank Medical College, Rajshahi"
+    },
+    {
+      "code": "204",
+      "name": "Islamic Arabic University"
+    },
+    {
+      "code": "205",
+      "name": "Islamic University"
+    },
+    {
+      "code": "206",
+      "name": "Islamic University of Technology"
+    },
+    {
+      "code": "207",
+      "name": "Islamic University of Technology, Gazipur"
+    },
+    {
+      "code": "208",
+      "name": "Islamic University, Bangladesh"
+    },
+    {
+      "code": "209",
+      "name": "Islamic University, Kushtia"
+    },
+    {
+      "code": "210",
+      "name": "Jagannath University"
+    },
+    {
+      "code": "211",
+      "name": "Jahangirnagar University"
+    },
+    {
+      "code": "212",
+      "name": "Jahurul Islam Medical College, Kishoregonj"
+    },
+    {
+      "code": "213",
+      "name": "Jalalabad Ragib-Rabeya Medical College, Sylhet"
+    },
+    {
+      "code": "120",
+      "name": "Jamalpur Science and Technology University"
+    },
+    {
+      "code": "214",
+      "name": "Jatiya Kabi Kazi Nazrul Islam University"
+    },
+    {
+      "code": "215",
+      "name": "Jessore Medical College"
+    },
+    {
+      "code": "216",
+      "name": "Jessore Science & Technology University"
+    },
+    {
+      "code": "217",
+      "name": "Jessore University of Science & Technology"
+    },
+    {
+      "code": "218",
+      "name": "Khawja Yunus Ali Medical College, Sirajganj"
+    },
+    {
+      "code": "219",
+      "name": "Khulna Agricultural University"
+    },
+    {
+      "code": "220",
+      "name": "Khulna Khan Bahadur Ahsanullah University"
+    },
+    {
+      "code": "221",
+      "name": "Khulna Medical College"
+    },
+    {
+      "code": "222",
+      "name": "Khulna University"
+    },
+    {
+      "code": "223",
+      "name": "Khulna University of Engineering and Technology"
+    },
+    {
+      "code": "224",
+      "name": "Khwaja Yunus Ali University"
+    },
+    {
+      "code": "119",
+      "name": "Kishoreganj University"
+    },
+    {
+      "code": "225",
+      "name": "Kumudini Medical College, Tangail"
+    },
+    {
+      "code": "226",
+      "name": "Kushtia Medical College"
+    },
+    {
+      "code": "227",
+      "name": "Labaid Medical College, Dhanmondi, Dhaka"
+    },
+    {
+      "code": "228",
+      "name": "Leading University, Sylhet"
+    },
+    {
+      "code": "229",
+      "name": "MAG Osmani Medical College"
+    },
+    {
+      "code": "230",
+      "name": "Manarat International University"
+    },
+    {
+      "code": "231",
+      "name": "Maulana Bhasani Medical College"
+    },
+    {
+      "code": "232",
+      "name": "Mawlana Bhashani Science & Technology University"
+    },
+    {
+      "code": "233",
+      "name": "Medical College for Women and Hospital, Dhaka"
+    },
+    {
+      "code": "234",
+      "name": "Metropolitan University, Sylhet"
+    },
+    {
+      "code": "235",
+      "name": "Microland University of Science and Technology"
+    },
+    {
+      "code": "236",
+      "name": "Military Institute of Science and Technology (MIST)"
+    },
+    {
+      "code": "237",
+      "name": "Mymensingh Engineering College"
+    },
+    {
+      "code": "238",
+      "name": "Mymensingh Medical College"
+    },
+    {
+      "code": "239",
+      "name": "N.P.I University of Bangladesh"
+    },
+    {
+      "code": "240",
+      "name": "National University"
+    },
+    {
+      "code": "241",
+      "name": "Nightingale Medical College, Dhaka"
+    },
+    {
+      "code": "242",
+      "name": "Noakhali Medical College"
+    },
+    {
+      "code": "243",
+      "name": "Noakhali Science & Technology University"
+    },
+    {
+      "code": "244",
+      "name": "North Bengal International University"
+    },
+    {
+      "code": "245",
+      "name": "North Bengal Medical College, Sirajganj"
+    },
+    {
+      "code": "246",
+      "name": "North East Medical College, Sylhet"
+    },
+    {
+      "code": "247",
+      "name": "North East University Bangladesh"
+    },
+    {
+      "code": "248",
+      "name": "North South University"
+    },
+    {
+      "code": "249",
+      "name": "North Western University"
+    },
+    {
+      "code": "250",
+      "name": "Northern International Medical College, Dhaka"
+    },
+    {
+      "code": "251",
+      "name": "Northern Private Medical College, Rangpur"
+    },
+    {
+      "code": "252",
+      "name": "Northern University Bangladesh"
+    },
+    {
+      "code": "253",
+      "name": "Northern University of Business & Technology, Khulna"
+    },
+    {
+      "code": "254",
+      "name": "Notre Dame University Bangladesh"
+    },
+    {
+      "code": "255",
+      "name": "Pabna Medical College"
+    },
+    {
+      "code": "256",
+      "name": "Pabna University of Science and Technology"
+    },
+    {
+      "code": "257",
+      "name": "Patuakhali Science And Technology University"
+    },
+    {
+      "code": "258",
+      "name": "Popular Medical College & Hospital, Dhaka"
+    },
+    {
+      "code": "259",
+      "name": "Port City International University"
+    },
+    {
+      "code": "260",
+      "name": "Premier University, Chittagong"
+    },
+    {
+      "code": "261",
+      "name": "Presidency University"
+    },
+    {
+      "code": "262",
+      "name": "Prime Medical College, Rangpur"
+    },
+    {
+      "code": "263",
+      "name": "Prime University"
+    },
+    {
+      "code": "264",
+      "name": "Primeasia University"
+    },
+    {
+      "code": "265",
+      "name": "Pundra University of Science & Technology"
+    },
+    {
+      "code": "266",
+      "name": "Queens University"
+    },
+    {
+      "code": "267",
+      "name": "R.T.M Al-Kabir Technical University"
+    },
+    {
+      "code": "268",
+      "name": "Rabindra Maitree University, Kushtia"
+    },
+    {
+      "code": "269",
+      "name": "Rabindra University, Bangladesh"
+    },
+    {
+      "code": "270",
+      "name": "Rajshahi Medical College"
+    },
+    {
+      "code": "271",
+      "name": "Rajshahi Medical University"
+    },
+    {
+      "code": "272",
+      "name": "Rajshahi Science & Technology University (RSTU), Natore"
+    },
+    {
+      "code": "273",
+      "name": "Rajshahi University"
+    },
+    {
+      "code": "274",
+      "name": "Rajshahi University of Engineering & Technology"
+    },
+    {
+      "code": "275",
+      "name": "Ranada Prasad Shaha University"
+    },
+    {
+      "code": "276",
+      "name": "Rangamati Science and Technology University"
+    },
+    {
+      "code": "277",
+      "name": "Rangpur Community Hospital Medical College"
+    },
+    {
+      "code": "278",
+      "name": "Rangpur Medical College"
+    },
+    {
+      "code": "279",
+      "name": "Rangpur University"
+    },
+    {
+      "code": "280",
+      "name": "Royal University of Dhaka"
+    },
+    {
+      "code": "281",
+      "name": "Rupayan A.K.M Shamsuzzoha University"
+    },
+    {
+      "code": "282",
+      "name": "Sahabuddin Medical College and Hospital"
+    },
+    {
+      "code": "283",
+      "name": "Samaj Vittik Medical College, Mirzanagar, Savar"
+    },
+    {
+      "code": "284",
+      "name": "Satkhira Medical College"
+    },
+    {
+      "code": "285",
+      "name": "Shah Makhdum Management University, Rajshahi"
+    },
+    {
+      "code": "286",
+      "name": "Shahabuddin Medical College, Dhaka"
+    },
+    {
+      "code": "287",
+      "name": "Shaheed Nazrul Islam Medical College"
+    },
+    {
+      "code": "288",
+      "name": "Shaheed Suhrawardy Medical College"
+    },
+    {
+      "code": "289",
+      "name": "Shaheed Ziaur Rahman Medical College"
+    },
+    {
+      "code": "290",
+      "name": "Shahjalal University of Science & Technology"
+    },
+    {
+      "code": "291",
+      "name": "Shanto Mariam University of Creative Technology"
+    },
+    {
+      "code": "292",
+      "name": "Sheikh Fazilatunnesa Mujib University"
+    },
+    {
+      "code": "293",
+      "name": "Sheikh Hasina University"
+    },
+    {
+      "code": "294",
+      "name": "Sheikh Sayera Khatun Medical College, Gopalganj"
+    },
+    {
+      "code": "295",
+      "name": "Sher-e-Bangla Agricultural University"
+    },
+    {
+      "code": "296",
+      "name": "Sher-E-Bangla Medical College"
+    },
+    {
+      "code": "297",
+      "name": "Sir Salimullah Medical College"
+    },
+    {
+      "code": "298",
+      "name": "Sonargaon University"
+    },
+    {
+      "code": "299",
+      "name": "South Asian University"
+    },
+    {
+      "code": "300",
+      "name": "Southeast University"
+    },
+    {
+      "code": "301",
+      "name": "Southern Medical College, Chittagong"
+    },
+    {
+      "code": "302",
+      "name": "Southern University Bangladesh"
+    },
+    {
+      "code": "303",
+      "name": "Southern University of Bangladesh, Chittagong"
+    },
+    {
+      "code": "304",
+      "name": "Stamford University, Bangladesh"
+    },
+    {
+      "code": "305",
+      "name": "State University Of Bangladesh"
+    },
+    {
+      "code": "306",
+      "name": "Sylhet Agricultural University"
+    },
+    {
+      "code": "307",
+      "name": "Sylhet Engineering College"
+    },
+    {
+      "code": "308",
+      "name": "Sylhet International University, Sylhet"
+    },
+    {
+      "code": "309",
+      "name": "Sylhet Medical University"
+    },
+    {
+      "code": "310",
+      "name": "Sylhet Women`s Medical College, Sylhet"
+    },
+    {
+      "code": "311",
+      "name": "Tagore University of Creative Arts, Uttara, Dhaka, Bangladesh"
+    },
+    {
+      "code": "312",
+      "name": "Tairunnessa Memorial Medical College, Gazipur"
+    },
+    {
+      "code": "314",
+      "name": "The Millennium University"
+    },
+    {
+      "code": "315",
+      "name": "The Peoples University of Bangladesh"
+    },
+    {
+      "code": "316",
+      "name": "The University of Asia Pacific"
+    },
+    {
+      "code": "317",
+      "name": "Times University, Bangladesh"
+    },
+    {
+      "code": "318",
+      "name": "TMSS Medical College,Bogra"
+    },
+    {
+      "code": "319",
+      "name": "Trust University, Barishal"
+    },
+    {
+      "code": "320",
+      "name": "United International University"
+    },
+    {
+      "code": "321",
+      "name": "University of Asia Pacific"
+    },
+    {
+      "code": "322",
+      "name": "University of Barisal"
+    },
+    {
+      "code": "323",
+      "name": "University of Brahmanbaria"
+    },
+    {
+      "code": "324",
+      "name": "University of Chittagong"
+    },
+    {
+      "code": "325",
+      "name": "University of Creative Technology, Chittagong"
+    },
+    {
+      "code": "326",
+      "name": "University of Development Alternative"
+    },
+    {
+      "code": "327",
+      "name": "University of Dhaka"
+    },
+    {
+      "code": "328",
+      "name": "University of Global Village"
+    },
+    {
+      "code": "329",
+      "name": "University of Information Technology & Sciences"
+    },
+    {
+      "code": "330",
+      "name": "University of Liberal Arts Bangladesh"
+    },
+    {
+      "code": "331",
+      "name": "University of Rajshahi"
+    },
+    {
+      "code": "313",
+      "name": "University of Scholars"
+    },
+    {
+      "code": "332",
+      "name": "University of Science & Technology, Chittagong"
+    },
+    {
+      "code": "333",
+      "name": "University of Skill Enrichment and Technology"
+    },
+    {
+      "code": "334",
+      "name": "University of South Asia"
+    },
+    {
+      "code": "335",
+      "name": "Uttara Adhunik Medical College,Dhaka"
+    },
+    {
+      "code": "336",
+      "name": "Uttara University"
+    },
+    {
+      "code": "337",
+      "name": "Varendra University"
+    },
+    {
+      "code": "338",
+      "name": "Victoria University of Bangladesh"
+    },
+    {
+      "code": "339",
+      "name": "World University of Bangladesh"
+    },
+    {
+      "code": "340",
+      "name": "Z. H. Sikder Women`s Medical College"
+    },
+    {
+      "code": "341",
+      "name": "Z.H Sikder University of Science & Technology"
+    },
+    {
+      "code": "342",
+      "name": "Z.N.R.F. University of Management Sciences"
+    },
+    {
+      "code": "999",
+      "name": "Other"
+    }
+  ],
+  "sscGroups": [
+    {
+      "lookup_type_code": "114",
+      "code": "11",
+      "value": "Agro-Based Food",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "12",
+      "value": "Architectural Drafting with CAD",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "13",
+      "value": "Automotive",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "14",
+      "value": "Building Maintenance",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "3",
+      "value": "Business Studies",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "15",
+      "value": "Ceramic",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "16",
+      "value": "Civil Construction",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "17",
+      "value": "Civil Drafting with CAD",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "18",
+      "value": "Computer and Information Technology",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "19",
+      "value": "Dress Making",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "20",
+      "value": "Dyeing, Printing and Finishing",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "21",
+      "value": "Electrical Maintenance Works",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "22",
+      "value": "Farm Machinery",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "23",
+      "value": "Fish Culture and Breeding",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "24",
+      "value": "Food Processing and Preservation",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "25",
+      "value": "Fruit and Vegetable Cultivation",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "4",
+      "value": "General",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "26",
+      "value": "General Electrical Works",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "27",
+      "value": "General Electronics",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "28",
+      "value": "General Mechanics",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "29",
+      "value": "Glass",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "2",
+      "value": "Humanities",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "33",
+      "value": "Knitting",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "30",
+      "value": "Livestock Rearing and Farming",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "31",
+      "value": "Machine Tools Operation",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "32",
+      "value": "Mechanical Drafting with CAD",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "34",
+      "value": "Patient Care Technique",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "35",
+      "value": "Plumbing and Pipe Fittings",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "36",
+      "value": "Poultry Rearing and Farming",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "37",
+      "value": "Refrigeration and Air Conditioning",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "1",
+      "value": "Science",
+      "type": "G",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "38",
+      "value": "Shrimp Culture and Breeding",
+      "type": "V",
+      "sub_group": "SS"
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "39",
+      "value": "Welding and Fabrication",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "40",
+      "value": "Wood Working",
+      "type": "V",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "114",
+      "code": "99",
+      "value": "Other",
+      "type": "Z",
+      "sub_group": null
+    }
+  ],
+  "hscGroups": [
+    {
+      "lookup_type_code": "115",
+      "code": "12",
+      "value": "Agriculture Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "71",
+      "value": "Agro Machinery",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "13",
+      "value": "Architecture and Interior Design Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "72",
+      "value": "Automobile",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "15",
+      "value": "Automobile Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "73",
+      "value": "Building Construction and Maintenance",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "3",
+      "value": "Business Studies",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "48",
+      "value": "Ceramic Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "21",
+      "value": "Chemical Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "16",
+      "value": "Civil Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "74",
+      "value": "Clothing and Garments Finishing",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "75",
+      "value": "Computer Operation and Maintenance",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "20",
+      "value": "Computer Science & Engineering Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "17",
+      "value": "Computer Science Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "23",
+      "value": "Data Telecommunication and Network Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "93",
+      "value": "Dental",
+      "type": "M",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "76",
+      "value": "Drafting Civil",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "24",
+      "value": "Electrical and Electronics Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "22",
+      "value": "Electrical Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "77",
+      "value": "Electrical Works and Maintenance",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "57",
+      "value": "Electro-Medical Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "78",
+      "value": "Electronic Control and Communication",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "42",
+      "value": "Electronics Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "27",
+      "value": "Environmental Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "46",
+      "value": "Firm Machinery",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "79",
+      "value": "Fish Culture and Breeding",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "85",
+      "value": "Food",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "54",
+      "value": "Food Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "53",
+      "value": "Garments Design and Pattern Making",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "4",
+      "value": "General",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "45",
+      "value": "General Mechanics",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "50",
+      "value": "Glass Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "49",
+      "value": "Graphic Design Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "2",
+      "value": "Humanities",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "84",
+      "value": "Industrial Wood Working",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "18",
+      "value": "Information and Communication Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "31",
+      "value": "Instrumentation & Process Control Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "52",
+      "value": "Jute Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "92",
+      "value": "Laboratory",
+      "type": "M",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "43",
+      "value": "Library Science",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "80",
+      "value": "Machine Tools Operation and Maintenance",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "55",
+      "value": "Marine Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "32",
+      "value": "Mechanical Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "86",
+      "value": "Mechatronics",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "34",
+      "value": "Mechatronics Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "56",
+      "value": "Mining & Mine Survey Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "96",
+      "value": "Pharmacy",
+      "type": "M",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "94",
+      "value": "Physiotherapy",
+      "type": "M",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "81",
+      "value": "Poultry Rearing and Farming",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "36",
+      "value": "Power Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "37",
+      "value": "Printing Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "91",
+      "value": "Radiography",
+      "type": "M",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "95",
+      "value": "Radiotherapy",
+      "type": "M",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "38",
+      "value": "Refrigeration & Air Conditioning Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "82",
+      "value": "Refrigeration and Air-conditioning",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "1",
+      "value": "Science",
+      "type": "G",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "47",
+      "value": "Shipbuilding Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "44",
+      "value": "Survey",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "41",
+      "value": "Telecommunication Technology",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "51",
+      "value": "Textile Engineering",
+      "type": "T",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "83",
+      "value": "Welding and Fabrication",
+      "type": "V",
+      "sub_group": "HS"
+    },
+    {
+      "lookup_type_code": "115",
+      "code": "99",
+      "value": "Other",
+      "type": "Z",
+      "sub_group": null
+    }
+  ],
+  "graSubjects": [
+    {
+      "lookup_type_code": "118",
+      "code": "114",
+      "value": "Computer Science",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "324",
+      "value": "Computer Science",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "185",
+      "value": "Computer Science & Engineering",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "394",
+      "value": "Computer Science & Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "306",
+      "value": "Electrical & Electronics Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "132",
+      "value": "Information and Communication Technology",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "396",
+      "value": "Information and Communication Technology",
+      "type": "E",
+      "sub_group": "GS"
+    }
+  ],
+  "masSubjects": [
+    {
+      "lookup_type_code": "118",
+      "code": "101",
+      "value": "Accounting",
+      "type": "G",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "268",
+      "value": "Accounting and Information Systems",
+      "type": "B",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "328",
+      "value": "Aeronautical Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "226",
+      "value": "Agr.Co-operative & Marketing",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "201",
+      "value": "Agriculture",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "202",
+      "value": "Agriculture Chemistry",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "203",
+      "value": "Agriculture Co-operatives",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "204",
+      "value": "Agriculture Economics",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "205",
+      "value": "Agriculture Engineering",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "221",
+      "value": "Agriculture Extension",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "206",
+      "value": "Agriculture Finance",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "207",
+      "value": "Agriculture Marketing",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "208",
+      "value": "Agriculture Science",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "209",
+      "value": "Agriculture Soil Science",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "225",
+      "value": "Agriculture Statistics",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "220",
+      "value": "Agriculture Water Management",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "223",
+      "value": "Agro Forestry",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "214",
+      "value": "Agronnomy",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "211",
+      "value": "Agronomy & Aquaculture",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "212",
+      "value": "Agronomy & Aquaculture Extension",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "169",
+      "value": "Akaid",
+      "type": "F",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "215",
+      "value": "Anatomology",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "213",
+      "value": "Anatomy & Histology",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "216",
+      "value": "Animal Breeding & Genetic",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "210",
+      "value": "Animal Husbandry",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "218",
+      "value": "Animal Nutrition",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "217",
+      "value": "Animal Science",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "102",
+      "value": "Anthropology",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "103",
+      "value": "Applied Chemistry",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "105",
+      "value": "Applied Mathematics",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "104",
+      "value": "Applied Physics",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "106",
+      "value": "Arabic",
+      "type": "F",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "107",
+      "value": "Archaeology",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "301",
+      "value": "Architecture",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "108",
+      "value": "Bangla",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "109",
+      "value": "Banking",
+      "type": "G",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "267",
+      "value": "Banking and Insurance",
+      "type": "B",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "227",
+      "value": "Bio-Technology",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "110",
+      "value": "Biochemistry",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "111",
+      "value": "Botany",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "112",
+      "value": "Business Administration",
+      "type": "G",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "250",
+      "value": "Business Studies",
+      "type": "A",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "302",
+      "value": "Chemical Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "113",
+      "value": "Chemistry",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "303",
+      "value": "Civil Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "115",
+      "value": "Clinical Psychology",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "183",
+      "value": "Communication Disorders",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "184",
+      "value": "Computer Engineering",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "114",
+      "value": "Computer Science",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "185",
+      "value": "Computer Science & Engineering",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "186",
+      "value": "Computer Science & Information Technology",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "228",
+      "value": "Corp Botany",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "182",
+      "value": "Criminology",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "179",
+      "value": "Criminology & Police Science",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "229",
+      "value": "Dairy Science",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "117",
+      "value": "Development Studies",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "408",
+      "value": "Disaster Science and Management",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "230",
+      "value": "Doc.of Veterinary Science",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "116",
+      "value": "Drama & Music",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "174",
+      "value": "Drawing and Printing",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "118",
+      "value": "Economics",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "119",
+      "value": "Education",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "306",
+      "value": "Electrical & Electronics Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "305",
+      "value": "Electrical Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "307",
+      "value": "Electronic Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "397",
+      "value": "Electronics & Communication Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "400",
+      "value": "Electronics & Telecommunication Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "120",
+      "value": "English",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "327",
+      "value": "Environmental Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "189",
+      "value": "Environmental science",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "414",
+      "value": "Environmental Science and Disaster Management",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "176",
+      "value": "Ethics",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "237",
+      "value": "Farm Power & Machinery",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "239",
+      "value": "Farm Structure",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "171",
+      "value": "Fikha",
+      "type": "F",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "121",
+      "value": "Finance",
+      "type": "G",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "192",
+      "value": "Finance and Banking",
+      "type": "G",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "122",
+      "value": "Fine Arts",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "231",
+      "value": "Fisheries",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "232",
+      "value": "Fisheries & Aquaculture",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "233",
+      "value": "Fisheries Biology",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "234",
+      "value": "Fisheries Management",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "235",
+      "value": "Fisheries Technology",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "123",
+      "value": "Folklore",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "330",
+      "value": "Food and Process Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "238",
+      "value": "Food Tech. & Rural Industry",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "413",
+      "value": "Food Technology and Nutrition Science",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "406",
+      "value": "Food Technology and Nutritional Science",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "177",
+      "value": "Forestry",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "167",
+      "value": "Genetic and Breeding",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "308",
+      "value": "Genetic Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "190",
+      "value": "Genetic Engineering and Biotechnology",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "124",
+      "value": "Geography",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "125",
+      "value": "Geography and Environmental Science",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "188",
+      "value": "Geology/Geology and Mining",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "407",
+      "value": "Glass and Ceramic Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "195",
+      "value": "Government and Politics",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "170",
+      "value": "Graphics",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "128",
+      "value": "Hadith",
+      "type": "F",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "126",
+      "value": "History",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "173",
+      "value": "History of Music",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "127",
+      "value": "Home Economics",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "241",
+      "value": "Horticulture",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "271",
+      "value": "Human Resource Management",
+      "type": "B",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "175",
+      "value": "Industrial Arts",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "309",
+      "value": "Industrial Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "1000",
+      "value": "Industrial Management",
+      "type": "B",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "401",
+      "value": "Information and Communication Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "132",
+      "value": "Information and Communication Technology",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "135",
+      "value": "Information Science and Library Management",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "187",
+      "value": "Information Technology",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "269",
+      "value": "International Business",
+      "type": "B",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "168",
+      "value": "International Law",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "129",
+      "value": "International Relations",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "130",
+      "value": "Islamic History and Culture",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "131",
+      "value": "Islamic Studies",
+      "type": "F",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "136",
+      "value": "Language/Linguistic",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "134",
+      "value": "Law/Jurisprudence",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "310",
+      "value": "Leather Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "242",
+      "value": "Livestock",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "137",
+      "value": "Management",
+      "type": "G",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "266",
+      "value": "Management Information Systems",
+      "type": "B",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "311",
+      "value": "Marine Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "141",
+      "value": "Marine Science",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "138",
+      "value": "Marketing",
+      "type": "G",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "133",
+      "value": "Mass Comm. & Journalism",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "191",
+      "value": "Materials Science & Engineering",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "139",
+      "value": "Mathematics",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "312",
+      "value": "Mechanical Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "1001",
+      "value": "Mechatronics Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "403",
+      "value": "Medical Physics and Biomedical Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "142",
+      "value": "Medical Technology",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "313",
+      "value": "Metallurgical Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "405",
+      "value": "Meteorology",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "140",
+      "value": "Microbiology",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "243",
+      "value": "Microbiology & Hygenic",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "325",
+      "value": "Microwave Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "314",
+      "value": "Mineral Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "315",
+      "value": "Mining Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "172",
+      "value": "Modern Arabic",
+      "type": "F",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "316",
+      "value": "Naval Architecture & Marine Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "411",
+      "value": "Nuclear Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "410",
+      "value": "Nutrition & Food Science",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "409",
+      "value": "Oceanography",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "272",
+      "value": "Organization Strategy and Leadership",
+      "type": "B",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "143",
+      "value": "Pali",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "246",
+      "value": "Paratrology",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "153",
+      "value": "Peace & Conflict",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "144",
+      "value": "Persian",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "412",
+      "value": "Petroleum & Mining Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "154",
+      "value": "Pharmaceutical Chemistry",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "145",
+      "value": "Pharmacy",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "146",
+      "value": "Philosophy",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "317",
+      "value": "Physical Planning",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "147",
+      "value": "Physics",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "245",
+      "value": "Plant Pathology",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "148",
+      "value": "Political Science",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "152",
+      "value": "Population Science",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "196",
+      "value": "Population Science and Human Resource Development (RU)",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "247",
+      "value": "Poultry Science",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "193",
+      "value": "Printing and Publication Studies",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "244",
+      "value": "Production Economics",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "149",
+      "value": "Psychology",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "150",
+      "value": "Public Administration",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "151",
+      "value": "Public Finance",
+      "type": "G",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "318",
+      "value": "Regional Planning",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "248",
+      "value": "Rural Sociology",
+      "type": "A",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "155",
+      "value": "Sanskrit",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "156",
+      "value": "Social Welfare/Social Work",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "194",
+      "value": "Social Works",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "157",
+      "value": "Sociology",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "329",
+      "value": "Software Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "158",
+      "value": "Soil Water and Environment Science",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "159",
+      "value": "Statistics",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "319",
+      "value": "Structural Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "249",
+      "value": "Surgery & Obstate",
+      "type": "A",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "160",
+      "value": "Tafsir",
+      "type": "F",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "323",
+      "value": "Telecommunication Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "180",
+      "value": "Television, Film and Photography",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "320",
+      "value": "Textile Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "270",
+      "value": "Tourism and Hospitality Management",
+      "type": "B",
+      "sub_group": "GB"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "321",
+      "value": "Town Planning",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "322",
+      "value": "Urban & Regional Planning",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "162",
+      "value": "Urban Development",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "161",
+      "value": "Urdu",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "165",
+      "value": "Water & Environment Science",
+      "type": "na",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "398",
+      "value": "Water Resource Engineering",
+      "type": "E",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "181",
+      "value": "Women and Gender Studies",
+      "type": "G",
+      "sub_group": "GSS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "164",
+      "value": "Women Studies",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "163",
+      "value": "World Religion",
+      "type": "G",
+      "sub_group": null
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "166",
+      "value": "Zoology",
+      "type": "G",
+      "sub_group": "GS"
+    },
+    {
+      "lookup_type_code": "118",
+      "code": "999",
+      "value": "Other",
+      "type": "Z",
+      "sub_group": null
+    }
+  ]
+}
