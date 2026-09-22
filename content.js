@@ -25,24 +25,64 @@
   let hasAutofilledOnThisPage = false; // Requirement 1: once clicked, never appears again on this page
   let isSubmittingProgrammatically = false;
 
-  // Sync temporary captured profile from localStorage if any
+  function syncProfileCache(profile) {
+    currentProfile = profile;
+    try {
+      if (profile && profile.personal && profile.personal.name) {
+        localStorage.setItem('bd_job_profile_active', JSON.stringify(profile));
+      } else {
+        localStorage.removeItem('bd_job_profile_active');
+      }
+    } catch (e) {}
+  }
+
+  function getSyncProfile() {
+    if (currentProfile && currentProfile.personal && currentProfile.personal.name) {
+      return currentProfile;
+    }
+    try {
+      const raw = localStorage.getItem('bd_job_profile_active') || localStorage.getItem('bd_job_profile_captured');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.personal && parsed.personal.name) {
+          currentProfile = parsed;
+          return parsed;
+        }
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  // Pre-load profile from synchronous cache if available
   try {
-    const tempSaved = localStorage.getItem('bd_job_profile_captured');
-    if (tempSaved) {
-      const parsed = JSON.parse(tempSaved);
+    const activeSaved = localStorage.getItem('bd_job_profile_active') || localStorage.getItem('bd_job_profile_captured');
+    if (activeSaved) {
+      const parsed = JSON.parse(activeSaved);
       if (parsed && parsed.personal && parsed.personal.name) {
-        chrome.storage.local.set({ profile: parsed });
         currentProfile = parsed;
       }
-      localStorage.removeItem('bd_job_profile_captured');
     }
+  } catch (e) {}
+
+  // Listen for storage changes across tabs/windows
+  try {
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if (namespace === 'local' && changes.profile) {
+        syncProfileCache(changes.profile.newValue || null);
+      }
+    });
   } catch (e) {}
 
   // Initialize
   async function init() {
     try {
       const data = await chrome.storage.local.get(['profile', 'settings']);
-      currentProfile = data.profile || null;
+      if (data.profile && data.profile.personal && data.profile.personal.name) {
+        syncProfileCache(data.profile);
+      } else if (currentProfile) {
+        // If storage was empty but synchronous cache had it, restore storage
+        chrome.storage.local.set({ profile: currentProfile });
+      }
       if (data.settings) currentSettings = { ...currentSettings, ...data.settings };
 
       if (isApplicationPage) {
@@ -537,25 +577,25 @@
 
   // Setup smart submission capture:
   // - Extra fields added: auto-updates silently!
-  // - Existing data changed: shows Accept/Deny popup!
+  // - Existing data changed: stops submit synchronously and shows Accept/Deny popup!
   function setupSmartSubmitCapture() {
     if (!applicationForm) return;
 
-    applicationForm.addEventListener('submit', async (e) => {
+    const submitBtn = document.getElementById('submit') || applicationForm.querySelector('button[type="submit"], input[type="submit"]');
+
+    function handleSubmitCapture(e) {
       if (isSubmittingProgrammatically) return;
 
       const extracted = extractProfileFromForm();
       if (!extracted) return;
 
-      const stored = await chrome.storage.local.get(['profile']);
-      const existing = stored.profile;
+      const existing = getSyncProfile();
 
       // Case 1: First time install / empty profile
       if (!existing || !existing.personal || !existing.personal.name) {
         // Automatically save silently!
-        localStorage.setItem('bd_job_profile_captured', JSON.stringify(extracted));
-        await chrome.storage.local.set({ profile: extracted });
-        currentProfile = extracted;
+        syncProfileCache(extracted);
+        chrome.storage.local.set({ profile: extracted });
         chrome.runtime.sendMessage({ action: 'profileCaptured' });
         console.log('[BD Govt Job Autofill] Initial profile automatically saved:', extracted);
         return; // Form continues normal submission to preview.php!
@@ -569,9 +609,8 @@
         if (added.length > 0) {
           // Requirement 2: Auto-update extra fields silently without popup!
           const merged = deepMergeProfile(existing, extracted);
-          localStorage.setItem('bd_job_profile_captured', JSON.stringify(merged));
-          await chrome.storage.local.set({ profile: merged });
-          currentProfile = merged;
+          syncProfileCache(merged);
+          chrome.storage.local.set({ profile: merged });
           chrome.runtime.sendMessage({ action: 'profileCaptured' });
           console.log('[BD Govt Job Autofill] Extra fields auto-updated silently:', added);
         }
@@ -580,25 +619,26 @@
 
       // Sub-case 2B: Existing saved data is being modified!
       // Requirement 2: Give an Accept or Deny popup!
+      // CRITICAL: Stop submission SYNCHRONOUSLY before any async operations!
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
+      console.log('[BD Govt Job Autofill] Submit intercepted for update review:', { added, changed });
 
       showUpdateModal(existing, extracted, added, changed, async (accepted) => {
         if (accepted) {
           // User accepted updates: merge all changed and added fields
           const updated = deepMergeProfile(existing, extracted);
-          localStorage.setItem('bd_job_profile_captured', JSON.stringify(updated));
+          syncProfileCache(updated);
           await chrome.storage.local.set({ profile: updated });
-          currentProfile = updated;
           chrome.runtime.sendMessage({ action: 'profileCaptured' });
           console.log('[BD Govt Job Autofill] Profile changes accepted and saved:', updated);
         } else {
           // User denied updates: keep existing values, only save any extra added fields
           if (added.length > 0) {
             const preserved = mergeOnlyAddedFields(existing, extracted, added);
-            localStorage.setItem('bd_job_profile_captured', JSON.stringify(preserved));
+            syncProfileCache(preserved);
             await chrome.storage.local.set({ profile: preserved });
-            currentProfile = preserved;
             console.log('[BD Govt Job Autofill] Changes denied, but extra fields merged.');
           } else {
             console.log('[BD Govt Job Autofill] Changes denied, existing profile kept intact.');
@@ -607,9 +647,32 @@
 
         // Programmatically submit the form to continue to preview.php
         isSubmittingProgrammatically = true;
-        HTMLFormElement.prototype.submit.call(applicationForm);
+
+        // Ensure submit button name/value is sent if present
+        if (submitBtn && submitBtn.name) {
+          let btnInput = applicationForm.querySelector(`input[name="${submitBtn.name}"]`);
+          if (!btnInput) {
+            btnInput = document.createElement('input');
+            btnInput.type = 'hidden';
+            btnInput.name = submitBtn.name;
+            btnInput.value = submitBtn.value || 'Submit';
+            applicationForm.appendChild(btnInput);
+          }
+        }
+
+        try {
+          HTMLFormElement.prototype.submit.call(applicationForm);
+        } catch (err) {
+          console.error('[BD Govt Job Autofill] Form submission fallback error:', err);
+          if (submitBtn) submitBtn.click();
+        }
       });
-    }, true);
+    }
+
+    applicationForm.addEventListener('submit', handleSubmitCapture, true);
+    if (submitBtn) {
+      submitBtn.addEventListener('click', handleSubmitCapture, true);
+    }
   }
 
   // Accept / Deny Modal
@@ -914,19 +977,10 @@
     if (setVal('#present_post', pres.post || '')) filledCount++;
     if (setVal('#present_postcode', pres.postcode || '')) filledCount++;
 
-    // --- 4. PERMANENT ADDRESS ---
+    // --- 4. PERMANENT ADDRESS (IF DIFFERENT FROM PRESENT) ---
     const perm = addr.permanent || {};
     const sameCheckbox = document.getElementById('same_as_present');
-    if (addr.same_as_present) {
-      if (sameCheckbox) {
-        sameCheckbox.checked = true;
-        sameCheckbox.setAttribute('checked', 'checked');
-        triggerEvents(sameCheckbox);
-        if (sameCheckbox.onclick) sameCheckbox.onclick();
-        if (window.onOffSameAsBtn) window.onOffSameAsBtn(sameCheckbox);
-        filledCount++;
-      }
-    } else {
+    if (!addr.same_as_present) {
       if (sameCheckbox && sameCheckbox.checked) {
         sameCheckbox.checked = false;
         triggerEvents(sameCheckbox);
@@ -1143,7 +1197,7 @@
       }
     }
 
-    // --- 11. DECLARATION & CAPTCHA FOCUS ---
+    // --- 11. DECLARATION ---
     if (currentSettings.auto_check_agreement !== false) {
       const agreeEl = document.getElementById('agree');
       if (agreeEl && !agreeEl.checked) {
@@ -1153,6 +1207,97 @@
       }
     }
 
+    // --- 12. SAME AS PRESENT ADDRESS (CHECKED AT THE VERY END) ---
+    // Requirement: Check "same as present" after all fields are filled up, else it keeps empty
+    if (addr.same_as_present) {
+      const sameCheckbox = document.getElementById('same_as_present');
+      if (sameCheckbox) {
+        await sleep(150);
+
+        // Ensure present upazila is selected if options finished loading late
+        if (pres.upazila_code || pres.upazila_name) {
+          const upzEl = document.getElementById('present_upazila');
+          if (upzEl && (!upzEl.value || upzEl.selectedIndex <= 0)) {
+            selectOption('#present_upazila', pres.upazila_code || pres.upazila_name);
+          }
+        }
+
+        // Proactively copy all fields from present to permanent to guarantee values are never empty
+        const pairs = [
+          ['#present_careof', '#permanent_careof'],
+          ['#present_village', '#permanent_village'],
+          ['#present_post', '#permanent_post'],
+          ['#present_postcode', '#permanent_postcode']
+        ];
+        for (const [presSel, permSel] of pairs) {
+          const pEl = document.querySelector(presSel);
+          const mEl = document.querySelector(permSel);
+          if (pEl && mEl && pEl.value) {
+            mEl.value = pEl.value;
+            triggerEvents(mEl);
+          }
+        }
+
+        const presDist = document.getElementById('present_district');
+        const permDist = document.getElementById('permanent_district');
+        if (presDist && permDist && presDist.value) {
+          permDist.value = presDist.value;
+          triggerEvents(permDist);
+        }
+
+        const presUpz = document.getElementById('present_upazila');
+        const permUpz = document.getElementById('permanent_upazila');
+        if (presUpz && permUpz && presUpz.value) {
+          if (permUpz.options.length <= 1 && presUpz.options.length > 1) {
+            permUpz.innerHTML = presUpz.innerHTML;
+          }
+          permUpz.value = presUpz.value;
+          triggerEvents(permUpz);
+        }
+
+        // Trigger the checkbox click to invoke Teletalk's native handler
+        if (!sameCheckbox.checked) {
+          sameCheckbox.click();
+        } else {
+          sameCheckbox.checked = true;
+          triggerEvents(sameCheckbox);
+        }
+
+        if (typeof sameCheckbox.onclick === 'function') {
+          try { sameCheckbox.onclick(); } catch (e) {}
+        }
+        if (window.onOffSameAsBtn) {
+          try { window.onOffSameAsBtn(sameCheckbox); } catch (e) {}
+        }
+
+        await sleep(100);
+
+        // Fallback check: if any permanent field was blanked out by Teletalk's handler, restore it
+        for (const [presSel, permSel] of pairs) {
+          const pEl = document.querySelector(presSel);
+          const mEl = document.querySelector(permSel);
+          if (pEl && mEl && !mEl.value && pEl.value) {
+            mEl.value = pEl.value;
+            triggerEvents(mEl);
+          }
+        }
+        if (presDist && permDist && !permDist.value && presDist.value) {
+          permDist.value = presDist.value;
+          triggerEvents(permDist);
+        }
+        if (presUpz && permUpz && !permUpz.value && presUpz.value) {
+          if (permUpz.options.length <= 1 && presUpz.options.length > 1) {
+            permUpz.innerHTML = presUpz.innerHTML;
+          }
+          permUpz.value = presUpz.value;
+          triggerEvents(permUpz);
+        }
+
+        filledCount++;
+      }
+    }
+
+    // --- 13. FOCUS CAPTCHA ---
     if (currentSettings.focus_captcha !== false) {
       const captchaEl = document.getElementById('captcha');
       if (captchaEl) {

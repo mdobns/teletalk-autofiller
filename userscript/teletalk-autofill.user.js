@@ -278,16 +278,14 @@
     if (setVal('#present_post', pres.post || '')) count++;
     if (setVal('#present_postcode', pres.postcode || '')) count++;
 
-    // Permanent Address
+    // Permanent Address (only if different from present)
     const perm = userProfile.address?.permanent || {};
     const sameCheckbox = document.getElementById('same_as_present');
-    if (userProfile.address?.same_as_present && sameCheckbox) {
-      sameCheckbox.checked = true;
-      triggerEvents(sameCheckbox);
-      if (sameCheckbox.onclick) sameCheckbox.onclick();
-      if (window.onOffSameAsBtn) window.onOffSameAsBtn(sameCheckbox);
-      count++;
-    } else if (sameCheckbox) {
+    if (!userProfile.address?.same_as_present && sameCheckbox) {
+      if (sameCheckbox.checked) {
+        sameCheckbox.checked = false;
+        triggerEvents(sameCheckbox);
+      }
       if (setVal('#permanent_careof', perm.careof || '')) count++;
       if (setVal('#permanent_village', perm.village || '')) count++;
       if (perm.district_code || perm.district_name) {
@@ -380,6 +378,93 @@
       agree.checked = true;
       triggerEvents(agree);
       count++;
+    }
+
+    // Same as Present Address (Checked at the very end after all fields are filled)
+    if (userProfile.address?.same_as_present) {
+      const sameCheckbox = document.getElementById('same_as_present');
+      if (sameCheckbox) {
+        await sleep(150);
+
+        const pres = userProfile.address?.present || {};
+        if (pres.upazila_code || pres.upazila_name) {
+          const upzEl = document.getElementById('present_upazila');
+          if (upzEl && (!upzEl.value || upzEl.selectedIndex <= 0)) {
+            selectOption('#present_upazila', pres.upazila_code || pres.upazila_name);
+          }
+        }
+
+        // Proactively copy fields
+        const pairs = [
+          ['#present_careof', '#permanent_careof'],
+          ['#present_village', '#permanent_village'],
+          ['#present_post', '#permanent_post'],
+          ['#present_postcode', '#permanent_postcode']
+        ];
+        for (const [presSel, permSel] of pairs) {
+          const pEl = document.querySelector(presSel);
+          const mEl = document.querySelector(permSel);
+          if (pEl && mEl && pEl.value) {
+            mEl.value = pEl.value;
+            triggerEvents(mEl);
+          }
+        }
+
+        const presDist = document.getElementById('present_district');
+        const permDist = document.getElementById('permanent_district');
+        if (presDist && permDist && presDist.value) {
+          permDist.value = presDist.value;
+          triggerEvents(permDist);
+        }
+
+        const presUpz = document.getElementById('present_upazila');
+        const permUpz = document.getElementById('permanent_upazila');
+        if (presUpz && permUpz && presUpz.value) {
+          if (permUpz.options.length <= 1 && presUpz.options.length > 1) {
+            permUpz.innerHTML = presUpz.innerHTML;
+          }
+          permUpz.value = presUpz.value;
+          triggerEvents(permUpz);
+        }
+
+        if (!sameCheckbox.checked) {
+          sameCheckbox.click();
+        } else {
+          sameCheckbox.checked = true;
+          triggerEvents(sameCheckbox);
+        }
+        if (typeof sameCheckbox.onclick === 'function') {
+          try { sameCheckbox.onclick(); } catch (e) {}
+        }
+        if (window.onOffSameAsBtn) {
+          try { window.onOffSameAsBtn(sameCheckbox); } catch (e) {}
+        }
+
+        await sleep(100);
+
+        // Fallback restore if blanked
+        for (const [presSel, permSel] of pairs) {
+          const pEl = document.querySelector(presSel);
+          const mEl = document.querySelector(permSel);
+          if (pEl && mEl && !mEl.value && pEl.value) {
+            mEl.value = pEl.value;
+            triggerEvents(mEl);
+          }
+        }
+        if (presDist && permDist && !permDist.value && presDist.value) {
+          permDist.value = presDist.value;
+          triggerEvents(permDist);
+        }
+        if (presUpz && permUpz && !permUpz.value && presUpz.value) {
+          if (permUpz.options.length <= 1 && presUpz.options.length > 1) {
+            permUpz.innerHTML = presUpz.innerHTML;
+          }
+          permUpz.value = presUpz.value;
+          triggerEvents(permUpz);
+        }
+
+        count++;
+      }
     }
 
     // Focus Captcha
