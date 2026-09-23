@@ -533,13 +533,143 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
   }
 
+  // Multi-Profile State Management
+  let allProfiles = [];
+  let currentProfileId = null;
+  let currentSettings = {};
+
+  const candidateSelector = document.getElementById('candidateSelector');
+  const newCandidateBtn = document.getElementById('newCandidateBtn');
+  const deleteCandidateBtn = document.getElementById('deleteCandidateBtn');
+
+  function syncLocalStorage(profiles, active) {
+    try {
+      if (profiles && profiles.length > 0) {
+        localStorage.setItem('bd_job_profiles_list', JSON.stringify(profiles));
+      } else {
+        localStorage.removeItem('bd_job_profiles_list');
+      }
+      if (active) {
+        localStorage.setItem('bd_job_profile_active', JSON.stringify(active));
+      } else {
+        localStorage.removeItem('bd_job_profile_active');
+      }
+    } catch (e) {}
+  }
+
+  function renderCandidateSelector() {
+    candidateSelector.innerHTML = '';
+
+    if (!allProfiles || allProfiles.length === 0) {
+      const opt = document.createElement('option');
+      opt.value = '';
+      opt.textContent = '(No saved candidates)';
+      candidateSelector.appendChild(opt);
+      deleteCandidateBtn.disabled = true;
+      return;
+    }
+
+    allProfiles.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.id;
+      const name = p.personal?.name || 'Unnamed Candidate';
+      const sub = p.contact?.mobile || (p.personal?.nid_no ? `NID: ${p.personal.nid_no}` : 'Saved');
+      opt.textContent = `${name} (${sub})`;
+      if (String(p.id) === String(currentProfileId)) {
+        opt.selected = true;
+      }
+      candidateSelector.appendChild(opt);
+    });
+
+    if (currentProfileId && String(currentProfileId).startsWith('new_')) {
+      const opt = document.createElement('option');
+      opt.value = currentProfileId;
+      opt.textContent = '✨ (New Candidate - Unsaved)';
+      opt.selected = true;
+      candidateSelector.appendChild(opt);
+    }
+
+    deleteCandidateBtn.disabled = allProfiles.length <= 1 || (currentProfileId && String(currentProfileId).startsWith('new_'));
+  }
+
+  candidateSelector.addEventListener('change', (e) => {
+    const selectedId = e.target.value;
+    if (!selectedId) return;
+
+    const targetProfile = allProfiles.find(p => String(p.id) === String(selectedId));
+    if (targetProfile) {
+      currentProfileId = targetProfile.id;
+      populateForm(targetProfile, currentSettings);
+      chrome.storage.local.set({ profile: targetProfile });
+      syncLocalStorage(allProfiles, targetProfile);
+      renderCandidateSelector();
+      showAlert(`Switched to candidate: ${targetProfile.personal?.name || 'Profile'}`, 'success');
+    }
+  });
+
+  newCandidateBtn.addEventListener('click', () => {
+    currentProfileId = 'new_' + Date.now();
+    populateForm({}, currentSettings);
+    renderCandidateSelector();
+    document.getElementById('p_name').focus();
+    showAlert('Ready to enter new candidate. Enter information and click "Save Profile".', 'success');
+  });
+
+  deleteCandidateBtn.addEventListener('click', async () => {
+    if (allProfiles.length <= 1) {
+      alert('You cannot delete the only candidate profile.');
+      return;
+    }
+
+    const currentProfile = allProfiles.find(p => String(p.id) === String(currentProfileId));
+    const name = currentProfile?.personal?.name || 'this candidate';
+
+    if (!confirm(`Are you sure you want to delete profile for "${name}"?`)) {
+      return;
+    }
+
+    allProfiles = allProfiles.filter(p => String(p.id) !== String(currentProfileId));
+    const newActive = allProfiles[0];
+    currentProfileId = newActive.id;
+
+    await chrome.storage.local.set({ profiles: allProfiles, profile: newActive });
+    syncLocalStorage(allProfiles, newActive);
+
+    populateForm(newActive, currentSettings);
+    renderCandidateSelector();
+    showAlert(`Deleted profile. Active candidate is now ${newActive.personal?.name || 'Candidate'}.`, 'success');
+  });
+
   // Save Profile Handler
   async function saveProfile() {
-    const profile = collectProfileData();
+    const profileData = collectProfileData();
     const settings = collectSettingsData();
+    currentSettings = settings;
 
-    await chrome.storage.local.set({ profile, settings });
-    showAlert('✅ Profile and settings saved successfully! You are ready to autofill BD government jobs.', 'success');
+    if (!profileData.personal || !profileData.personal.name) {
+      showAlert('Please enter at least the Applicant Name before saving!', 'error');
+      return;
+    }
+
+    if (currentProfileId && !String(currentProfileId).startsWith('new_')) {
+      profileData.id = currentProfileId;
+      const index = allProfiles.findIndex(p => String(p.id) === String(currentProfileId));
+      if (index >= 0) {
+        allProfiles[index] = profileData;
+      } else {
+        allProfiles.push(profileData);
+      }
+    } else {
+      profileData.id = 'prof_' + Date.now();
+      currentProfileId = profileData.id;
+      allProfiles.push(profileData);
+    }
+
+    syncLocalStorage(allProfiles, profileData);
+    await chrome.storage.local.set({ profiles: allProfiles, profile: profileData, settings });
+
+    renderCandidateSelector();
+    showAlert(`✅ Profile for "${profileData.personal.name}" saved successfully! Ready to autofill.`, 'success');
   }
 
   document.getElementById('saveTopBtn').addEventListener('click', saveProfile);
@@ -556,21 +686,41 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Load Initial Data
-  const stored = await chrome.storage.local.get(['profile', 'settings']);
-  if (stored.profile && stored.profile.personal && stored.profile.personal.name) {
-    populateForm(stored.profile, stored.settings);
+  const stored = await chrome.storage.local.get(['profiles', 'profile', 'settings']);
+  let loadedProfiles = stored.profiles;
+  let loadedProfile = stored.profile;
+  currentSettings = stored.settings || {};
+
+  // Migrate legacy single profile into profiles list if needed
+  if ((!loadedProfiles || loadedProfiles.length === 0) && loadedProfile && loadedProfile.personal && loadedProfile.personal.name) {
+    if (!loadedProfile.id) loadedProfile.id = 'prof_' + Date.now();
+    loadedProfiles = [loadedProfile];
+    await chrome.storage.local.set({ profiles: loadedProfiles });
+  }
+
+  if (loadedProfiles && loadedProfiles.length > 0) {
+    allProfiles = loadedProfiles;
+    currentProfileId = (loadedProfile && loadedProfile.id) || allProfiles[0].id;
+    const activeProf = allProfiles.find(p => String(p.id) === String(currentProfileId)) || allProfiles[0];
+    currentProfileId = activeProf.id;
+    populateForm(activeProf, currentSettings);
+    syncLocalStorage(allProfiles, activeProf);
+    renderCandidateSelector();
   } else {
+    allProfiles = [];
+    currentProfileId = 'new_' + Date.now();
+    renderCandidateSelector();
     console.log('[BD Govt Job Autofill] Profile is empty. Fill any Teletalk form to auto-capture, or load demo profile.');
   }
 
-
   // Load Demo Profile Button
   document.getElementById('loadDemoBtn').addEventListener('click', async () => {
-    if (confirm('Load demo candidate profile? (This will overwrite unsaved fields)')) {
+    if (confirm('Load demo candidate profile? (This will overwrite current form fields)')) {
       try {
         const demoRes = await fetch(chrome.runtime.getURL('data/sample_profile.json'));
         const demo = await demoRes.json();
-        populateForm(demo, demo.settings);
+        demo.id = (currentProfileId && !String(currentProfileId).startsWith('new_')) ? currentProfileId : ('prof_' + Date.now());
+        populateForm(demo, currentSettings);
         showAlert('Demo profile loaded into form. Click "Save Profile" to apply.', 'success');
       } catch (err) {
         showAlert('Failed to load demo profile: ' + err.message, 'error');
@@ -580,15 +730,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Export Profile
   document.getElementById('exportBtn').addEventListener('click', () => {
-    const profile = collectProfileData();
+    const currentProfile = collectProfileData();
+    currentProfile.id = currentProfileId;
     const settings = collectSettingsData();
-    const dataToExport = { ...profile, settings };
+    const dataToExport = {
+      version: "2.0.0-beta",
+      profiles: allProfiles.length > 0 ? allProfiles : [currentProfile],
+      activeProfile: currentProfile,
+      settings
+    };
 
     const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `bd_job_profile_${(profile.personal?.name || 'candidate').toLowerCase().replace(/\s+/g, '_')}.json`;
+    a.download = `bd_job_profiles_${(currentProfile.personal?.name || 'candidates').toLowerCase().replace(/\s+/g, '_')}.json`;
     a.click();
     URL.revokeObjectURL(url);
   });
@@ -604,13 +760,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     reader.onload = async (evt) => {
       try {
         const imported = JSON.parse(evt.target.result);
-        if (!imported.personal) {
+
+        if (Array.isArray(imported.profiles) && imported.profiles.length > 0) {
+          allProfiles = imported.profiles;
+          const activeProf = imported.activeProfile || allProfiles[0];
+          currentProfileId = activeProf.id;
+          currentSettings = imported.settings || currentSettings;
+
+          await chrome.storage.local.set({ profiles: allProfiles, profile: activeProf, settings: currentSettings });
+          syncLocalStorage(allProfiles, activeProf);
+
+          populateForm(activeProf, currentSettings);
+          renderCandidateSelector();
+          showAlert(`✅ Successfully imported ${allProfiles.length} candidate profiles!`, 'success');
+          return;
+        }
+
+        let single = imported.personal ? imported : imported.activeProfile;
+        if (!single || !single.personal) {
           showAlert('Invalid profile file! Missing "personal" details.', 'error');
           return;
         }
-        populateForm(imported, imported.settings);
-        await saveProfile();
-        showAlert('Profile imported and saved successfully!', 'success');
+
+        if (!single.id) single.id = 'prof_' + Date.now();
+        const existingIdx = allProfiles.findIndex(p => p.id === single.id || (p.personal?.name === single.personal?.name && p.personal?.father === single.personal?.father));
+        if (existingIdx >= 0) {
+          allProfiles[existingIdx] = single;
+        } else {
+          allProfiles.push(single);
+        }
+        currentProfileId = single.id;
+        currentSettings = imported.settings || currentSettings;
+
+        await chrome.storage.local.set({ profiles: allProfiles, profile: single, settings: currentSettings });
+        syncLocalStorage(allProfiles, single);
+
+        populateForm(single, currentSettings);
+        renderCandidateSelector();
+        showAlert(`✅ Profile "${single.personal.name}" imported and saved successfully!`, 'success');
       } catch (err) {
         showAlert('Failed to parse JSON file: ' + err.message, 'error');
       }

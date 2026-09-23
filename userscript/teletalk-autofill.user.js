@@ -128,7 +128,26 @@
     }
   };
 
-  let userProfile = Storage.get('profile', defaultProfile);
+  let userProfiles = Storage.get('profiles', null);
+  let userProfile = Storage.get('profile', null);
+
+  if (!userProfiles || !Array.isArray(userProfiles) || userProfiles.length === 0) {
+    if (userProfile && userProfile.personal && userProfile.personal.name) {
+      if (!userProfile.id) userProfile.id = 'prof_' + Date.now();
+      userProfiles = [userProfile];
+    } else {
+      defaultProfile.id = 'prof_demo';
+      userProfiles = [defaultProfile];
+      userProfile = defaultProfile;
+    }
+    Storage.set('profiles', userProfiles);
+    Storage.set('profile', userProfile);
+  } else {
+    if (!userProfile || !userProfile.personal) {
+      userProfile = userProfiles[0];
+      Storage.set('profile', userProfile);
+    }
+  }
 
   // Helper functions
   function triggerEvents(el) {
@@ -187,8 +206,9 @@
   }
 
   // Form fill routine
-  async function fillForm() {
-    const p = userProfile.personal || {};
+  async function fillForm(profileToFill) {
+    const profile = profileToFill || userProfile || {};
+    const p = profile.personal || {};
     let count = 0;
 
     if (setVal('#name', p.name ? p.name.toUpperCase().trim() : '')) count++;
@@ -254,13 +274,13 @@
     if (p.dep_status && selectOption('#dep_status', p.dep_status)) count++;
 
     // Contact
-    const c = userProfile.contact || {};
+    const c = profile.contact || {};
     if (setVal('#mobile', c.mobile || '')) count++;
     if (setVal('#confirm_mobile', c.confirm_mobile || c.mobile || '')) count++;
     if (setVal('#email', c.email || '')) count++;
 
     // Present Address
-    const pres = userProfile.address?.present || {};
+    const pres = profile.address?.present || {};
     if (setVal('#present_careof', pres.careof || '')) count++;
     if (setVal('#present_village', pres.village || '')) count++;
 
@@ -280,9 +300,9 @@
     if (setVal('#present_postcode', pres.postcode || '')) count++;
 
     // Permanent Address (only if different from present)
-    const perm = userProfile.address?.permanent || {};
+    const perm = profile.address?.permanent || {};
     const sameCheckbox = document.getElementById('same_as_present');
-    if (!userProfile.address?.same_as_present && sameCheckbox) {
+    if (!profile.address?.same_as_present && sameCheckbox) {
       if (sameCheckbox.checked) {
         sameCheckbox.checked = false;
         triggerEvents(sameCheckbox);
@@ -305,7 +325,7 @@
     }
 
     // SSC
-    const ssc = userProfile.education?.ssc || {};
+    const ssc = profile.education?.ssc || {};
     if (ssc.enabled !== false && document.getElementById('ssc_exam')) {
       const ifSsc = document.getElementById('if_applicable_ssc');
       if (ifSsc && !ifSsc.checked) { ifSsc.click(); await sleep(100); }
@@ -328,7 +348,7 @@
     }
 
     // HSC
-    const hsc = userProfile.education?.hsc || {};
+    const hsc = profile.education?.hsc || {};
     if (hsc.enabled !== false && document.getElementById('hsc_exam')) {
       const ifHsc = document.getElementById('if_applicable_hsc');
       if (ifHsc && !ifHsc.checked) { ifHsc.click(); await sleep(100); }
@@ -351,7 +371,7 @@
     }
 
     // Graduation
-    const gra = userProfile.education?.graduation || {};
+    const gra = profile.education?.graduation || {};
     if (gra.enabled !== false && document.getElementById('gra_exam')) {
       const ifGra = document.getElementById('if_applicable_gra');
       if (ifGra && !ifGra.checked) { ifGra.click(); await sleep(100); }
@@ -382,12 +402,12 @@
     }
 
     // Same as Present Address (Checked at the very end after all fields are filled)
-    if (userProfile.address?.same_as_present) {
+    if (profile.address?.same_as_present) {
       const sameCheckbox = document.getElementById('same_as_present');
       if (sameCheckbox) {
         await sleep(150);
 
-        const pres = userProfile.address?.present || {};
+        const pres = profile.address?.present || {};
         if (pres.upazila_code || pres.upazila_name) {
           const upzEl = document.getElementById('present_upazila');
           if (upzEl && (!upzEl.value || upzEl.selectedIndex <= 0)) {
@@ -582,13 +602,14 @@
       }
     };
 
-    // Smart Diff Check
-    const existing = Storage.get('profile', null);
-    if (existing && existing.personal && existing.personal.name) {
+    // Check matching profile
+    const existing = findMatchingProfile(userProfiles, captured);
+    if (existing) {
+      // Smart Diff Check
       const changed = [];
       const added = [];
 
-      const checkField = (path, label, oldV, newV) => {
+      const checkField = (label, oldV, newV) => {
         const o = (oldV || '').trim().toUpperCase();
         const n = (newV || '').trim().toUpperCase();
         if (!n) return;
@@ -596,20 +617,20 @@
         else if (o && n && o !== n) changed.push({ label, oldVal: oldV, newVal: newV });
       };
 
-      checkField('name', "Name", existing.personal?.name, captured.personal?.name);
-      checkField('father', "Father's Name", existing.personal?.father, captured.personal?.father);
-      checkField('mother', "Mother's Name", existing.personal?.mother, captured.personal?.mother);
-      checkField('dob', "DOB", existing.personal?.dob, captured.personal?.dob);
-      checkField('nid', "NID", existing.personal?.nid_no, captured.personal?.nid_no);
-      checkField('mobile', "Mobile", existing.contact?.mobile, captured.contact?.mobile);
-      checkField('email', "Email", existing.contact?.email, captured.contact?.email);
-      checkField('present_dist', "Present District", existing.address?.present?.district_name, captured.address?.present?.district_name);
-      checkField('ssc_roll', "SSC Roll", existing.education?.ssc?.roll, captured.education?.ssc?.roll);
-      checkField('hsc_roll', "HSC Roll", existing.education?.hsc?.roll, captured.education?.hsc?.roll);
+      checkField("Name", existing.personal?.name, captured.personal?.name);
+      checkField("Father's Name", existing.personal?.father, captured.personal?.father);
+      checkField("Mother's Name", existing.personal?.mother, captured.personal?.mother);
+      checkField("DOB", existing.personal?.dob, captured.personal?.dob);
+      checkField("NID", existing.personal?.nid_no, captured.personal?.nid_no);
+      checkField("Mobile", existing.contact?.mobile, captured.contact?.mobile);
+      checkField("Email", existing.contact?.email, captured.contact?.email);
+      checkField("Present District", existing.address?.present?.district_name, captured.address?.present?.district_name);
+      checkField("SSC Roll", existing.education?.ssc?.roll, captured.education?.ssc?.roll);
+      checkField("HSC Roll", existing.education?.hsc?.roll, captured.education?.hsc?.roll);
 
       if (changed.length > 0) {
         const diffText = changed.map(c => `• ${c.label}: "${c.oldVal}" ➔ "${c.newVal}"`).join('\n');
-        const overwrite = confirm(`⚠️ [BD Govt Job Autofill]\n\nYou modified existing saved information in this application:\n\n${diffText}\n\nDo you want to accept these updates in your saved profile?\n(Click Cancel to keep your existing saved values)`);
+        const overwrite = confirm(`⚠️ [BD Govt Job Autofill]\n\nYou modified existing saved information for ${existing.personal?.name}:\n\n${diffText}\n\nDo you want to accept these updates in your saved profile?\n(Click Cancel to keep your existing saved values)`);
         if (!overwrite) {
           console.log('[BD Govt Job Userscript] User denied updates. Keeping existing profile.');
           return null;
@@ -617,11 +638,25 @@
       } else if (added.length > 0) {
         console.log('[BD Govt Job Userscript] Auto-updated extra fields silently:', added);
       }
+
+      captured.id = existing.id || ('prof_' + Date.now());
+      userProfiles = userProfiles.map(p => p.id === existing.id ? captured : p);
+      userProfile = captured;
+    } else {
+      // Brand new candidate detected!
+      const saveAsNew = confirm(`✨ [BD Govt Job Autofill]\n\nNew candidate detected: "${captured.personal.name}".\n\nDo you want to save this candidate as an additional profile for 1-click autofill in future applications?`);
+      if (saveAsNew) {
+        captured.id = 'prof_' + Date.now();
+        userProfiles.push(captured);
+        userProfile = captured;
+      } else {
+        return null;
+      }
     }
 
-    Storage.set('profile', captured);
-    userProfile = captured;
-    console.log('[BD Govt Job Userscript] Profile saved:', captured);
+    Storage.set('profiles', userProfiles);
+    Storage.set('profile', userProfile);
+    console.log('[BD Govt Job Userscript] Profiles updated:', userProfiles);
     return captured;
   }
 
@@ -652,21 +687,59 @@
         background: #ffffff;
         border: 1px solid #cbd5e1;
         border-radius: 8px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.18);
-        font-family: Arial, sans-serif;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
         cursor: pointer;
-        padding: 8px 12px;
+        min-width: 280px;
+        max-width: 420px;
+        overflow: hidden;
+        color: #1e293b;
+        animation: bdFade 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .bd-popup-header {
+        padding: 8px 14px 6px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #475569;
+        border-bottom: 1px solid #f1f5f9;
+        background: #f8fafc;
+      }
+      .bd-popup-list {
+        max-height: 250px;
+        overflow-y: auto;
+      }
+      .bd-popup-item {
         display: flex;
         align-items: center;
+        padding: 9px 12px;
         gap: 10px;
-        color: #1e293b;
-        animation: bdFade 0.15s ease-out;
+        border-bottom: 1px solid #f1f5f9;
+        transition: background 0.15s ease;
       }
-      .bd-autofill-popup:hover { background: #f0fdf4; border-color: #006a4e; }
-      .bd-popup-icon { background: #006a4e; color: #fff; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
-      .bd-popup-title { font-size: 12.5px; font-weight: bold; color: #006a4e; }
-      .bd-popup-sub { font-size: 11px; color: #64748b; }
-      @keyframes bdFade { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+      .bd-popup-item:last-child { border-bottom: none; }
+      .bd-popup-item:hover { background: #f0fdf4; }
+      .bd-popup-icon {
+        background: linear-gradient(135deg, #006a4e 0%, #004d38 100%);
+        color: #fff;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: bold;
+        flex-shrink: 0;
+      }
+      .bd-popup-content { flex: 1; min-width: 0; }
+      .bd-popup-title { font-size: 12.5px; font-weight: 600; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .bd-popup-title strong { color: #006a4e; }
+      .bd-popup-sub { font-size: 11px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .bd-popup-badge { font-size: 10.5px; font-weight: 600; background: #e0f2fe; color: #0369a1; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
+      .bd-popup-item:hover .bd-popup-badge { background: #006a4e; color: #ffffff; }
+      @keyframes bdFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
     `;
     document.head.appendChild(style);
 
@@ -679,24 +752,83 @@
     function showPopup(inputEl) {
       if (hasAutofilledOnThisPage) return;
       removePopup();
-      if (!userProfile || !userProfile.personal || !userProfile.personal.name) return;
+
+      const profiles = (userProfiles && userProfiles.length > 0) ? userProfiles : (userProfile && userProfile.personal?.name ? [userProfile] : []);
+      if (!profiles || profiles.length === 0) return;
 
       const p = document.createElement('div');
       p.className = 'bd-autofill-popup';
-      p.innerHTML = `
-        <div class="bd-popup-icon">⚡</div>
-        <div>
-          <div class="bd-popup-title">Autofill as ${userProfile.personal.name}</div>
-          <div class="bd-popup-sub">Click to fill all form fields</div>
-        </div>
-      `;
 
-      p.onmousedown = (e) => e.preventDefault();
-      p.onclick = () => {
-        removePopup();
-        hasAutofilledOnThisPage = true; // Never show again on this page!
-        fillForm();
-      };
+      if (profiles.length === 1) {
+        const single = profiles[0];
+        const name = single.personal?.name || 'Saved Candidate';
+        const mobile = single.contact?.mobile;
+        const sub = mobile || 'Click to fill all form fields';
+
+        p.innerHTML = `
+          <div class="bd-popup-item" data-id="${single.id || '0'}" title="Click to autofill the entire form with ${name}">
+            <div class="bd-popup-icon">⚡</div>
+            <div class="bd-popup-content">
+              <div class="bd-popup-title">Autofill as <strong>${name}</strong></div>
+              <div class="bd-popup-sub">${sub} • Click to fill</div>
+            </div>
+            <div class="bd-popup-badge">Autofill</div>
+          </div>
+        `;
+
+        p.onmousedown = (e) => e.preventDefault();
+        p.onclick = () => {
+          removePopup();
+          hasAutofilledOnThisPage = true; // Never show again on this page!
+          fillForm(single);
+        };
+      } else {
+        // Multi candidate list!
+        let itemsHtml = `
+          <div class="bd-popup-header">
+            <span>⚡ Select Candidate to Autofill (${profiles.length}):</span>
+          </div>
+          <div class="bd-popup-list">
+        `;
+
+        profiles.forEach(prof => {
+          const name = prof.personal?.name || 'Unnamed Candidate';
+          const mobile = prof.contact?.mobile || '';
+          const nid = prof.personal?.nid_no ? `NID: ${prof.personal.nid_no}` : '';
+          const sub = [mobile, nid].filter(Boolean).join(' • ') || 'Saved Candidate';
+
+          itemsHtml += `
+            <div class="bd-popup-item" data-id="${prof.id}" title="Click to autofill as ${name}">
+              <div class="bd-popup-icon">👤</div>
+              <div class="bd-popup-content">
+                <div class="bd-popup-title"><strong>${name}</strong></div>
+                <div class="bd-popup-sub">${sub}</div>
+              </div>
+              <div class="bd-popup-badge">Select</div>
+            </div>
+          `;
+        });
+
+        itemsHtml += `</div>`;
+        p.innerHTML = itemsHtml;
+
+        p.onmousedown = (e) => e.preventDefault();
+        p.onclick = (e) => {
+          const item = e.target.closest('.bd-popup-item');
+          if (!item) return;
+
+          e.preventDefault();
+          e.stopPropagation();
+          const profId = item.getAttribute('data-id');
+          const selected = profiles.find(x => String(x.id) === String(profId)) || profiles[0];
+
+          removePopup();
+          hasAutofilledOnThisPage = true; // Never show again on this page!
+          userProfile = selected;
+          Storage.set('profile', selected);
+          fillForm(selected);
+        };
+      }
 
       document.body.appendChild(p);
       popupEl = p;
@@ -726,7 +858,7 @@
 
   // Userscript Menu Command
   if (typeof GM_registerMenuCommand !== 'undefined') {
-    GM_registerMenuCommand('⚡ Autofill Teletalk Application', fillForm);
+    GM_registerMenuCommand('⚡ Autofill Teletalk Application', () => fillForm(userProfile));
   }
 })();
 

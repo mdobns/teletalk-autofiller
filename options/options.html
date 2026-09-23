@@ -53,6 +53,23 @@
         <!-- Notification Banner -->
         <div id="alertBanner" class="alert-banner" style="display: none;"></div>
 
+        <!-- Candidate Profile Selector Bar -->
+        <div class="candidate-bar">
+          <div class="candidate-bar-info">
+            <span class="candidate-bar-icon">👤</span>
+            <div>
+              <div class="candidate-bar-title">Manage Candidate Profile</div>
+              <div class="candidate-bar-sub">View, edit, or switch between saved applicants:</div>
+            </div>
+            <select id="candidateSelector" class="candidate-select">
+              <option value="">(Loading candidates...)</option>
+            </select>
+          </div>
+          <div class="candidate-bar-actions">
+            <button id="newCandidateBtn" type="button" class="btn btn-secondary" style="font-size: 12px; padding: 6px 12px;">➕ New Candidate</button>
+            <button id="deleteCandidateBtn" type="button" class="btn btn-danger" style="font-size: 12px; padding: 6px 12px;" disabled>🗑️ Delete</button>
+          </div>
+        </div>
 
         <!-- 1. PERSONAL INFO TAB -->
         <section id="tab-personal" class="tab-pane active">

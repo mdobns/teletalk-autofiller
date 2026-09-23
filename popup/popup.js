@@ -53,13 +53,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 2. Load stored profile & settings
   async function loadProfileData() {
-    const stored = await chrome.storage.local.get(['profile', 'settings']);
-    currentProfile = stored.profile || null;
+    const stored = await chrome.storage.local.get(['profiles', 'profile', 'settings']);
+    let profiles = stored.profiles || [];
+    currentProfile = stored.profile || (profiles.length > 0 ? profiles[0] : null);
     const settings = stored.settings || {};
 
     autoFillToggle.checked = !!settings.auto_fill_on_load;
 
-    if (currentProfile && currentProfile.personal && currentProfile.personal.name) {
+    if (profiles.length > 1) {
+      const names = profiles.map(p => p.personal?.name?.split(' ')[0] || 'User').slice(0, 3).join(', ');
+      candidateName.textContent = `👥 ${profiles.length} Saved Profiles (${names})`;
+      candidateContact.textContent = 'Autofill dropdown lets you choose user';
+      candidateEdu.textContent = `Primary: ${currentProfile?.personal?.name || 'Default'}`;
+    } else if (currentProfile && currentProfile.personal && currentProfile.personal.name) {
       candidateName.textContent = currentProfile.personal.name;
       candidateContact.textContent = `${currentProfile.personal.nid_no || 'NID'} | ${currentProfile.contact?.mobile || 'No Mobile'}`;
       const grad = currentProfile.education?.graduation?.exam_name || 'Graduation';

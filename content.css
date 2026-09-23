@@ -30,12 +30,34 @@
   }
 }
 
+.bd-popup-header {
+  padding: 8px 14px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #475569;
+  border-bottom: 1px solid #f1f5f9;
+  background: #f8fafc;
+}
+
+.bd-popup-list {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
 .bd-popup-item {
   display: flex;
   align-items: center;
   padding: 10px 14px;
   gap: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
   transition: background 0.15s ease;
+}
+
+.bd-popup-item:last-child {
+  border-bottom: none;
 }
 
 .bd-popup-item:hover {
