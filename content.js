@@ -23,7 +23,7 @@
 
   let activePopupEl = null;
   let activeModalEl = null;
-  let hasAutofilledOnThisPage = false; // Requirement 1: once clicked, never appears again on this page
+  let hasAutofilledOnThisPage = false; // Once autofill clicked or dismissed permanently, never show again on this page
   let isSubmittingProgrammatically = false;
 
   function syncProfilesCache(profilesList, activeProf) {
@@ -276,14 +276,29 @@
           </div>
           <div class="bd-popup-badge">Autofill</div>
         </div>
+        <div class="bd-popup-dismiss" title="Dismiss this popup. It will not reappear until you reload the page.">
+          <span>✕ Don't fill anymore today</span>
+        </div>
       `;
 
       popup.addEventListener('click', async (e) => {
+        const dismiss = e.target.closest('.bd-popup-dismiss');
+        if (dismiss) {
+          e.preventDefault();
+          e.stopPropagation();
+          removeAutofillPopup();
+          hasAutofilledOnThisPage = true; // User chose to dismiss — never show again until page reload
+          return;
+        }
+
+        const item = e.target.closest('.bd-popup-item');
+        if (!item) return;
+
         e.preventDefault();
         e.stopPropagation();
         removeAutofillPopup();
 
-        // Requirement: Never show again on this page after clicking autofill!
+        // Never show again on this page after clicking autofill!
         hasAutofilledOnThisPage = true;
 
         await fillApplicationForm(p);
@@ -316,9 +331,23 @@
       });
 
       itemsHtml += `</div>`;
-      popup.innerHTML = itemsHtml;
+
+      popup.innerHTML = itemsHtml + `
+        <div class="bd-popup-dismiss" title="Dismiss this popup. It will not reappear until you reload the page.">
+          <span>✕ Don't fill anymore today</span>
+        </div>
+      `;
 
       popup.addEventListener('click', async (e) => {
+        const dismiss = e.target.closest('.bd-popup-dismiss');
+        if (dismiss) {
+          e.preventDefault();
+          e.stopPropagation();
+          removeAutofillPopup();
+          hasAutofilledOnThisPage = true; // User chose to dismiss — never show again until page reload
+          return;
+        }
+
         const item = e.target.closest('.bd-popup-item');
         if (!item) return;
 
@@ -689,7 +718,7 @@
         enabled: isChecked('if_applicable_exp'),
         jobs: [
           {
-            employment_type: getVal('employment_type') || '8',
+            employment_type: getVal('employment_type') || '',
             designation: getVal('designation'),
             organization: getVal('organization'),
             office_address: getVal('office_address'),
@@ -835,22 +864,29 @@
     function proceedWithSubmit(btn) {
       isSubmittingProgrammatically = true;
 
-      if (btn && btn.name) {
-        let btnInput = applicationForm.querySelector(`input[name="${btn.name}"]`);
-        if (!btnInput) {
-          btnInput = document.createElement('input');
-          btnInput.type = 'hidden';
-          btnInput.name = btn.name;
-          btnInput.value = btn.value || 'Submit';
-          applicationForm.appendChild(btnInput);
+      // Do NOT use HTMLFormElement.prototype.submit — it bypasses ALL client-side
+      // validation and onsubmit handlers that Teletalk forms depend on, causing
+      // the server to reject the submission (error page).
+      // Instead, let the form submit via its normal flow by releasing the event.
+      if (btn) {
+        // If btn is an input/button element, click it (triggers validation naturally)
+        if (btn.tagName && (btn.tagName.toLowerCase() === 'input' || btn.tagName.toLowerCase() === 'button')) {
+          btn.click();
+        } else {
+          // Fallback: simulate a click on the submit button to preserve validation
+          const fallbackBtn = document.getElementById('submit') ||
+            applicationForm.querySelector('button[type="submit"], input[type="submit"]');
+          if (fallbackBtn) fallbackBtn.click();
+          else HTMLFormElement.prototype.submit.call(applicationForm);
         }
+        return;
       }
 
+      // Last resort: if no submit button found, use native submit
       try {
         HTMLFormElement.prototype.submit.call(applicationForm);
       } catch (err) {
         console.error('[BD Govt Job Autofill] Form submission fallback error:', err);
-        if (btn) btn.click();
       }
     }
 
@@ -1055,6 +1091,7 @@
 
     const target = String(valueOrText).trim().toLowerCase();
 
+    // Pass 1: Exact match on option value (preferred)
     for (let i = 0; i < el.options.length; i++) {
       const opt = el.options[i];
       if (opt.value && opt.value.trim().toLowerCase() === target) {
@@ -1065,6 +1102,7 @@
       }
     }
 
+    // Pass 2: Exact match on option text
     for (let i = 0; i < el.options.length; i++) {
       const opt = el.options[i];
       const txt = (opt.textContent || '').trim().toLowerCase();
@@ -1076,14 +1114,18 @@
       }
     }
 
-    for (let i = 0; i < el.options.length; i++) {
-      const opt = el.options[i];
-      const txt = (opt.textContent || '').trim().toLowerCase();
-      if (txt && (txt.includes(target) || target.includes(txt))) {
-        el.selectedIndex = i;
-        triggerEvents(el);
-        if (typeof el.onchange === 'function') el.onchange();
-        return true;
+    // Pass 3: Substring match — ONLY use this for longer, distinctive search strings
+    // to avoid mis-matching short codes like "1", "2", "3" to wrong options
+    if (target.length >= 3) {
+      for (let i = 0; i < el.options.length; i++) {
+        const opt = el.options[i];
+        const txt = (opt.textContent || '').trim().toLowerCase();
+        if (txt && (txt.includes(target) || target.includes(txt))) {
+          el.selectedIndex = i;
+          triggerEvents(el);
+          if (typeof el.onchange === 'function') el.onchange();
+          return true;
+        }
       }
     }
 
