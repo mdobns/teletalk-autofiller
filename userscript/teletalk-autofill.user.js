@@ -172,6 +172,7 @@
     if (!el || !valOrTxt) return false;
     const target = String(valOrTxt).trim().toLowerCase();
 
+    // Pass 1: Exact match on option value (preferred)
     for (let i = 0; i < el.options.length; i++) {
       const opt = el.options[i];
       if (opt.value && opt.value.trim().toLowerCase() === target) {
@@ -182,16 +183,33 @@
       }
     }
 
+    // Pass 2: Exact match on option text
     for (let i = 0; i < el.options.length; i++) {
       const opt = el.options[i];
       const txt = (opt.textContent || '').trim().toLowerCase();
-      if (txt === target || (txt && (txt.includes(target) || target.includes(txt)))) {
+      if (txt === target) {
         el.selectedIndex = i;
         triggerEvents(el);
         if (el.onchange) el.onchange();
         return true;
       }
     }
+
+    // Pass 3: Substring match — ONLY for longer, distinctive strings
+    // to prevent short codes like "1", "2" from matching wrong options
+    if (target.length >= 3) {
+      for (let i = 0; i < el.options.length; i++) {
+        const opt = el.options[i];
+        const txt = (opt.textContent || '').trim().toLowerCase();
+        if (txt && (txt.includes(target) || target.includes(txt))) {
+          el.selectedIndex = i;
+          triggerEvents(el);
+          if (el.onchange) el.onchange();
+          return true;
+        }
+      }
+    }
+
     return false;
   }
 
@@ -739,6 +757,21 @@
       .bd-popup-sub { font-size: 11px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .bd-popup-badge { font-size: 10.5px; font-weight: 600; background: #e0f2fe; color: #0369a1; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
       .bd-popup-item:hover .bd-popup-badge { background: #006a4e; color: #ffffff; }
+      .bd-popup-dismiss {
+        padding: 8px 14px 10px;
+        text-align: center;
+        border-top: 1px solid #f1f5f9;
+        background: #f8fafc;
+        font-size: 11px;
+        cursor: pointer;
+        user-select: none;
+        transition: background 0.15s ease;
+        color: #94a3b8;
+      }
+      .bd-popup-dismiss:hover {
+        background: #f1f5f9;
+        color: #64748b;
+      }
       @keyframes bdFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
     `;
     document.head.appendChild(style);
@@ -774,10 +807,21 @@
             </div>
             <div class="bd-popup-badge">Autofill</div>
           </div>
+          <div class="bd-popup-dismiss" title="Dismiss this popup. It will not reappear until you reload the page.">
+            <span>✕ Don't fill anymore today</span>
+          </div>
         `;
 
         p.onmousedown = (e) => e.preventDefault();
-        p.onclick = () => {
+        p.onclick = (e) => {
+          const dismiss = e.target.closest('.bd-popup-dismiss');
+          if (dismiss) {
+            e.preventDefault();
+            e.stopPropagation();
+            removePopup();
+            hasAutofilledOnThisPage = true; // User chose to dismiss — never show again until page reload
+            return;
+          }
           removePopup();
           hasAutofilledOnThisPage = true; // Never show again on this page!
           fillForm(single);
@@ -810,10 +854,23 @@
         });
 
         itemsHtml += `</div>`;
-        p.innerHTML = itemsHtml;
+        p.innerHTML = itemsHtml + `
+          <div class="bd-popup-dismiss" title="Dismiss this popup. It will not reappear until you reload the page.">
+            <span>✕ Don't fill anymore today</span>
+          </div>
+        `;
 
         p.onmousedown = (e) => e.preventDefault();
         p.onclick = (e) => {
+          const dismiss = e.target.closest('.bd-popup-dismiss');
+          if (dismiss) {
+            e.preventDefault();
+            e.stopPropagation();
+            removePopup();
+            hasAutofilledOnThisPage = true; // User chose to dismiss — never show again until page reload
+            return;
+          }
+
           const item = e.target.closest('.bd-popup-item');
           if (!item) return;
 

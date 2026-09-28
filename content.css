@@ -117,6 +117,28 @@
   flex-shrink: 0;
 }
 
+/* Dismiss / "Don't fill anymore today" button below the popup items */
+.bd-popup-dismiss {
+  padding: 8px 14px 10px;
+  text-align: center;
+  border-top: 1px solid #f1f5f9;
+  background: #f8fafc;
+  font-size: 11px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #94a3b8;
+}
+
+.bd-popup-dismiss:hover {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
 /* Modal Overlay for Accept/Deny Profile Updates */
 .bd-job-modal-overlay {
   position: fixed;
