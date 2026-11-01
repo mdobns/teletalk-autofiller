@@ -10,7 +10,53 @@
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-  const applicationForm = document.getElementById('applicationForm');
+  function getAppForm() {
+    return document.getElementById('applicationForm') ||
+      document.getElementById('app_form') ||
+      document.querySelector('form[name="app_form"], form[name="applicationForm"], form[action*="preview.php"]');
+  }
+
+  function isBpscForm() {
+    const form = getAppForm();
+    if (!form) return false;
+    return form.id === 'app_form' ||
+      form.getAttribute('name') === 'app_form' ||
+      !!document.getElementById('menu_one') ||
+      !!document.getElementById('b_day') ||
+      !!document.getElementById('fathername');
+  }
+
+  function parseDob(dobStr) {
+    if (!dobStr) return null;
+    const str = String(dobStr).trim();
+    let m = str.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/);
+    if (m) {
+      return {
+        year: m[1],
+        month: m[2].padStart(2, '0'),
+        day: m[3].padStart(2, '0')
+      };
+    }
+    m = str.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})$/);
+    if (m) {
+      return {
+        year: m[3],
+        month: m[2].padStart(2, '0'),
+        day: m[1].padStart(2, '0')
+      };
+    }
+    const d = new Date(str);
+    if (!isNaN(d.getTime())) {
+      return {
+        year: String(d.getFullYear()),
+        month: String(d.getMonth() + 1).padStart(2, '0'),
+        day: String(d.getDate()).padStart(2, '0')
+      };
+    }
+    return null;
+  }
+
+  const applicationForm = getAppForm();
   const isApplicationPage = !!applicationForm;
   const isPreviewPage = window.location.pathname.includes('preview.php');
 
@@ -207,12 +253,13 @@
   }
 
   function isEligibleInput(el) {
-    if (!el || !applicationForm.contains(el)) return false;
+    const form = applicationForm || getAppForm();
+    if (!el || !form || !form.contains(el)) return false;
     const tag = el.tagName.toLowerCase();
     if (tag !== 'input' && tag !== 'textarea') return false;
 
     // Exclude captcha, buttons, checkboxes, radio, hidden
-    if (el.id === 'captcha' || el.name === 'captcha') return false;
+    if (['captcha', 'validation'].includes(el.id) || ['captcha', 'validation'].includes(el.name)) return false;
     const type = (el.type || 'text').toLowerCase();
     if (['hidden', 'checkbox', 'radio', 'submit', 'button', 'file', 'image'].includes(type)) return false;
 
@@ -576,156 +623,215 @@
   // FORM EXTRACTION & SMART SUBMIT HANDLER
   // ==========================================
 
-  function getVal(id) {
-    const el = document.getElementById(id);
-    return el ? el.value.trim() : '';
+  function getVal(...ids) {
+    for (const id of ids) {
+      if (!id) continue;
+      const el = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
+      if (el && el.value !== undefined && el.value.trim() !== '') return el.value.trim();
+    }
+    return '';
   }
 
-  function getOptText(id) {
-    const el = document.getElementById(id);
-    if (!el || el.selectedIndex < 0) return '';
-    const opt = el.options[el.selectedIndex];
-    return opt ? opt.text.trim() : '';
+  function getOptText(...ids) {
+    for (const id of ids) {
+      if (!id) continue;
+      const el = document.getElementById(id) || document.querySelector(`select[name="${id}"]`);
+      if (el && el.selectedIndex >= 0 && el.options && el.options[el.selectedIndex]) {
+        return el.options[el.selectedIndex].text.trim();
+      }
+    }
+    return '';
   }
 
-  function isChecked(id) {
-    const el = document.getElementById(id);
-    return !!(el && el.checked);
+  function isChecked(...ids) {
+    for (const id of ids) {
+      if (!id) continue;
+      const el = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
+      if (el && el.checked) return true;
+    }
+    return false;
   }
 
   function extractProfileFromForm() {
-    if (!applicationForm) return null;
+    const form = applicationForm || getAppForm();
+    if (!form) return null;
 
     const name = getVal('name');
     if (!name || name.length < 2) return null;
 
-    const sameAddress = isChecked('same_as_present');
-    const presDistName = getOptText('present_district').replace(/\s*\(.*\)/, '').trim();
-    const presUpzName = getOptText('present_upazila').trim();
+    const isBpsc = isBpscForm();
 
-    const permDistName = sameAddress ? presDistName : getOptText('permanent_district').replace(/\s*\(.*\)/, '').trim();
-    const permUpzName = sameAddress ? presUpzName : getOptText('permanent_upazila').trim();
+    const sameAddress = isChecked('same_as_present', 'copy');
+    const presDistName = isBpsc
+      ? getOptText('menu_one')
+      : getOptText('present_district').replace(/\s*\(.*\)/, '').trim();
+    const presUpzName = isBpsc
+      ? getOptText('menu_one_list')
+      : getOptText('present_upazila').trim();
+
+    const permDistName = sameAddress
+      ? presDistName
+      : (isBpsc ? getOptText('menu_two') : getOptText('permanent_district').replace(/\s*\(.*\)/, '').trim());
+    const permUpzName = sameAddress
+      ? presUpzName
+      : (isBpsc ? getOptText('menu_two_list') : getOptText('permanent_upazila').trim());
+
+    // DOB extraction
+    let dob = getVal('dob');
+    if (!dob && getVal('b_year') && getVal('b_month') && getVal('b_day')) {
+      const y = getVal('b_year');
+      const m = String(getVal('b_month')).padStart(2, '0');
+      const d = String(getVal('b_day')).padStart(2, '0');
+      dob = `${y}-${m}-${d}`;
+    }
+
+    // Gender extraction
+    let gender = getVal('gender') || getOptText('gender');
+    if (!gender && (getVal('sex') || getOptText('sex'))) {
+      const sVal = getVal('sex');
+      const sText = getOptText('sex');
+      if (sVal === '1' || sText.toLowerCase() === 'male') gender = 'Male';
+      else if (sVal === '2' || sText.toLowerCase() === 'female') gender = 'Female';
+      else if (sVal === '3' || sText.toLowerCase().includes('third')) gender = 'Third Gender';
+      else gender = sText || 'Male';
+    }
+
+    // NID extraction
+    const nidNo = getVal('nid_no');
+    const nidVal = isBpsc
+      ? (isChecked('nid_01') || !!nidNo ? '1' : '0')
+      : (getVal('nid') || (nidNo ? '1' : '0'));
+
+    // Marital status extraction
+    let maritalStatus = getVal('marital_status');
+    let spouseName = getVal('spouse_name', 's_name').toUpperCase();
+    if (isBpsc) {
+      if (isChecked('mstatus_01')) maritalStatus = 'Married';
+      else if (isChecked('mstatus_02')) maritalStatus = 'Single';
+    }
 
     const existingMedia = (currentProfile && currentProfile.media) ? currentProfile.media : { photo_base64: '', signature_base64: '' };
 
     return {
       personal: {
         name: name.toUpperCase(),
-        name_bn: getVal('name_bn'),
-        father: getVal('father').toUpperCase(),
-        father_bn: getVal('father_bn'),
-        mother: getVal('mother').toUpperCase(),
-        mother_bn: getVal('mother_bn'),
-        dob: getVal('dob'),
+        name_bn: getVal('name_bn', 'bn_name'),
+        father: getVal('father', 'fathername').toUpperCase(),
+        father_bn: getVal('father_bn', 'bn_father'),
+        mother: getVal('mother', 'mothername').toUpperCase(),
+        mother_bn: getVal('mother_bn', 'bn_mother'),
+        dob: dob,
         nationality: getVal('nationality') || 'Bangladeshi',
         religion: getVal('religion') || '1',
-        gender: getVal('gender') || 'Male',
-        nid: getVal('nid') || (getVal('nid_no') ? '1' : '0'),
-        nid_no: getVal('nid_no'),
+        gender: gender || 'Male',
+        nid: nidVal,
+        nid_no: nidNo,
         breg: getVal('breg') || (getVal('breg_no') ? '1' : '0'),
         breg_no: getVal('breg_no'),
         passport: getVal('passport') || (getVal('passport_no') ? '1' : '0'),
         passport_no: getVal('passport_no'),
-        marital_status: getVal('marital_status') || 'Single',
-        spouse_name: getVal('spouse_name').toUpperCase(),
-        quota: getVal('quota') || '8',
+        marital_status: maritalStatus || 'Single',
+        spouse_name: spouseName,
+        quota: getVal('quota', 'ffq') || '8',
         quota_details: getVal('quota_details'),
         dep_status: getVal('dep_status') || '5'
       },
       contact: {
-        mobile: getVal('mobile'),
-        confirm_mobile: getVal('confirm_mobile') || getVal('mobile'),
+        mobile: getVal('mobile', 'mobileno'),
+        confirm_mobile: getVal('confirm_mobile', 'confirmmobile') || getVal('mobile', 'mobileno'),
         email: getVal('email')
       },
       address: {
         present: {
-          careof: getVal('present_careof').toUpperCase(),
-          village: getVal('present_village').toUpperCase(),
-          district_code: getVal('present_district'),
+          careof: getVal('present_careof', 'present_care').toUpperCase(),
+          village: getVal('present_village', 'present_vill').toUpperCase(),
+          district_code: getVal('present_district', 'menu_one'),
           district_name: presDistName,
-          upazila_code: getVal('present_upazila'),
+          upazila_code: getVal('present_upazila', 'menu_one_list'),
           upazila_name: presUpzName,
           post: getVal('present_post').toUpperCase(),
-          postcode: getVal('present_postcode')
+          postcode: getVal('present_postcode', 'present_pcode')
         },
         same_as_present: sameAddress,
         permanent: {
-          careof: sameAddress ? getVal('present_careof').toUpperCase() : getVal('permanent_careof').toUpperCase(),
-          village: sameAddress ? getVal('present_village').toUpperCase() : getVal('permanent_village').toUpperCase(),
-          district_code: sameAddress ? getVal('present_district') : getVal('permanent_district'),
+          careof: sameAddress ? getVal('present_careof', 'present_care').toUpperCase() : getVal('permanent_careof', 'permanent_care').toUpperCase(),
+          village: sameAddress ? getVal('present_village', 'present_vill').toUpperCase() : getVal('permanent_village', 'permanent_vill').toUpperCase(),
+          district_code: sameAddress ? getVal('present_district', 'menu_one') : getVal('permanent_district', 'menu_two'),
           district_name: permDistName,
-          upazila_code: sameAddress ? getVal('present_upazila') : getVal('permanent_upazila'),
+          upazila_code: sameAddress ? getVal('present_upazila', 'menu_one_list') : getVal('permanent_upazila', 'menu_two_list'),
           upazila_name: permUpzName,
           post: sameAddress ? getVal('present_post').toUpperCase() : getVal('permanent_post').toUpperCase(),
-          postcode: sameAddress ? getVal('present_postcode') : getVal('permanent_postcode')
+          postcode: sameAddress ? getVal('present_postcode', 'present_pcode') : getVal('permanent_postcode', 'permanent_pcode')
         }
       },
       education: {
         ssc: {
-          enabled: !!getVal('ssc_exam') || !!getVal('ssc_roll'),
-          exam: getVal('ssc_exam') || '1',
-          exam_name: getOptText('ssc_exam') || 'S.S.C',
-          board: getVal('ssc_board') || '14',
-          board_name: getOptText('ssc_board') || 'Dhaka',
-          roll: getVal('ssc_roll'),
-          result_type: getVal('ssc_result_type') || '5',
-          result: getVal('ssc_result'),
-          group: getVal('ssc_group') || '1',
-          group_name: getOptText('ssc_group') || 'Science',
-          year: getVal('ssc_year') || '2014'
+          enabled: !!getVal('ssc_exam', 'exam1') || !!getVal('ssc_roll', 'roll1'),
+          exam: getVal('ssc_exam', 'exam1') || '1',
+          exam_name: getOptText('ssc_exam', 'exam1') || 'S.S.C',
+          board: getVal('ssc_board', 'institute1') || '14',
+          board_name: getOptText('ssc_board', 'institute1') || 'Dhaka',
+          roll: getVal('ssc_roll', 'roll1'),
+          reg: getVal('ssc_reg', 'reg1'),
+          result_type: getVal('ssc_result_type', 'result1') || '5',
+          result: getVal('ssc_result', 'result_gpa1'),
+          group: getVal('ssc_group', 'subject1') || '1',
+          group_name: getOptText('ssc_group', 'subject1') || 'Science',
+          year: getVal('ssc_year', 'year1') || '2014'
         },
         hsc: {
-          enabled: !!getVal('hsc_exam') || !!getVal('hsc_roll'),
-          exam: getVal('hsc_exam') || '1',
-          exam_name: getOptText('hsc_exam') || 'H.S.C',
-          board: getVal('hsc_board') || '14',
-          board_name: getOptText('hsc_board') || 'Dhaka',
-          roll: getVal('hsc_roll'),
-          result_type: getVal('hsc_result_type') || '5',
-          result: getVal('hsc_result'),
-          group: getVal('hsc_group') || '1',
-          group_name: getOptText('hsc_group') || 'Science',
-          year: getVal('hsc_year') || '2016'
+          enabled: !!getVal('hsc_exam', 'exam2') || !!getVal('hsc_roll', 'roll2'),
+          exam: getVal('hsc_exam', 'exam2') || '1',
+          exam_name: getOptText('hsc_exam', 'exam2') || 'H.S.C',
+          board: getVal('hsc_board', 'institute2') || '14',
+          board_name: getOptText('hsc_board', 'institute2') || 'Dhaka',
+          roll: getVal('hsc_roll', 'roll2'),
+          reg: getVal('hsc_reg', 'reg2'),
+          result_type: getVal('hsc_result_type', 'result2') || '5',
+          result: getVal('hsc_result', 'result_gpa2'),
+          group: getVal('hsc_group', 'subject2') || '1',
+          group_name: getOptText('hsc_group', 'subject2') || 'Science',
+          year: getVal('hsc_year', 'year2') || '2016'
         },
         graduation: {
-          enabled: !!getVal('gra_exam') || !!getVal('gra_institute'),
-          exam: getVal('gra_exam') || '1',
-          exam_name: getOptText('gra_exam') || 'B.Sc Engineering',
-          institute: getVal('gra_institute'),
-          institute_name: getOptText('gra_institute'),
-          subject: getVal('gra_subject'),
-          subject_name: getOptText('gra_subject') || getVal('gra_subject_other') || '',
-          result_type: getVal('gra_result_type') || '4',
-          result: getVal('gra_result'),
-          duration: getVal('gra_duration') || '04',
-          year: getVal('gra_year') || '2021'
+          enabled: !!getVal('gra_exam', 'exam3') || !!getVal('gra_institute', 'institute3'),
+          exam: getVal('gra_exam', 'exam3') || '1',
+          exam_name: getOptText('gra_exam', 'exam3') || 'B.Sc Engineering',
+          institute: getVal('gra_institute', 'institute3'),
+          institute_name: getOptText('gra_institute', 'institute3'),
+          subject: getVal('gra_subject', 'subject3'),
+          subject_name: getOptText('gra_subject', 'subject3') || getVal('gra_subject_other') || '',
+          result_type: getVal('gra_result_type', 'result3') || '4',
+          result: getVal('gra_result', 'result_gpa3'),
+          duration: getVal('gra_duration', 'duration3') || '04',
+          year: getVal('gra_year', 'year3') || '2021'
         },
         masters: {
-          enabled: isChecked('if_applicable_mas') || !!getVal('mas_exam'),
-          exam: getVal('mas_exam') || '3',
-          exam_name: getOptText('mas_exam') || 'M.Sc',
-          institute: getVal('mas_institute'),
-          institute_name: getOptText('mas_institute'),
-          subject: getVal('mas_subject'),
-          subject_name: getOptText('mas_subject') || getVal('mas_subject_other') || '',
-          result_type: getVal('mas_result_type') || '4',
-          result: getVal('mas_result'),
-          duration: getVal('mas_duration') || '02',
-          year: getVal('mas_year') || '2023'
+          enabled: isChecked('if_applicable_mas', 'masters') || !!getVal('mas_exam', 'exam4'),
+          exam: getVal('mas_exam', 'exam4') || '3',
+          exam_name: getOptText('mas_exam', 'exam4') || 'M.Sc',
+          institute: getVal('mas_institute', 'institute4'),
+          institute_name: getOptText('mas_institute', 'institute4'),
+          subject: getVal('mas_subject', 'subject4'),
+          subject_name: getOptText('mas_subject', 'subject4') || getVal('mas_subject_other') || '',
+          result_type: getVal('mas_result_type', 'result4') || '4',
+          result: getVal('mas_result', 'result_gpa4'),
+          duration: getVal('mas_duration', 'duration4') || '02',
+          year: getVal('mas_year', 'year4') || '2023'
         }
       },
       experience: {
-        enabled: isChecked('if_applicable_exp'),
+        enabled: isChecked('if_applicable_exp', 'pjob'),
         jobs: [
           {
-            employment_type: getVal('employment_type') || '',
-            designation: getVal('designation'),
+            employment_type: getVal('employment_type', 'employed') || '',
+            designation: getVal('designation', 'job_post'),
             organization: getVal('organization'),
-            office_address: getVal('office_address'),
+            office_address: getVal('office_address', 'job_address'),
             job_start_date: getVal('job_start_date'),
             job_end_date: getVal('job_end_date'),
             currently_working: isChecked('currently_working'),
-            last_salary: getVal('last_salary'),
+            last_salary: getVal('last_salary', 'salary'),
             job_description: getVal('job_description')
           }
         ]
@@ -771,9 +877,12 @@
   // - Existing data changed for candidate: stops submit synchronously and shows Accept/Deny popup!
   // - Completely new candidate: prompts to save as a new additional candidate!
   function setupSmartSubmitCapture() {
-    if (!applicationForm) return;
+    const form = applicationForm || getAppForm();
+    if (!form) return;
 
-    const submitBtn = document.getElementById('submit') || applicationForm.querySelector('button[type="submit"], input[type="submit"]');
+    const submitBtn = document.getElementById('submit') ||
+      document.getElementById('button01') ||
+      form.querySelector('button[type="submit"], input[type="submit"], input[name="button"]');
 
     function handleSubmitCapture(e) {
       if (isSubmittingProgrammatically) return;
@@ -863,34 +972,29 @@
 
     function proceedWithSubmit(btn) {
       isSubmittingProgrammatically = true;
+      const form = applicationForm || getAppForm();
 
-      // Do NOT use HTMLFormElement.prototype.submit — it bypasses ALL client-side
-      // validation and onsubmit handlers that Teletalk forms depend on, causing
-      // the server to reject the submission (error page).
-      // Instead, let the form submit via its normal flow by releasing the event.
       if (btn) {
-        // If btn is an input/button element, click it (triggers validation naturally)
         if (btn.tagName && (btn.tagName.toLowerCase() === 'input' || btn.tagName.toLowerCase() === 'button')) {
           btn.click();
         } else {
-          // Fallback: simulate a click on the submit button to preserve validation
           const fallbackBtn = document.getElementById('submit') ||
-            applicationForm.querySelector('button[type="submit"], input[type="submit"]');
+            document.getElementById('button01') ||
+            (form && form.querySelector('button[type="submit"], input[type="submit"], input[name="button"]'));
           if (fallbackBtn) fallbackBtn.click();
-          else HTMLFormElement.prototype.submit.call(applicationForm);
+          else if (form) HTMLFormElement.prototype.submit.call(form);
         }
         return;
       }
 
-      // Last resort: if no submit button found, use native submit
       try {
-        HTMLFormElement.prototype.submit.call(applicationForm);
+        if (form) HTMLFormElement.prototype.submit.call(form);
       } catch (err) {
         console.error('[BD Govt Job Autofill] Form submission fallback error:', err);
       }
     }
 
-    applicationForm.addEventListener('submit', handleSubmitCapture, true);
+    form.addEventListener('submit', handleSubmitCapture, true);
     if (submitBtn) {
       submitBtn.addEventListener('click', handleSubmitCapture, true);
     }
@@ -1148,16 +1252,17 @@
 
     const startTime = performance.now();
     let filledCount = 0;
+    const isBpsc = isBpscForm();
 
     // --- 1. PERSONAL INFORMATION ---
     const p = profile.personal || {};
 
     if (setVal('#name', p.name ? p.name.toUpperCase().trim() : '')) filledCount++;
-    if (setVal('#name_bn', p.name_bn || '')) filledCount++;
-    if (setVal('#father', p.father ? p.father.toUpperCase().trim() : '')) filledCount++;
-    if (setVal('#father_bn', p.father_bn || '')) filledCount++;
-    if (setVal('#mother', p.mother ? p.mother.toUpperCase().trim() : '')) filledCount++;
-    if (setVal('#mother_bn', p.mother_bn || '')) filledCount++;
+    if (setVal('#name_bn, #bn_name, input[name="bn_name"]', p.name_bn || '')) filledCount++;
+    if (setVal('#father, #fathername, input[name="fathername"]', p.father ? p.father.toUpperCase().trim() : '')) filledCount++;
+    if (setVal('#father_bn, #bn_father, input[name="bn_father"]', p.father_bn || '')) filledCount++;
+    if (setVal('#mother, #mothername, input[name="mothername"]', p.mother ? p.mother.toUpperCase().trim() : '')) filledCount++;
+    if (setVal('#mother_bn, #bn_mother, input[name="bn_mother"]', p.mother_bn || '')) filledCount++;
 
     if (p.dob) {
       const dobEl = document.getElementById('dob');
@@ -1166,22 +1271,45 @@
         try { dobEl.valueAsDate = new Date(p.dob); } catch (e) {}
         triggerEvents(dobEl);
         filledCount++;
+      } else {
+        const parsedDob = parseDob(p.dob);
+        if (parsedDob) {
+          if (selectOption('#b_day', parsedDob.day)) filledCount++;
+          if (selectOption('#b_month', parsedDob.month)) filledCount++;
+          if (selectOption('#b_year', parsedDob.year)) filledCount++;
+        }
       }
     }
 
     if (selectOption('#nationality', p.nationality || 'Bangladeshi')) filledCount++;
     if (selectOption('#religion', p.religion || '1')) filledCount++;
-    if (selectOption('#gender', p.gender || 'Male')) filledCount++;
+    if (selectOption('#gender, #sex', p.gender || 'Male')) filledCount++;
 
     // NID
     const nidVal = p.nid === '1' || p.nid === 1 || p.nid === true || p.nid === 'Yes' ? '1' : '0';
-    if (selectOption('#nid', nidVal)) {
-      filledCount++;
-      const nidEl = document.getElementById('nid');
-      if (window.onChangeId && nidEl) window.onChangeId(nidEl, 'nidElm');
-      if (nidVal === '1' && p.nid_no) {
-        await sleep(50);
-        if (setVal('#nid_no', p.nid_no)) filledCount++;
+    const nidSelect = document.getElementById('nid');
+    if (nidSelect && nidSelect.tagName.toLowerCase() === 'select') {
+      if (selectOption('#nid', nidVal)) {
+        filledCount++;
+        if (window.onChangeId && nidSelect) window.onChangeId(nidSelect, 'nidElm');
+        if (nidVal === '1' && p.nid_no) {
+          await sleep(50);
+          if (setVal('#nid_no', p.nid_no)) filledCount++;
+        }
+      }
+    } else {
+      // BPSC Radios (nid_01 = Yes, nid_02 = No)
+      const hasNid = !!(p.nid_no && p.nid_no.trim().length > 0);
+      const radio = document.getElementById(hasNid ? 'nid_01' : 'nid_02');
+      if (radio) {
+        radio.checked = true;
+        triggerEvents(radio);
+        radio.click();
+        filledCount++;
+        if (hasNid) {
+          await sleep(50);
+          if (setVal('#nid_no, input[name="nid_no"]', p.nid_no)) filledCount++;
+        }
       }
     }
 
@@ -1210,25 +1338,60 @@
     }
 
     // Marital Status
-    if (p.marital_status && selectOption('#marital_status', p.marital_status)) {
-      filledCount++;
-      const msEl = document.getElementById('marital_status');
-      if (window.onChangeId && msEl) window.onChangeId(msEl, 'maritalElm');
-      if (p.marital_status === 'Married' && p.spouse_name) {
-        await sleep(50);
-        if (setVal('#spouse_name', p.spouse_name)) filledCount++;
+    const msSelect = document.getElementById('marital_status');
+    if (msSelect && msSelect.tagName.toLowerCase() === 'select') {
+      if (p.marital_status && selectOption('#marital_status', p.marital_status)) {
+        filledCount++;
+        const msEl = document.getElementById('marital_status');
+        if (window.onChangeId && msEl) window.onChangeId(msEl, 'maritalElm');
+        if (p.marital_status === 'Married' && p.spouse_name) {
+          await sleep(50);
+          if (setVal('#spouse_name', p.spouse_name)) filledCount++;
+        }
+      }
+    } else {
+      // BPSC Radios (mstatus_01 = Married, mstatus_02 = Single)
+      const isMarried = (p.marital_status || '').toLowerCase() === 'married';
+      const mRadio = document.getElementById(isMarried ? 'mstatus_01' : 'mstatus_02');
+      if (mRadio) {
+        mRadio.checked = true;
+        triggerEvents(mRadio);
+        mRadio.click();
+        filledCount++;
+        if (isMarried && p.spouse_name) {
+          await sleep(50);
+          if (setVal('#s_name, input[name="s_name"]', p.spouse_name)) filledCount++;
+        }
       }
     }
 
     // Quota
-    if (p.quota && selectOption('#quota', p.quota)) {
-      filledCount++;
-      const quotaEl = document.getElementById('quota');
-      if (window.onChangeQuota && quotaEl) window.onChangeQuota(quotaEl);
-      if (window.onChangeId && quotaEl) window.onChangeId(quotaEl, 'quotaDetailsElm');
-      if (p.quota_details) {
-        await sleep(50);
-        if (setVal('#quota_details', p.quota_details)) filledCount++;
+    if (document.getElementById('quota')) {
+      if (p.quota && selectOption('#quota', p.quota)) {
+        filledCount++;
+        const quotaEl = document.getElementById('quota');
+        if (window.onChangeQuota && quotaEl) window.onChangeQuota(quotaEl);
+        if (window.onChangeId && quotaEl) window.onChangeId(quotaEl, 'quotaDetailsElm');
+        if (p.quota_details) {
+          await sleep(50);
+          if (setVal('#quota_details', p.quota_details)) filledCount++;
+        }
+      }
+    } else if (document.getElementById('ffq')) {
+      const qVal = p.quota_name || p.quota || 'Non Freedom Fighter';
+      if (selectOption('#ffq', qVal.toLowerCase().includes('freedom') ? qVal : 'Non Freedom Fighter')) filledCount++;
+
+      // Non tribal default
+      const trqRadio = document.getElementById('tribal2');
+      if (trqRadio && !document.getElementById('tribal1').checked) {
+        trqRadio.checked = true;
+        triggerEvents(trqRadio);
+      }
+      // Non physical handicap default
+      const phcRadio = document.getElementById('phc2');
+      if (phcRadio && !document.getElementById('phc1').checked) {
+        phcRadio.checked = true;
+        triggerEvents(phcRadio);
       }
     }
 
@@ -1237,195 +1400,261 @@
 
     // --- 2. CONTACT INFORMATION ---
     const c = profile.contact || {};
-    if (setVal('#mobile', c.mobile || '')) filledCount++;
-    if (setVal('#confirm_mobile', c.confirm_mobile || c.mobile || '')) filledCount++;
+    if (setVal('#mobile, #mobileno, input[name="mobileno"]', c.mobile || '')) filledCount++;
+    if (setVal('#confirm_mobile, #confirmmobile, input[name="confirmmobile"]', c.confirm_mobile || c.mobile || '')) filledCount++;
     if (setVal('#email', c.email || '')) filledCount++;
 
     // --- 3. PRESENT ADDRESS ---
     const addr = profile.address || {};
     const pres = addr.present || {};
-    if (setVal('#present_careof', pres.careof || '')) filledCount++;
-    if (setVal('#present_village', pres.village || '')) filledCount++;
+    if (setVal('#present_careof, #present_care', pres.careof || '')) filledCount++;
+    if (setVal('#present_village, #present_vill', pres.village || '')) filledCount++;
+
+    const presDistSelector = document.getElementById('present_district') ? '#present_district' : '#menu_one';
+    const presUpzSelector = document.getElementById('present_upazila') ? '#present_upazila' : '#menu_one_list';
 
     if (pres.district_code || pres.district_name) {
-      const distVal = pres.district_code || pres.district_name;
-      if (selectOption('#present_district', distVal)) {
+      const distVal = pres.district_name || pres.district_code;
+      if (selectOption(presDistSelector, distVal)) {
         filledCount++;
-        const distEl = document.getElementById('present_district');
+        const distEl = document.querySelector(presDistSelector);
         if (window.onChangeDistrict && distEl) window.onChangeDistrict(distEl, 'present_upazila');
-        await waitForOptions('#present_upazila', 1);
+        if (typeof window.get_one_list === 'function' && distEl) window.get_one_list(distEl);
+
+        await waitForOptions(presUpzSelector, 1);
 
         if (pres.upazila_code || pres.upazila_name) {
-          const upzVal = pres.upazila_code || pres.upazila_name;
-          if (selectOption('#present_upazila', upzVal)) filledCount++;
+          const upzVal = pres.upazila_name || pres.upazila_code;
+          if (selectOption(presUpzSelector, upzVal)) filledCount++;
         }
       }
     }
 
     if (setVal('#present_post', pres.post || '')) filledCount++;
-    if (setVal('#present_postcode', pres.postcode || '')) filledCount++;
+    if (setVal('#present_postcode, #present_pcode', pres.postcode || '')) filledCount++;
 
     // --- 4. PERMANENT ADDRESS (IF DIFFERENT FROM PRESENT) ---
     const perm = addr.permanent || {};
-    const sameCheckbox = document.getElementById('same_as_present');
+    const sameCheckbox = document.getElementById('same_as_present') || document.getElementById('copy');
+
     if (!addr.same_as_present) {
       if (sameCheckbox && sameCheckbox.checked) {
         sameCheckbox.checked = false;
         triggerEvents(sameCheckbox);
         if (sameCheckbox.onclick) sameCheckbox.onclick();
         if (window.onOffSameAsBtn) window.onOffSameAsBtn(sameCheckbox);
+        if (typeof window.fd === 'function') window.fd();
       }
-      if (setVal('#permanent_careof', perm.careof || '')) filledCount++;
-      if (setVal('#permanent_village', perm.village || '')) filledCount++;
+      if (setVal('#permanent_careof, #permanent_care', perm.careof || '')) filledCount++;
+      if (setVal('#permanent_village, #permanent_vill', perm.village || '')) filledCount++;
+
+      const permDistSelector = document.getElementById('permanent_district') ? '#permanent_district' : '#menu_two';
+      const permUpzSelector = document.getElementById('permanent_upazila') ? '#permanent_upazila' : '#menu_two_list';
 
       if (perm.district_code || perm.district_name) {
-        const pDistVal = perm.district_code || perm.district_name;
-        if (selectOption('#permanent_district', pDistVal)) {
+        const pDistVal = perm.district_name || perm.district_code;
+        if (selectOption(permDistSelector, pDistVal)) {
           filledCount++;
-          const permDistEl = document.getElementById('permanent_district');
+          const permDistEl = document.querySelector(permDistSelector);
           if (window.onChangeDistrict && permDistEl) window.onChangeDistrict(permDistEl, 'permanent_upazila');
-          await waitForOptions('#permanent_upazila', 1);
+          if (typeof window.get_two_list === 'function' && permDistEl) window.get_two_list(permDistEl);
+
+          await waitForOptions(permUpzSelector, 1);
 
           if (perm.upazila_code || perm.upazila_name) {
-            const pUpzVal = perm.upazila_code || perm.upazila_name;
-            if (selectOption('#permanent_upazila', pUpzVal)) filledCount++;
+            const pUpzVal = perm.upazila_name || perm.upazila_code;
+            if (selectOption(permUpzSelector, pUpzVal)) filledCount++;
           }
         }
       }
       if (setVal('#permanent_post', perm.post || '')) filledCount++;
-      if (setVal('#permanent_postcode', perm.postcode || '')) filledCount++;
+      if (setVal('#permanent_postcode, #permanent_pcode', perm.postcode || '')) filledCount++;
     }
 
     // --- 5. EDUCATION: SSC ---
     const edu = profile.education || {};
     const ssc = edu.ssc || {};
-    if (ssc.enabled !== false && document.getElementById('ssc_exam')) {
+    const hasSsc = document.getElementById('ssc_exam') || document.getElementById('exam1');
+    if (ssc.enabled !== false && hasSsc) {
       const ifSsc = document.getElementById('if_applicable_ssc');
       if (ifSsc && !ifSsc.checked) {
         ifSsc.click();
         await sleep(100);
       }
 
-      if (selectOption('#ssc_exam', ssc.exam || ssc.exam_name || '1')) {
+      const sscExamSelector = document.getElementById('ssc_exam') ? '#ssc_exam' : '#exam1';
+      const sscBoardSelector = document.getElementById('ssc_board') ? '#ssc_board' : '#institute1';
+      const sscRollSelector = document.getElementById('ssc_roll') ? '#ssc_roll' : '#roll1';
+      const sscRegSelector = document.getElementById('ssc_reg') ? '#ssc_reg' : '#reg1';
+      const sscResultTypeSelector = document.getElementById('ssc_result_type') ? '#ssc_result_type' : '#result1';
+      const sscResultSelector = document.getElementById('ssc_result') ? '#ssc_result' : '#result_gpa1';
+      const sscGroupSelector = document.getElementById('ssc_group') ? '#ssc_group' : '#subject1';
+      const sscYearSelector = document.getElementById('ssc_year') ? '#ssc_year' : '#year1';
+
+      if (selectOption(sscExamSelector, ssc.exam_name || ssc.exam || '1')) {
         filledCount++;
-        const sscExamEl = document.getElementById('ssc_exam');
+        const sscExamEl = document.querySelector(sscExamSelector);
         if (window.onChangeExamTypeSSC && sscExamEl) window.onChangeExamTypeSSC(sscExamEl);
-        await waitForOptions('#ssc_group', 1);
+        if (document.getElementById('ssc_group')) await waitForOptions('#ssc_group', 1);
       }
 
-      if (selectOption('#ssc_board', ssc.board || ssc.board_name || '14')) filledCount++;
-      if (setVal('#ssc_roll', ssc.roll || '')) filledCount++;
+      if (selectOption(sscBoardSelector, ssc.board_name || ssc.board || '14')) filledCount++;
+      if (setVal(sscRollSelector, ssc.roll || '')) filledCount++;
+      if (ssc.reg && setVal(sscRegSelector, ssc.reg)) filledCount++;
 
-      if (selectOption('#ssc_result_type', ssc.result_type || '5')) {
+      if (selectOption(sscResultTypeSelector, ssc.result_type || '5')) {
         filledCount++;
-        const resEl = document.getElementById('ssc_result_type');
+        const resEl = document.querySelector(sscResultTypeSelector);
         if (window.onChangeResult && resEl) window.onChangeResult(resEl);
+        if (typeof window.Show_GpaTextBox === 'function' && resEl) window.Show_GpaTextBox(resEl.id, 'result_gpa1');
       }
-      if (ssc.result && setVal('#ssc_result', ssc.result)) filledCount++;
+      if (ssc.result && setVal(sscResultSelector, ssc.result)) filledCount++;
 
-      if (selectOption('#ssc_group', ssc.group || ssc.group_name || '1')) filledCount++;
-      if (selectOption('#ssc_year', ssc.year || '2014')) filledCount++;
+      if (selectOption(sscGroupSelector, ssc.group_name || ssc.group || '1')) filledCount++;
+      if (selectOption(sscYearSelector, ssc.year || '2014')) filledCount++;
     }
 
     // --- 6. EDUCATION: HSC ---
     const hsc = edu.hsc || {};
-    if (hsc.enabled !== false && document.getElementById('hsc_exam')) {
+    const hasHsc = document.getElementById('hsc_exam') || document.getElementById('exam2');
+    if (hsc.enabled !== false && hasHsc) {
       const ifHsc = document.getElementById('if_applicable_hsc');
       if (ifHsc && !ifHsc.checked) {
         ifHsc.click();
         await sleep(100);
       }
 
-      if (selectOption('#hsc_exam', hsc.exam || hsc.exam_name || '1')) {
+      const hscExamSelector = document.getElementById('hsc_exam') ? '#hsc_exam' : '#exam2';
+      const hscBoardSelector = document.getElementById('hsc_board') ? '#hsc_board' : '#institute2';
+      const hscRollSelector = document.getElementById('hsc_roll') ? '#hsc_roll' : '#roll2';
+      const hscRegSelector = document.getElementById('hsc_reg') ? '#hsc_reg' : '#reg2';
+      const hscResultTypeSelector = document.getElementById('hsc_result_type') ? '#hsc_result_type' : '#result2';
+      const hscResultSelector = document.getElementById('hsc_result') ? '#hsc_result' : '#result_gpa2';
+      const hscGroupSelector = document.getElementById('hsc_group') ? '#hsc_group' : '#subject2';
+      const hscYearSelector = document.getElementById('hsc_year') ? '#hsc_year' : '#year2';
+
+      if (selectOption(hscExamSelector, hsc.exam_name || hsc.exam || '1')) {
         filledCount++;
-        const hscExamEl = document.getElementById('hsc_exam');
+        const hscExamEl = document.querySelector(hscExamSelector);
         if (window.onChangeExamTypeHSC && hscExamEl) window.onChangeExamTypeHSC(hscExamEl);
-        await waitForOptions('#hsc_group', 1);
+        if (typeof window.get_sub_hsc === 'function' && hscExamEl) window.get_sub_hsc(hscExamEl);
+        await waitForOptions(hscGroupSelector, 1);
       }
 
-      if (selectOption('#hsc_board', hsc.board || hsc.board_name || '14')) filledCount++;
-      if (setVal('#hsc_roll', hsc.roll || '')) filledCount++;
+      if (selectOption(hscBoardSelector, hsc.board_name || hsc.board || '14')) filledCount++;
+      if (setVal(hscRollSelector, hsc.roll || '')) filledCount++;
+      if (hsc.reg && setVal(hscRegSelector, hsc.reg)) filledCount++;
 
-      if (selectOption('#hsc_result_type', hsc.result_type || '5')) {
+      if (selectOption(hscResultTypeSelector, hsc.result_type || '5')) {
         filledCount++;
-        const resEl = document.getElementById('hsc_result_type');
+        const resEl = document.querySelector(hscResultTypeSelector);
         if (window.onChangeResult && resEl) window.onChangeResult(resEl);
+        if (typeof window.Show_GpaTextBox === 'function' && resEl) window.Show_GpaTextBox(resEl.id, 'result_gpa2');
       }
-      if (hsc.result && setVal('#hsc_result', hsc.result)) filledCount++;
+      if (hsc.result && setVal(hscResultSelector, hsc.result)) filledCount++;
 
-      if (selectOption('#hsc_group', hsc.group || hsc.group_name || '1')) filledCount++;
-      if (selectOption('#hsc_year', hsc.year || '2016')) filledCount++;
+      if (selectOption(hscGroupSelector, hsc.group_name || hsc.group || '1')) filledCount++;
+      if (selectOption(hscYearSelector, hsc.year || '2016')) filledCount++;
     }
 
     // --- 7. EDUCATION: GRADUATION ---
     const gra = edu.graduation || {};
-    if (gra.enabled !== false && document.getElementById('gra_exam')) {
+    const hasGra = document.getElementById('gra_exam') || document.getElementById('exam3');
+    if (gra.enabled !== false && hasGra) {
       const ifGra = document.getElementById('if_applicable_gra');
       if (ifGra && !ifGra.checked) {
         ifGra.click();
         await sleep(100);
       }
 
-      if (selectOption('#gra_exam', gra.exam || gra.exam_name)) {
+      const graExamSelector = document.getElementById('gra_exam') ? '#gra_exam' : '#exam3';
+      const graInstSelector = document.getElementById('gra_institute') ? '#gra_institute' : '#institute3';
+      const graRollSelector = document.getElementById('gra_roll') ? '#gra_roll' : '#roll3';
+      const graResultTypeSelector = document.getElementById('gra_result_type') ? '#gra_result_type' : '#result3';
+      const graResultSelector = document.getElementById('gra_result') ? '#gra_result' : '#result_gpa3';
+      const graSubjectSelector = document.getElementById('gra_subject') ? '#gra_subject' : '#subject3';
+      const graDurationSelector = document.getElementById('gra_duration') ? '#gra_duration' : '#duration3';
+      const graYearSelector = document.getElementById('gra_year') ? '#gra_year' : '#year3';
+
+      if (selectOption(graExamSelector, gra.exam_name || gra.exam)) {
         filledCount++;
-        const graExamEl = document.getElementById('gra_exam');
+        const graExamEl = document.querySelector(graExamSelector);
         if (window.onChangeExamTypeGRA && graExamEl) window.onChangeExamTypeGRA(graExamEl);
-        await waitForOptions('#gra_subject', 1);
+        if (typeof window.get_sub_gra === 'function' && graExamEl) window.get_sub_gra(graExamEl);
+        await waitForOptions(graSubjectSelector, 1);
       }
 
-      if (selectOption('#gra_institute', gra.institute || gra.institute_name)) filledCount++;
-      if (selectOption('#gra_subject', gra.subject || gra.subject_name)) filledCount++;
+      if (selectOption(graInstSelector, gra.institute_name || gra.institute)) filledCount++;
+      if (setVal(graRollSelector, gra.roll || '')) filledCount++;
 
-      if (selectOption('#gra_result_type', gra.result_type)) {
+      if (selectOption(graResultTypeSelector, gra.result_type || '4')) {
         filledCount++;
-        const resEl = document.getElementById('gra_result_type');
+        const resEl = document.querySelector(graResultTypeSelector);
         if (window.onChangeResult && resEl) window.onChangeResult(resEl);
+        if (typeof window.Show_GpaTextBox === 'function' && resEl) window.Show_GpaTextBox(resEl.id, 'result_gpa3');
       }
-      if (gra.result && setVal('#gra_result', gra.result)) filledCount++;
+      if (gra.result && setVal(graResultSelector, gra.result)) filledCount++;
 
-      if (selectOption('#gra_duration', gra.duration)) filledCount++;
-      if (selectOption('#gra_year', gra.year)) filledCount++;
+      if (selectOption(graSubjectSelector, gra.subject_name || gra.subject)) filledCount++;
+      if (selectOption(graDurationSelector, gra.duration ? String(parseInt(gra.duration, 10)) : '4')) filledCount++;
+      if (selectOption(graYearSelector, gra.year || '2021')) filledCount++;
     }
 
     // --- 8. EDUCATION: MASTERS ---
     const mas = edu.masters || {};
-    if (mas.enabled && (document.getElementById('mas_exam') || document.getElementById('if_applicable_mas'))) {
-      const ifMas = document.getElementById('if_applicable_mas');
+    const hasMas = document.getElementById('mas_exam') || document.getElementById('exam4') || document.getElementById('if_applicable_mas') || document.getElementById('masters');
+    if (mas.enabled && hasMas) {
+      const ifMas = document.getElementById('if_applicable_mas') || document.getElementById('masters');
       if (ifMas && !ifMas.checked) {
         ifMas.click();
+        if (ifMas.onclick) ifMas.onclick();
+        if (typeof window.masfd === 'function') window.masfd();
         await sleep(100);
       }
 
-      if (selectOption('#mas_exam', mas.exam || mas.exam_name)) filledCount++;
-      if (selectOption('#mas_institute', mas.institute || mas.institute_name)) filledCount++;
-      if (selectOption('#mas_subject', mas.subject || mas.subject_name)) filledCount++;
+      const masExamSelector = document.getElementById('mas_exam') ? '#mas_exam' : '#exam4';
+      const masInstSelector = document.getElementById('mas_institute') ? '#mas_institute' : '#institute4';
+      const masRollSelector = document.getElementById('mas_roll') ? '#mas_roll' : '#roll4';
+      const masResultTypeSelector = document.getElementById('mas_result_type') ? '#mas_result_type' : '#result4';
+      const masResultSelector = document.getElementById('mas_result') ? '#mas_result' : '#result_gpa4';
+      const masSubjectSelector = document.getElementById('mas_subject') ? '#mas_subject' : '#subject4';
+      const masDurationSelector = document.getElementById('mas_duration') ? '#mas_duration' : '#duration4';
+      const masYearSelector = document.getElementById('mas_year') ? '#mas_year' : '#year4';
 
-      if (selectOption('#mas_result_type', mas.result_type)) {
+      if (selectOption(masExamSelector, mas.exam_name || mas.exam)) filledCount++;
+      if (selectOption(masInstSelector, mas.institute_name || mas.institute)) filledCount++;
+      if (setVal(masRollSelector, mas.roll || '')) filledCount++;
+
+      if (selectOption(masResultTypeSelector, mas.result_type || '4')) {
         filledCount++;
-        const resEl = document.getElementById('mas_result_type');
+        const resEl = document.querySelector(masResultTypeSelector);
         if (window.onChangeResult && resEl) window.onChangeResult(resEl);
+        if (typeof window.Show_GpaTextBox === 'function' && resEl) window.Show_GpaTextBox(resEl.id, 'result_gpa4');
       }
-      if (mas.result && setVal('#mas_result', mas.result)) filledCount++;
+      if (mas.result && setVal(masResultSelector, mas.result)) filledCount++;
 
-      if (selectOption('#mas_duration', mas.duration)) filledCount++;
-      if (selectOption('#mas_year', mas.year)) filledCount++;
+      if (selectOption(masSubjectSelector, mas.subject_name || mas.subject)) filledCount++;
+      if (selectOption(masDurationSelector, mas.duration ? String(parseInt(mas.duration, 10)) : '2')) filledCount++;
+      if (selectOption(masYearSelector, mas.year || '2023')) filledCount++;
     }
 
     // --- 9. JOB EXPERIENCE ---
     const exp = profile.experience || {};
-    if (exp.enabled && exp.jobs && exp.jobs.length && document.getElementById('if_applicable_exp')) {
-      const ifExp = document.getElementById('if_applicable_exp');
+    const hasExp = document.getElementById('if_applicable_exp') || document.getElementById('pjob');
+    if (exp.enabled && exp.jobs && exp.jobs.length && hasExp) {
+      const ifExp = document.getElementById('if_applicable_exp') || document.getElementById('pjob');
       if (ifExp && !ifExp.checked) {
         ifExp.click();
+        if (ifExp.onclick) ifExp.onclick();
         await sleep(150);
       }
 
       const job0 = exp.jobs[0];
       if (job0) {
-        if (selectOption('#employment_type', job0.employment_type)) filledCount++;
-        if (setVal('#designation', job0.designation)) filledCount++;
+        if (selectOption('#employment_type, #employed', job0.employment_type)) filledCount++;
+        if (setVal('#designation, #job_post', job0.designation)) filledCount++;
         if (setVal('#organization', job0.organization)) filledCount++;
-        if (setVal('#office_address', job0.office_address)) filledCount++;
+        if (setVal('#office_address, #job_address', job0.office_address)) filledCount++;
         if (setVal('#job_start_date', job0.job_start_date)) filledCount++;
         if (job0.currently_working) {
           const cwEl = document.getElementById('currently_working');
@@ -1438,7 +1667,7 @@
         } else if (job0.job_end_date) {
           if (setVal('#job_end_date', job0.job_end_date)) filledCount++;
         }
-        if (setVal('#last_salary', job0.last_salary)) filledCount++;
+        if (setVal('#last_salary, #salary', job0.last_salary)) filledCount++;
         if (setVal('#job_description', job0.job_description)) filledCount++;
       }
     }
@@ -1446,7 +1675,7 @@
     // --- 10. PHOTO & SIGNATURE ---
     const media = profile.media || {};
     if (media.photo_base64 || media.signature_base64) {
-      const form = document.getElementById('applicationForm');
+      const form = applicationForm || getAppForm();
       if (form) {
         if (media.photo_base64) {
           const cleanPhoto = media.photo_base64.replace(/^data:image\/[a-z]+;base64,/, '');
@@ -1487,35 +1716,38 @@
 
     // --- 11. DECLARATION ---
     if (currentSettings.auto_check_agreement !== false) {
-      const agreeEl = document.getElementById('agree');
+      const agreeEl = document.getElementById('agree') || document.getElementById('agreement') || document.getElementById('info_yes');
       if (agreeEl && !agreeEl.checked) {
         agreeEl.checked = true;
         triggerEvents(agreeEl);
+        if (typeof agreeEl.onclick === 'function') {
+          try { agreeEl.onclick(); } catch (e) {}
+        }
+        if (typeof window.agreesubmit === 'function') {
+          try { window.agreesubmit(agreeEl); } catch (e) {}
+        }
         filledCount++;
       }
     }
 
     // --- 12. SAME AS PRESENT ADDRESS (CHECKED AT THE VERY END) ---
-    // Requirement: Check "same as present" after all fields are filled up, else it keeps empty
     if (addr.same_as_present) {
-      const sameCheckbox = document.getElementById('same_as_present');
+      const sameCheckbox = document.getElementById('same_as_present') || document.getElementById('copy');
       if (sameCheckbox) {
         await sleep(150);
 
-        // Ensure present upazila is selected if options finished loading late
         if (pres.upazila_code || pres.upazila_name) {
-          const upzEl = document.getElementById('present_upazila');
+          const upzEl = document.querySelector(presUpzSelector);
           if (upzEl && (!upzEl.value || upzEl.selectedIndex <= 0)) {
-            selectOption('#present_upazila', pres.upazila_code || pres.upazila_name);
+            selectOption(presUpzSelector, pres.upazila_name || pres.upazila_code);
           }
         }
 
-        // Proactively copy all fields from present to permanent to guarantee values are never empty
         const pairs = [
-          ['#present_careof', '#permanent_careof'],
-          ['#present_village', '#permanent_village'],
+          ['#present_careof, #present_care', '#permanent_careof, #permanent_care'],
+          ['#present_village, #present_vill', '#permanent_village, #permanent_vill'],
           ['#present_post', '#permanent_post'],
-          ['#present_postcode', '#permanent_postcode']
+          ['#present_postcode, #present_pcode', '#permanent_postcode, #permanent_pcode']
         ];
         for (const [presSel, permSel] of pairs) {
           const pEl = document.querySelector(presSel);
@@ -1526,24 +1758,23 @@
           }
         }
 
-        const presDist = document.getElementById('present_district');
-        const permDist = document.getElementById('permanent_district');
+        const presDist = document.querySelector(presDistSelector);
+        const permDist = document.querySelector(document.getElementById('permanent_district') ? '#permanent_district' : '#menu_two');
         if (presDist && permDist && presDist.value) {
           permDist.value = presDist.value;
           triggerEvents(permDist);
         }
 
-        const presUpz = document.getElementById('present_upazila');
-        const permUpz = document.getElementById('permanent_upazila');
+        const presUpz = document.querySelector(presUpzSelector);
+        const permUpz = document.querySelector(document.getElementById('permanent_upazila') ? '#permanent_upazila' : '#menu_two_list');
         if (presUpz && permUpz && presUpz.value) {
-          if (permUpz.options.length <= 1 && presUpz.options.length > 1) {
+          if (permUpz.options && permUpz.options.length <= 1 && presUpz.options && presUpz.options.length > 1) {
             permUpz.innerHTML = presUpz.innerHTML;
           }
           permUpz.value = presUpz.value;
           triggerEvents(permUpz);
         }
 
-        // Trigger the checkbox click to invoke Teletalk's native handler
         if (!sameCheckbox.checked) {
           sameCheckbox.click();
         } else {
@@ -1557,29 +1788,11 @@
         if (window.onOffSameAsBtn) {
           try { window.onOffSameAsBtn(sameCheckbox); } catch (e) {}
         }
+        if (typeof window.fd === 'function') {
+          try { window.fd(); } catch (e) {}
+        }
 
         await sleep(100);
-
-        // Fallback check: if any permanent field was blanked out by Teletalk's handler, restore it
-        for (const [presSel, permSel] of pairs) {
-          const pEl = document.querySelector(presSel);
-          const mEl = document.querySelector(permSel);
-          if (pEl && mEl && !mEl.value && pEl.value) {
-            mEl.value = pEl.value;
-            triggerEvents(mEl);
-          }
-        }
-        if (presDist && permDist && !permDist.value && presDist.value) {
-          permDist.value = presDist.value;
-          triggerEvents(permDist);
-        }
-        if (presUpz && permUpz && !permUpz.value && presUpz.value) {
-          if (permUpz.options.length <= 1 && presUpz.options.length > 1) {
-            permUpz.innerHTML = presUpz.innerHTML;
-          }
-          permUpz.value = presUpz.value;
-          triggerEvents(permUpz);
-        }
 
         filledCount++;
       }
@@ -1587,7 +1800,9 @@
 
     // --- 13. FOCUS CAPTCHA ---
     if (currentSettings.focus_captcha !== false) {
-      const captchaEl = document.getElementById('captcha');
+      const captchaEl = document.getElementById('captcha') ||
+        document.getElementById('validation') ||
+        document.querySelector('input[name="validation"], input[name="captcha"]');
       if (captchaEl) {
         captchaEl.classList.add('bd-job-captcha-highlight');
         captchaEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1623,10 +1838,11 @@
   // Listen for messages from popup
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'checkStatus') {
-      const hasForm = !!document.getElementById('applicationForm');
+      const form = applicationForm || getAppForm();
+      const hasForm = !!form;
       const candidateName = getVal('name');
       sendResponse({
-        isApplicationPage,
+        isApplicationPage: hasForm,
         isPreviewPage,
         hasForm,
         hasValuesOnPage: !!(candidateName && candidateName.length >= 2),

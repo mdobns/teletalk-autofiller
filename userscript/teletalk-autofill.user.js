@@ -40,6 +40,52 @@
 
   const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
+  function getAppForm() {
+    return document.getElementById('applicationForm') ||
+      document.getElementById('app_form') ||
+      document.querySelector('form[name="app_form"], form[name="applicationForm"], form[action*="preview.php"]');
+  }
+
+  function isBpscForm() {
+    const form = getAppForm();
+    if (!form) return false;
+    return form.id === 'app_form' ||
+      form.getAttribute('name') === 'app_form' ||
+      !!document.getElementById('menu_one') ||
+      !!document.getElementById('b_day') ||
+      !!document.getElementById('fathername');
+  }
+
+  function parseDob(dobStr) {
+    if (!dobStr) return null;
+    const str = String(dobStr).trim();
+    let m = str.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/);
+    if (m) {
+      return {
+        year: m[1],
+        month: m[2].padStart(2, '0'),
+        day: m[3].padStart(2, '0')
+      };
+    }
+    m = str.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})$/);
+    if (m) {
+      return {
+        year: m[3],
+        month: m[2].padStart(2, '0'),
+        day: m[1].padStart(2, '0')
+      };
+    }
+    const d = new Date(str);
+    if (!isNaN(d.getTime())) {
+      return {
+        year: String(d.getFullYear()),
+        month: String(d.getMonth() + 1).padStart(2, '0'),
+        day: String(d.getDate()).padStart(2, '0')
+      };
+    }
+    return null;
+  }
+
   // Default demo profile if empty
   const defaultProfile = {
     personal: {
@@ -228,13 +274,14 @@
     const profile = profileToFill || userProfile || {};
     const p = profile.personal || {};
     let count = 0;
+    const isBpsc = isBpscForm();
 
     if (setVal('#name', p.name ? p.name.toUpperCase().trim() : '')) count++;
-    if (setVal('#name_bn', p.name_bn || '')) count++;
-    if (setVal('#father', p.father ? p.father.toUpperCase().trim() : '')) count++;
-    if (setVal('#father_bn', p.father_bn || '')) count++;
-    if (setVal('#mother', p.mother ? p.mother.toUpperCase().trim() : '')) count++;
-    if (setVal('#mother_bn', p.mother_bn || '')) count++;
+    if (setVal('#name_bn, #bn_name, input[name="bn_name"]', p.name_bn || '')) count++;
+    if (setVal('#father, #fathername, input[name="fathername"]', p.father ? p.father.toUpperCase().trim() : '')) count++;
+    if (setVal('#father_bn, #bn_father, input[name="bn_father"]', p.father_bn || '')) count++;
+    if (setVal('#mother, #mothername, input[name="mothername"]', p.mother ? p.mother.toUpperCase().trim() : '')) count++;
+    if (setVal('#mother_bn, #bn_mother, input[name="bn_mother"]', p.mother_bn || '')) count++;
 
     if (p.dob) {
       const dobEl = document.getElementById('dob');
@@ -243,18 +290,42 @@
         try { dobEl.valueAsDate = new Date(p.dob); } catch (e) {}
         triggerEvents(dobEl);
         count++;
+      } else {
+        const parsedDob = parseDob(p.dob);
+        if (parsedDob) {
+          if (selectOption('#b_day', parsedDob.day)) count++;
+          if (selectOption('#b_month', parsedDob.month)) count++;
+          if (selectOption('#b_year', parsedDob.year)) count++;
+        }
       }
     }
 
     if (selectOption('#nationality', p.nationality || 'Bangladeshi')) count++;
     if (selectOption('#religion', p.religion || '1')) count++;
-    if (selectOption('#gender', p.gender || 'Male')) count++;
+    if (selectOption('#gender, #sex', p.gender || 'Male')) count++;
 
-    if (selectOption('#nid', p.nid || '1')) {
-      count++;
-      const nidEl = document.getElementById('nid');
-      if (window.onChangeId && nidEl) window.onChangeId(nidEl, 'nidElm');
-      if (p.nid_no) { await sleep(50); if (setVal('#nid_no', p.nid_no)) count++; }
+    // NID
+    const nidVal = p.nid === '1' || p.nid === 1 || p.nid === true || p.nid === 'Yes' ? '1' : '0';
+    const nidSelect = document.getElementById('nid');
+    if (nidSelect && nidSelect.tagName.toLowerCase() === 'select') {
+      if (selectOption('#nid', nidVal)) {
+        count++;
+        if (window.onChangeId && nidSelect) window.onChangeId(nidSelect, 'nidElm');
+        if (p.nid_no) { await sleep(50); if (setVal('#nid_no', p.nid_no)) count++; }
+      }
+    } else {
+      const hasNid = !!(p.nid_no && p.nid_no.trim().length > 0);
+      const radio = document.getElementById(hasNid ? 'nid_01' : 'nid_02');
+      if (radio) {
+        radio.checked = true;
+        triggerEvents(radio);
+        radio.click();
+        count++;
+        if (hasNid) {
+          await sleep(50);
+          if (setVal('#nid_no, input[name="nid_no"]', p.nid_no)) count++;
+        }
+      }
     }
 
     if (selectOption('#breg', p.breg || '0')) {
@@ -271,174 +342,277 @@
       if (p.passport_no) { await sleep(50); if (setVal('#passport_no', p.passport_no)) count++; }
     }
 
-    if (p.marital_status && selectOption('#marital_status', p.marital_status)) {
-      count++;
-      const msEl = document.getElementById('marital_status');
-      if (window.onChangeId && msEl) window.onChangeId(msEl, 'maritalElm');
-      if (p.marital_status === 'Married' && p.spouse_name) {
-        await sleep(50);
-        if (setVal('#spouse_name', p.spouse_name)) count++;
+    // Marital Status
+    const msSelect = document.getElementById('marital_status');
+    if (msSelect && msSelect.tagName.toLowerCase() === 'select') {
+      if (p.marital_status && selectOption('#marital_status', p.marital_status)) {
+        count++;
+        const msEl = document.getElementById('marital_status');
+        if (window.onChangeId && msEl) window.onChangeId(msEl, 'maritalElm');
+        if (p.marital_status === 'Married' && p.spouse_name) {
+          await sleep(50);
+          if (setVal('#spouse_name', p.spouse_name)) count++;
+        }
+      }
+    } else {
+      const isMarried = (p.marital_status || '').toLowerCase() === 'married';
+      const mRadio = document.getElementById(isMarried ? 'mstatus_01' : 'mstatus_02');
+      if (mRadio) {
+        mRadio.checked = true;
+        triggerEvents(mRadio);
+        mRadio.click();
+        count++;
+        if (isMarried && p.spouse_name) {
+          await sleep(50);
+          if (setVal('#s_name, input[name="s_name"]', p.spouse_name)) count++;
+        }
       }
     }
 
-    if (p.quota && selectOption('#quota', p.quota)) {
-      count++;
-      const quotaEl = document.getElementById('quota');
-      if (window.onChangeQuota && quotaEl) window.onChangeQuota(quotaEl);
-      if (window.onChangeId && quotaEl) window.onChangeId(quotaEl, 'quotaDetailsElm');
-      if (p.quota_details) { await sleep(50); if (setVal('#quota_details', p.quota_details)) count++; }
+    // Quota
+    if (document.getElementById('quota')) {
+      if (p.quota && selectOption('#quota', p.quota)) {
+        count++;
+        const quotaEl = document.getElementById('quota');
+        if (window.onChangeQuota && quotaEl) window.onChangeQuota(quotaEl);
+        if (window.onChangeId && quotaEl) window.onChangeId(quotaEl, 'quotaDetailsElm');
+        if (p.quota_details) { await sleep(50); if (setVal('#quota_details', p.quota_details)) count++; }
+      }
+    } else if (document.getElementById('ffq')) {
+      const qVal = p.quota_name || p.quota || 'Non Freedom Fighter';
+      if (selectOption('#ffq', qVal.toLowerCase().includes('freedom') ? qVal : 'Non Freedom Fighter')) count++;
+
+      const trqRadio = document.getElementById('tribal2');
+      if (trqRadio && !document.getElementById('tribal1').checked) {
+        trqRadio.checked = true;
+        triggerEvents(trqRadio);
+      }
+      const phcRadio = document.getElementById('phc2');
+      if (phcRadio && !document.getElementById('phc1').checked) {
+        phcRadio.checked = true;
+        triggerEvents(phcRadio);
+      }
     }
 
     if (p.dep_status && selectOption('#dep_status', p.dep_status)) count++;
 
     // Contact
     const c = profile.contact || {};
-    if (setVal('#mobile', c.mobile || '')) count++;
-    if (setVal('#confirm_mobile', c.confirm_mobile || c.mobile || '')) count++;
+    if (setVal('#mobile, #mobileno, input[name="mobileno"]', c.mobile || '')) count++;
+    if (setVal('#confirm_mobile, #confirmmobile, input[name="confirmmobile"]', c.confirm_mobile || c.mobile || '')) count++;
     if (setVal('#email', c.email || '')) count++;
 
     // Present Address
     const pres = profile.address?.present || {};
-    if (setVal('#present_careof', pres.careof || '')) count++;
-    if (setVal('#present_village', pres.village || '')) count++;
+    if (setVal('#present_careof, #present_care', pres.careof || '')) count++;
+    if (setVal('#present_village, #present_vill', pres.village || '')) count++;
+
+    const presDistSelector = document.getElementById('present_district') ? '#present_district' : '#menu_one';
+    const presUpzSelector = document.getElementById('present_upazila') ? '#present_upazila' : '#menu_one_list';
 
     if (pres.district_code || pres.district_name) {
-      if (selectOption('#present_district', pres.district_code || pres.district_name)) {
+      const distVal = pres.district_name || pres.district_code;
+      if (selectOption(presDistSelector, distVal)) {
         count++;
-        const distEl = document.getElementById('present_district');
+        const distEl = document.querySelector(presDistSelector);
         if (window.onChangeDistrict && distEl) window.onChangeDistrict(distEl, 'present_upazila');
-        await waitForOptions('#present_upazila', 1);
+        if (typeof window.get_one_list === 'function' && distEl) window.get_one_list(distEl);
+
+        await waitForOptions(presUpzSelector, 1);
+
         if (pres.upazila_code || pres.upazila_name) {
-          if (selectOption('#present_upazila', pres.upazila_code || pres.upazila_name)) count++;
+          const upzVal = pres.upazila_name || pres.upazila_code;
+          if (selectOption(presUpzSelector, upzVal)) count++;
         }
       }
     }
 
     if (setVal('#present_post', pres.post || '')) count++;
-    if (setVal('#present_postcode', pres.postcode || '')) count++;
+    if (setVal('#present_postcode, #present_pcode', pres.postcode || '')) count++;
 
     // Permanent Address (only if different from present)
     const perm = profile.address?.permanent || {};
-    const sameCheckbox = document.getElementById('same_as_present');
+    const sameCheckbox = document.getElementById('same_as_present') || document.getElementById('copy');
     if (!profile.address?.same_as_present && sameCheckbox) {
       if (sameCheckbox.checked) {
         sameCheckbox.checked = false;
         triggerEvents(sameCheckbox);
+        if (sameCheckbox.onclick) sameCheckbox.onclick();
+        if (typeof window.fd === 'function') window.fd();
       }
-      if (setVal('#permanent_careof', perm.careof || '')) count++;
-      if (setVal('#permanent_village', perm.village || '')) count++;
+      if (setVal('#permanent_careof, #permanent_care', perm.careof || '')) count++;
+      if (setVal('#permanent_village, #permanent_vill', perm.village || '')) count++;
+
+      const permDistSelector = document.getElementById('permanent_district') ? '#permanent_district' : '#menu_two';
+      const permUpzSelector = document.getElementById('permanent_upazila') ? '#permanent_upazila' : '#menu_two_list';
+
       if (perm.district_code || perm.district_name) {
-        if (selectOption('#permanent_district', perm.district_code || perm.district_name)) {
+        const pDistVal = perm.district_name || perm.district_code;
+        if (selectOption(permDistSelector, pDistVal)) {
           count++;
-          const pDist = document.getElementById('permanent_district');
+          const pDist = document.querySelector(permDistSelector);
           if (window.onChangeDistrict && pDist) window.onChangeDistrict(pDist, 'permanent_upazila');
-          await waitForOptions('#permanent_upazila', 1);
+          if (typeof window.get_two_list === 'function' && pDist) window.get_two_list(pDist);
+
+          await waitForOptions(permUpzSelector, 1);
+
           if (perm.upazila_code || perm.upazila_name) {
-            if (selectOption('#permanent_upazila', perm.upazila_code || perm.upazila_name)) count++;
+            const pUpzVal = perm.upazila_name || perm.upazila_code;
+            if (selectOption(permUpzSelector, pUpzVal)) count++;
           }
         }
       }
       if (setVal('#permanent_post', perm.post || '')) count++;
-      if (setVal('#permanent_postcode', perm.postcode || '')) count++;
+      if (setVal('#permanent_postcode, #permanent_pcode', perm.postcode || '')) count++;
     }
 
     // SSC
     const ssc = profile.education?.ssc || {};
-    if (ssc.enabled !== false && document.getElementById('ssc_exam')) {
+    const hasSsc = document.getElementById('ssc_exam') || document.getElementById('exam1');
+    if (ssc.enabled !== false && hasSsc) {
       const ifSsc = document.getElementById('if_applicable_ssc');
       if (ifSsc && !ifSsc.checked) { ifSsc.click(); await sleep(100); }
-      if (selectOption('#ssc_exam', ssc.exam || '1')) {
+
+      const sscExamSelector = document.getElementById('ssc_exam') ? '#ssc_exam' : '#exam1';
+      const sscBoardSelector = document.getElementById('ssc_board') ? '#ssc_board' : '#institute1';
+      const sscRollSelector = document.getElementById('ssc_roll') ? '#ssc_roll' : '#roll1';
+      const sscRegSelector = document.getElementById('ssc_reg') ? '#ssc_reg' : '#reg1';
+      const sscResultTypeSelector = document.getElementById('ssc_result_type') ? '#ssc_result_type' : '#result1';
+      const sscResultSelector = document.getElementById('ssc_result') ? '#ssc_result' : '#result_gpa1';
+      const sscGroupSelector = document.getElementById('ssc_group') ? '#ssc_group' : '#subject1';
+      const sscYearSelector = document.getElementById('ssc_year') ? '#ssc_year' : '#year1';
+
+      if (selectOption(sscExamSelector, ssc.exam_name || ssc.exam || '1')) {
         count++;
-        const sscEl = document.getElementById('ssc_exam');
+        const sscEl = document.querySelector(sscExamSelector);
         if (window.onChangeExamTypeSSC && sscEl) window.onChangeExamTypeSSC(sscEl);
-        await waitForOptions('#ssc_group', 1);
+        if (document.getElementById('ssc_group')) await waitForOptions('#ssc_group', 1);
       }
-      if (selectOption('#ssc_board', ssc.board || '14')) count++;
-      if (setVal('#ssc_roll', ssc.roll || '')) count++;
-      if (selectOption('#ssc_result_type', ssc.result_type || '5')) {
+      if (selectOption(sscBoardSelector, ssc.board_name || ssc.board || '14')) count++;
+      if (setVal(sscRollSelector, ssc.roll || '')) count++;
+      if (ssc.reg && setVal(sscRegSelector, ssc.reg)) count++;
+
+      if (selectOption(sscResultTypeSelector, ssc.result_type || '5')) {
         count++;
-        const rEl = document.getElementById('ssc_result_type');
+        const rEl = document.querySelector(sscResultTypeSelector);
         if (window.onChangeResult && rEl) window.onChangeResult(rEl);
+        if (typeof window.Show_GpaTextBox === 'function' && rEl) window.Show_GpaTextBox(rEl.id, 'result_gpa1');
       }
-      if (ssc.result && setVal('#ssc_result', ssc.result)) count++;
-      if (selectOption('#ssc_group', ssc.group || '1')) count++;
-      if (selectOption('#ssc_year', ssc.year || '2014')) count++;
+      if (ssc.result && setVal(sscResultSelector, ssc.result)) count++;
+      if (selectOption(sscGroupSelector, ssc.group_name || ssc.group || '1')) count++;
+      if (selectOption(sscYearSelector, ssc.year || '2014')) count++;
     }
 
     // HSC
     const hsc = profile.education?.hsc || {};
-    if (hsc.enabled !== false && document.getElementById('hsc_exam')) {
+    const hasHsc = document.getElementById('hsc_exam') || document.getElementById('exam2');
+    if (hsc.enabled !== false && hasHsc) {
       const ifHsc = document.getElementById('if_applicable_hsc');
       if (ifHsc && !ifHsc.checked) { ifHsc.click(); await sleep(100); }
-      if (selectOption('#hsc_exam', hsc.exam || '1')) {
+
+      const hscExamSelector = document.getElementById('hsc_exam') ? '#hsc_exam' : '#exam2';
+      const hscBoardSelector = document.getElementById('hsc_board') ? '#hsc_board' : '#institute2';
+      const hscRollSelector = document.getElementById('hsc_roll') ? '#hsc_roll' : '#roll2';
+      const hscRegSelector = document.getElementById('hsc_reg') ? '#hsc_reg' : '#reg2';
+      const hscResultTypeSelector = document.getElementById('hsc_result_type') ? '#hsc_result_type' : '#result2';
+      const hscResultSelector = document.getElementById('hsc_result') ? '#hsc_result' : '#result_gpa2';
+      const hscGroupSelector = document.getElementById('hsc_group') ? '#hsc_group' : '#subject2';
+      const hscYearSelector = document.getElementById('hsc_year') ? '#hsc_year' : '#year2';
+
+      if (selectOption(hscExamSelector, hsc.exam_name || hsc.exam || '1')) {
         count++;
-        const hscEl = document.getElementById('hsc_exam');
+        const hscEl = document.querySelector(hscExamSelector);
         if (window.onChangeExamTypeHSC && hscEl) window.onChangeExamTypeHSC(hscEl);
-        await waitForOptions('#hsc_group', 1);
+        if (typeof window.get_sub_hsc === 'function' && hscEl) window.get_sub_hsc(hscEl);
+        await waitForOptions(hscGroupSelector, 1);
       }
-      if (selectOption('#hsc_board', hsc.board || '14')) count++;
-      if (setVal('#hsc_roll', hsc.roll || '')) count++;
-      if (selectOption('#hsc_result_type', hsc.result_type || '5')) {
+      if (selectOption(hscBoardSelector, hsc.board_name || hsc.board || '14')) count++;
+      if (setVal(hscRollSelector, hsc.roll || '')) count++;
+      if (hsc.reg && setVal(hscRegSelector, hsc.reg)) count++;
+
+      if (selectOption(hscResultTypeSelector, hsc.result_type || '5')) {
         count++;
-        const rEl = document.getElementById('hsc_result_type');
+        const rEl = document.querySelector(hscResultTypeSelector);
         if (window.onChangeResult && rEl) window.onChangeResult(rEl);
+        if (typeof window.Show_GpaTextBox === 'function' && rEl) window.Show_GpaTextBox(rEl.id, 'result_gpa2');
       }
-      if (hsc.result && setVal('#hsc_result', hsc.result)) count++;
-      if (selectOption('#hsc_group', hsc.group || '1')) count++;
-      if (selectOption('#hsc_year', hsc.year || '2016')) count++;
+      if (hsc.result && setVal(hscResultSelector, hsc.result)) count++;
+      if (selectOption(hscGroupSelector, hsc.group_name || hsc.group || '1')) count++;
+      if (selectOption(hscYearSelector, hsc.year || '2016')) count++;
     }
 
     // Graduation
     const gra = profile.education?.graduation || {};
-    if (gra.enabled !== false && document.getElementById('gra_exam')) {
+    const hasGra = document.getElementById('gra_exam') || document.getElementById('exam3');
+    if (gra.enabled !== false && hasGra) {
       const ifGra = document.getElementById('if_applicable_gra');
       if (ifGra && !ifGra.checked) { ifGra.click(); await sleep(100); }
-      if (selectOption('#gra_exam', gra.exam || '1')) {
+
+      const graExamSelector = document.getElementById('gra_exam') ? '#gra_exam' : '#exam3';
+      const graInstSelector = document.getElementById('gra_institute') ? '#gra_institute' : '#institute3';
+      const graRollSelector = document.getElementById('gra_roll') ? '#gra_roll' : '#roll3';
+      const graResultTypeSelector = document.getElementById('gra_result_type') ? '#gra_result_type' : '#result3';
+      const graResultSelector = document.getElementById('gra_result') ? '#gra_result' : '#result_gpa3';
+      const graSubjectSelector = document.getElementById('gra_subject') ? '#gra_subject' : '#subject3';
+      const graDurationSelector = document.getElementById('gra_duration') ? '#gra_duration' : '#duration3';
+      const graYearSelector = document.getElementById('gra_year') ? '#gra_year' : '#year3';
+
+      if (selectOption(graExamSelector, gra.exam_name || gra.exam || '1')) {
         count++;
-        const graEl = document.getElementById('gra_exam');
+        const graEl = document.querySelector(graExamSelector);
         if (window.onChangeExamTypeGRA && graEl) window.onChangeExamTypeGRA(graEl);
-        await waitForOptions('#gra_subject', 1);
+        if (typeof window.get_sub_gra === 'function' && graEl) window.get_sub_gra(graEl);
+        await waitForOptions(graSubjectSelector, 1);
       }
-      if (selectOption('#gra_institute', gra.institute || '')) count++;
-      if (selectOption('#gra_subject', gra.subject || '')) count++;
-      if (selectOption('#gra_result_type', gra.result_type || '4')) {
+      if (selectOption(graInstSelector, gra.institute_name || gra.institute || '')) count++;
+      if (setVal(graRollSelector, gra.roll || '')) count++;
+
+      if (selectOption(graResultTypeSelector, gra.result_type || '4')) {
         count++;
-        const rEl = document.getElementById('gra_result_type');
+        const rEl = document.querySelector(graResultTypeSelector);
         if (window.onChangeResult && rEl) window.onChangeResult(rEl);
+        if (typeof window.Show_GpaTextBox === 'function' && rEl) window.Show_GpaTextBox(rEl.id, 'result_gpa3');
       }
-      if (gra.result && setVal('#gra_result', gra.result)) count++;
-      if (selectOption('#gra_duration', gra.duration || '04')) count++;
-      if (selectOption('#gra_year', gra.year || '2021')) count++;
+      if (gra.result && setVal(graResultSelector, gra.result)) count++;
+
+      if (selectOption(graSubjectSelector, gra.subject_name || gra.subject || '')) count++;
+      if (selectOption(graDurationSelector, gra.duration ? String(parseInt(gra.duration, 10)) : '4')) count++;
+      if (selectOption(graYearSelector, gra.year || '2021')) count++;
     }
 
     // Agreement
-    const agree = document.getElementById('agree');
+    const agree = document.getElementById('agree') || document.getElementById('agreement') || document.getElementById('info_yes');
     if (agree && !agree.checked) {
       agree.checked = true;
       triggerEvents(agree);
+      if (typeof agree.onclick === 'function') {
+        try { agree.onclick(); } catch (e) {}
+      }
+      if (typeof window.agreesubmit === 'function') {
+        try { window.agreesubmit(agree); } catch (e) {}
+      }
       count++;
     }
 
     // Same as Present Address (Checked at the very end after all fields are filled)
     if (profile.address?.same_as_present) {
-      const sameCheckbox = document.getElementById('same_as_present');
+      const sameCheckbox = document.getElementById('same_as_present') || document.getElementById('copy');
       if (sameCheckbox) {
         await sleep(150);
 
         const pres = profile.address?.present || {};
         if (pres.upazila_code || pres.upazila_name) {
-          const upzEl = document.getElementById('present_upazila');
+          const upzEl = document.querySelector(presUpzSelector);
           if (upzEl && (!upzEl.value || upzEl.selectedIndex <= 0)) {
-            selectOption('#present_upazila', pres.upazila_code || pres.upazila_name);
+            selectOption(presUpzSelector, pres.upazila_name || pres.upazila_code);
           }
         }
 
-        // Proactively copy fields
         const pairs = [
-          ['#present_careof', '#permanent_careof'],
-          ['#present_village', '#permanent_village'],
+          ['#present_careof, #present_care', '#permanent_careof, #permanent_care'],
+          ['#present_village, #present_vill', '#permanent_village, #permanent_vill'],
           ['#present_post', '#permanent_post'],
-          ['#present_postcode', '#permanent_postcode']
+          ['#present_postcode, #present_pcode', '#permanent_postcode, #permanent_pcode']
         ];
         for (const [presSel, permSel] of pairs) {
           const pEl = document.querySelector(presSel);
@@ -449,17 +623,17 @@
           }
         }
 
-        const presDist = document.getElementById('present_district');
-        const permDist = document.getElementById('permanent_district');
+        const presDist = document.querySelector(presDistSelector);
+        const permDist = document.querySelector(document.getElementById('permanent_district') ? '#permanent_district' : '#menu_two');
         if (presDist && permDist && presDist.value) {
           permDist.value = presDist.value;
           triggerEvents(permDist);
         }
 
-        const presUpz = document.getElementById('present_upazila');
-        const permUpz = document.getElementById('permanent_upazila');
+        const presUpz = document.querySelector(presUpzSelector);
+        const permUpz = document.querySelector(document.getElementById('permanent_upazila') ? '#permanent_upazila' : '#menu_two_list');
         if (presUpz && permUpz && presUpz.value) {
-          if (permUpz.options.length <= 1 && presUpz.options.length > 1) {
+          if (permUpz.options && permUpz.options.length <= 1 && presUpz.options && presUpz.options.length > 1) {
             permUpz.innerHTML = presUpz.innerHTML;
           }
           permUpz.value = presUpz.value;
@@ -478,36 +652,20 @@
         if (window.onOffSameAsBtn) {
           try { window.onOffSameAsBtn(sameCheckbox); } catch (e) {}
         }
+        if (typeof window.fd === 'function') {
+          try { window.fd(); } catch (e) {}
+        }
 
         await sleep(100);
-
-        // Fallback restore if blanked
-        for (const [presSel, permSel] of pairs) {
-          const pEl = document.querySelector(presSel);
-          const mEl = document.querySelector(permSel);
-          if (pEl && mEl && !mEl.value && pEl.value) {
-            mEl.value = pEl.value;
-            triggerEvents(mEl);
-          }
-        }
-        if (presDist && permDist && !permDist.value && presDist.value) {
-          permDist.value = presDist.value;
-          triggerEvents(permDist);
-        }
-        if (presUpz && permUpz && !permUpz.value && presUpz.value) {
-          if (permUpz.options.length <= 1 && presUpz.options.length > 1) {
-            permUpz.innerHTML = presUpz.innerHTML;
-          }
-          permUpz.value = presUpz.value;
-          triggerEvents(permUpz);
-        }
 
         count++;
       }
     }
 
     // Focus Captcha
-    const captcha = document.getElementById('captcha');
+    const captcha = document.getElementById('captcha') ||
+      document.getElementById('validation') ||
+      document.querySelector('input[name="validation"], input[name="captcha"]');
     if (captcha) {
       captcha.style.border = '2px solid #f42a41';
       captcha.style.boxShadow = '0 0 10px rgba(244, 42, 65, 0.5)';
@@ -517,109 +675,173 @@
 
     alert(`✅ Filled ${count} fields successfully! Please type the Captcha code.`);
   }
-
   // Auto-capture profile from form
   function extractProfileFromForm() {
-    const form = document.getElementById('applicationForm');
+    const form = getAppForm();
     if (!form) return null;
     const name = document.getElementById('name')?.value?.trim();
     if (!name || name.length < 2) return null;
 
-    const getVal = (id) => document.getElementById(id)?.value?.trim() || '';
-    const getOptText = (id) => {
-      const el = document.getElementById(id);
-      return el && el.selectedIndex >= 0 ? el.options[el.selectedIndex]?.text?.trim() : '';
+    const isBpsc = isBpscForm();
+
+    const getVal = (...ids) => {
+      for (const id of ids) {
+        const el = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
+        if (el && el.value !== undefined && el.value.trim() !== '') return el.value.trim();
+      }
+      return '';
     };
-    const isChecked = (id) => !!document.getElementById(id)?.checked;
-    const same = isChecked('same_as_present');
+
+    const getOptText = (...ids) => {
+      for (const id of ids) {
+        const el = document.getElementById(id) || document.querySelector(`select[name="${id}"]`);
+        if (el && el.selectedIndex >= 0 && el.options && el.options[el.selectedIndex]) {
+          return el.options[el.selectedIndex].text.trim();
+        }
+      }
+      return '';
+    };
+
+    const isChecked = (...ids) => {
+      for (const id of ids) {
+        const el = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
+        if (el && el.checked) return true;
+      }
+      return false;
+    };
+
+    const same = isChecked('same_as_present', 'copy');
+
+    const presDistName = isBpsc
+      ? getOptText('menu_one')
+      : getOptText('present_district').replace(/\s*\(.*\)/, '').trim();
+    const presUpzName = isBpsc
+      ? getOptText('menu_one_list')
+      : getOptText('present_upazila').trim();
+
+    const permDistName = same
+      ? presDistName
+      : (isBpsc ? getOptText('menu_two') : getOptText('permanent_district').replace(/\s*\(.*\)/, '').trim());
+    const permUpzName = same
+      ? presUpzName
+      : (isBpsc ? getOptText('menu_two_list') : getOptText('permanent_upazila').trim());
+
+    let dob = getVal('dob');
+    if (!dob && getVal('b_year') && getVal('b_month') && getVal('b_day')) {
+      const y = getVal('b_year');
+      const m = String(getVal('b_month')).padStart(2, '0');
+      const d = String(getVal('b_day')).padStart(2, '0');
+      dob = `${y}-${m}-${d}`;
+    }
+
+    let gender = getVal('gender') || getOptText('gender');
+    if (!gender && (getVal('sex') || getOptText('sex'))) {
+      const sVal = getVal('sex');
+      const sText = getOptText('sex');
+      if (sVal === '1' || sText.toLowerCase() === 'male') gender = 'Male';
+      else if (sVal === '2' || sText.toLowerCase() === 'female') gender = 'Female';
+      else if (sVal === '3' || sText.toLowerCase().includes('third')) gender = 'Third Gender';
+      else gender = sText || 'Male';
+    }
+
+    const nidNo = getVal('nid_no');
+    const nidVal = isBpsc
+      ? (isChecked('nid_01') || !!nidNo ? '1' : '0')
+      : (getVal('nid') || (nidNo ? '1' : '0'));
+
+    let maritalStatus = getVal('marital_status');
+    let spouseName = getVal('spouse_name', 's_name').toUpperCase();
+    if (isBpsc) {
+      if (isChecked('mstatus_01')) maritalStatus = 'Married';
+      else if (isChecked('mstatus_02')) maritalStatus = 'Single';
+    }
 
     const captured = {
       personal: {
         name: name.toUpperCase(),
-        name_bn: getVal('name_bn'),
-        father: getVal('father').toUpperCase(),
-        father_bn: getVal('father_bn'),
-        mother: getVal('mother').toUpperCase(),
-        mother_bn: getVal('mother_bn'),
-        dob: getVal('dob'),
+        name_bn: getVal('name_bn', 'bn_name'),
+        father: getVal('father', 'fathername').toUpperCase(),
+        father_bn: getVal('father_bn', 'bn_father'),
+        mother: getVal('mother', 'mothername').toUpperCase(),
+        mother_bn: getVal('mother_bn', 'bn_mother'),
+        dob: dob,
         nationality: getVal('nationality') || 'Bangladeshi',
         religion: getVal('religion') || '1',
-        gender: getVal('gender') || 'Male',
-        nid: getVal('nid') || (getVal('nid_no') ? '1' : '0'),
-        nid_no: getVal('nid_no'),
+        gender: gender || 'Male',
+        nid: nidVal,
+        nid_no: nidNo,
         breg: getVal('breg') || (getVal('breg_no') ? '1' : '0'),
         breg_no: getVal('breg_no'),
         passport: getVal('passport') || (getVal('passport_no') ? '1' : '0'),
         passport_no: getVal('passport_no'),
-        marital_status: getVal('marital_status') || 'Single',
-        spouse_name: getVal('spouse_name').toUpperCase(),
-        quota: getVal('quota') || '8',
+        marital_status: maritalStatus || 'Single',
+        spouse_name: spouseName,
+        quota: getVal('quota', 'ffq') || '8',
         quota_details: getVal('quota_details'),
         dep_status: getVal('dep_status') || '5'
       },
       contact: {
-        mobile: getVal('mobile'),
-        confirm_mobile: getVal('confirm_mobile') || getVal('mobile'),
+        mobile: getVal('mobile', 'mobileno'),
+        confirm_mobile: getVal('confirm_mobile', 'confirmmobile') || getVal('mobile', 'mobileno'),
         email: getVal('email')
       },
       address: {
         present: {
-          careof: getVal('present_careof').toUpperCase(),
-          village: getVal('present_village').toUpperCase(),
-          district_code: getVal('present_district'),
-          district_name: getOptText('present_district').replace(/\s*\(.*\)/, '').trim(),
-          upazila_code: getVal('present_upazila'),
-          upazila_name: getOptText('present_upazila').trim(),
+          careof: getVal('present_careof', 'present_care').toUpperCase(),
+          village: getVal('present_village', 'present_vill').toUpperCase(),
+          district_code: getVal('present_district', 'menu_one'),
+          district_name: presDistName,
+          upazila_code: getVal('present_upazila', 'menu_one_list'),
+          upazila_name: presUpzName,
           post: getVal('present_post').toUpperCase(),
-          postcode: getVal('present_postcode')
+          postcode: getVal('present_postcode', 'present_pcode')
         },
         same_as_present: same,
         permanent: {
-          careof: same ? getVal('present_careof').toUpperCase() : getVal('permanent_careof').toUpperCase(),
-          village: same ? getVal('present_village').toUpperCase() : getVal('permanent_village').toUpperCase(),
-          district_code: same ? getVal('present_district') : getVal('permanent_district'),
-          district_name: same ? getOptText('present_district').replace(/\s*\(.*\)/, '').trim() : getOptText('permanent_district').replace(/\s*\(.*\)/, '').trim(),
-          upazila_code: same ? getVal('present_upazila') : getVal('permanent_upazila'),
-          upazila_name: same ? getOptText('present_upazila').trim() : getOptText('permanent_upazila').trim(),
+          careof: same ? getVal('present_careof', 'present_care').toUpperCase() : getVal('permanent_careof', 'permanent_care').toUpperCase(),
+          village: same ? getVal('present_village', 'present_vill').toUpperCase() : getVal('permanent_village', 'permanent_vill').toUpperCase(),
+          district_code: same ? getVal('present_district', 'menu_one') : getVal('permanent_district', 'menu_two'),
+          district_name: permDistName,
+          upazila_code: same ? getVal('present_upazila', 'menu_one_list') : getVal('permanent_upazila', 'menu_two_list'),
+          upazila_name: permUpzName,
           post: same ? getVal('present_post').toUpperCase() : getVal('permanent_post').toUpperCase(),
-          postcode: same ? getVal('present_postcode') : getVal('permanent_postcode')
+          postcode: same ? getVal('present_postcode', 'present_pcode') : getVal('permanent_postcode', 'permanent_pcode')
         }
       },
       education: {
         ssc: {
-          enabled: !!getVal('ssc_exam') || !!getVal('ssc_roll'),
-          exam: getVal('ssc_exam') || '1',
-          board: getVal('ssc_board') || '14',
-          roll: getVal('ssc_roll'),
-          result_type: getVal('ssc_result_type') || '5',
-          result: getVal('ssc_result'),
-          group: getVal('ssc_group') || '1',
-          year: getVal('ssc_year') || '2014'
+          enabled: !!getVal('ssc_exam', 'exam1') || !!getVal('ssc_roll', 'roll1'),
+          exam: getVal('ssc_exam', 'exam1') || '1',
+          board: getVal('ssc_board', 'institute1') || '14',
+          roll: getVal('ssc_roll', 'roll1'),
+          result_type: getVal('ssc_result_type', 'result1') || '5',
+          result: getVal('ssc_result', 'result_gpa1'),
+          group: getVal('ssc_group', 'subject1') || '1',
+          year: getVal('ssc_year', 'year1') || '2014'
         },
         hsc: {
-          enabled: !!getVal('hsc_exam') || !!getVal('hsc_roll'),
-          exam: getVal('hsc_exam') || '1',
-          board: getVal('hsc_board') || '14',
-          roll: getVal('hsc_roll'),
-          result_type: getVal('hsc_result_type') || '5',
-          result: getVal('hsc_result'),
-          group: getVal('hsc_group') || '1',
-          year: getVal('hsc_year') || '2016'
+          enabled: !!getVal('hsc_exam', 'exam2') || !!getVal('hsc_roll', 'roll2'),
+          exam: getVal('hsc_exam', 'exam2') || '1',
+          board: getVal('hsc_board', 'institute2') || '14',
+          roll: getVal('hsc_roll', 'roll2'),
+          result_type: getVal('hsc_result_type', 'result2') || '5',
+          result: getVal('hsc_result', 'result_gpa2'),
+          group: getVal('hsc_group', 'subject2') || '1',
+          year: getVal('hsc_year', 'year2') || '2016'
         },
         graduation: {
-          enabled: !!getVal('gra_exam') || !!getVal('gra_institute'),
-          exam: getVal('gra_exam') || '1',
-          institute: getVal('gra_institute'),
-          subject: getVal('gra_subject'),
-          subject_name: getOptText('gra_subject') || '',
-          result_type: getVal('gra_result_type') || '4',
-          result: getVal('gra_result'),
-          duration: getVal('gra_duration') || '04',
-          year: getVal('gra_year') || '2021'
+          enabled: !!getVal('gra_exam', 'exam3') || !!getVal('gra_institute', 'institute3'),
+          exam: getVal('gra_exam', 'exam3') || '1',
+          institute: getVal('gra_institute', 'institute3'),
+          subject: getVal('gra_subject', 'subject3'),
+          subject_name: getOptText('gra_subject', 'subject3') || '',
+          result_type: getVal('gra_result_type', 'result3') || '4',
+          result: getVal('gra_result', 'result_gpa3'),
+          duration: getVal('gra_duration', 'duration3') || '04',
+          year: getVal('gra_year', 'year3') || '2021'
         }
       }
     };
-
     // Check matching profile
     const existing = findMatchingProfile(userProfiles, captured);
     if (existing) {
@@ -679,13 +901,15 @@
   }
 
   // Setup auto-capture on form submit
-  const appForm = document.getElementById('applicationForm');
+  const appForm = getAppForm();
   if (appForm) {
     appForm.addEventListener('submit', () => {
       extractProfileFromForm();
     }, true);
 
-    const submitBtn = document.getElementById('submit') || appForm.querySelector('button[type="submit"], input[type="submit"]');
+    const submitBtn = document.getElementById('submit') ||
+      document.getElementById('button01') ||
+      appForm.querySelector('button[type="submit"], input[type="submit"], input[name="button"]');
     if (submitBtn) {
       submitBtn.addEventListener('click', () => {
         extractProfileFromForm();
@@ -898,7 +1122,10 @@
     document.addEventListener('focusin', (e) => {
       if (hasAutofilledOnThisPage) return;
       const el = e.target;
-      if (el && appForm.contains(el) && el.tagName === 'INPUT' && !['hidden', 'checkbox', 'radio', 'submit', 'button'].includes(el.type) && el.id !== 'captcha') {
+      const isInputOrTextarea = el.tagName === 'INPUT' || el.tagName === 'TEXTAREA';
+      const isNotControl = !['hidden', 'checkbox', 'radio', 'submit', 'button', 'file', 'image'].includes((el.type || '').toLowerCase());
+      const isNotCaptcha = !['captcha', 'validation'].includes(el.id) && !['captcha', 'validation'].includes(el.name);
+      if (el && appForm.contains(el) && isInputOrTextarea && isNotControl && isNotCaptcha) {
         showPopup(el);
       } else {
         removePopup();
